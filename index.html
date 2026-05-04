@@ -499,36 +499,41 @@ tr:hover td{background:#FBFBFD;}
 
         <!-- PASO A PASO OBTENER TOKEN -->
         <div style="background:var(--gray-bg);border-radius:10px;padding:16px;margin-bottom:16px;">
-          <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--navy);margin-bottom:12px;">📋 Cómo obtener tu token (solo la primera vez)</div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--navy);margin-bottom:4px;">📋 Cómo configurar tu token Fine-grained (el que empieza con github_pat_)</div>
+          <div style="font-size:10px;color:var(--gray-600);margin-bottom:12px;">Ya tienes el token correcto. Solo necesitas verificar que tenga el permiso de escritura. Sigue estos pasos:</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
               <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">1</div>
-              <div>Ve a <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--orange);font-weight:700;">github.com/settings/tokens</a> (debes estar logueado en GitHub)</div>
+              <div>Ve a <a href="https://github.com/settings/tokens?type=beta" target="_blank" style="color:var(--orange);font-weight:700;">github.com/settings/tokens</a> → pestaña <strong>"Fine-grained tokens"</strong> → busca tu token y haz click en él para editarlo</div>
             </div>
+
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
               <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">2</div>
-              <div>Haz click en <strong>"Generate new token" → "Generate new token (classic)"</strong></div>
+              <div>En <strong>Repository access</strong> selecciona <strong>"Only select repositories"</strong> y elige tu repositorio del Dashboard</div>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
-              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">3</div>
-              <div>En <strong>Note</strong> escribe: <code style="background:var(--gray-200);padding:1px 6px;border-radius:3px;">KrezcoCargo Dashboard</code></div>
+
+            <div style="background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:12px;margin-left:32px;">
+              <div style="font-size:10px;font-weight:700;color:var(--navy);margin-bottom:8px;">⚠️ Aquí está el permiso que no encontrabas:</div>
+              <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+                <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">3</div>
+                <div>En <strong>Permissions</strong> verás dos pestañas: <span style="background:#E0E7FF;color:#3730A3;padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;">Account</span> y <span style="background:var(--orange-bg);color:var(--orange);padding:2px 7px;border-radius:4px;font-size:10px;font-weight:700;">Repository</span> — haz click en <strong>Repository</strong></div>
+              </div>
+              <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);margin-top:8px;">
+                <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">4</div>
+                <div>Dentro de Repository permissions, haz click en <strong>"+Add permissions"</strong> → busca <strong>Contents</strong> → cambia a <strong style="background:var(--green-lite);color:var(--green);padding:2px 7px;border-radius:4px;font-size:10px;">Read and write</strong></div>
+              </div>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
-              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">4</div>
-              <div>En <strong>Expiration</strong> elige <strong>"No expiration"</strong> (así no tienes que renovarlo)</div>
-            </div>
+
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
               <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">5</div>
-              <div>En <strong>Select scopes</strong> marca SOLO el checkbox <strong style="background:#1F9D55;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;">✓ repo</strong> (el primero de la lista)</div>
+              <div>Haz click en <strong style="background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;">Generate token</strong> — copia el nuevo token (<code style="background:var(--gray-200);padding:1px 6px;border-radius:3px;">github_pat_...</code>) y pégalo abajo</div>
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
-              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">6</div>
-              <div>Haz click en <strong style="background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;">Generate token</strong> al final de la página</div>
+
+            <div style="background:var(--green-lite);border-radius:8px;padding:10px 12px;font-size:11px;color:#14532D;margin-top:2px;">
+              <strong>Alternativa más fácil:</strong> ve a <a href="https://github.com/settings/tokens/new" target="_blank" style="color:var(--green);font-weight:700;">github.com/settings/tokens/new</a> → crea un <strong>token clásico</strong> → marca solo <strong>✓ repo</strong> → genera → copia. El token empezará con <code style="background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px;">ghp_</code> y funcionará perfecto.
             </div>
-            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
-              <div style="width:22px;height:22px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">7</div>
-              <div><strong>Copia el token que aparece</strong> (empieza con <code style="background:var(--gray-200);padding:1px 6px;border-radius:3px;">ghp_</code>) y pégalo abajo. ⚠️ Solo aparece una vez.</div>
-            </div>
+
           </div>
         </div>
 
@@ -542,7 +547,7 @@ tr:hover td{background:#FBFBFD;}
         <div class="field" style="margin-top:10px;">
           <label>Token de GitHub — pégalo aquí <span style="color:var(--gray-400);font-weight:400">(solo se guarda en tu sesión, nunca en el código HTML)</span></label>
           <div style="display:flex;gap:8px;align-items:center;">
-            <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="font-family:monospace;flex:1;">
+            <input type="password" id="gh-token" placeholder="github_pat_... o ghp_..." autocomplete="off" style="font-family:monospace;flex:1;">
             <button type="button" onclick="toggleTokenVisibility()" style="background:var(--gray-100);border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;cursor:pointer;font-size:13px;" title="Ver/ocultar token">👁</button>
           </div>
         </div>

@@ -835,7 +835,7 @@ function startAutoRefresh(){
     } else if(_lastDataHash === ''){
       _lastDataHash = newHash;
     }
-  }, 90000); // every 90 seconds
+  }, 30000); // every 30 seconds
 }
 
 function showRefreshBadge(){
@@ -973,10 +973,31 @@ function showPublishStatus(msg,type){
 async function fetchFromGitHub(){
   const cfg=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
   if(!cfg.owner||!cfg.repo)return null;
-  const url=`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch||'main'}/${cfg.path||'data.json'}?_=${Date.now()}`;
+  const branch=cfg.branch||'main';
+  const path=cfg.path||'data.json';
+  // Usar la API de GitHub en lugar de raw.githubusercontent.com
+  // raw.githubusercontent.com tiene caché de hasta 5 min en sus servidores
+  // La API devuelve el archivo siempre fresco (sin caché CDN)
+  const apiUrl=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${branch}&_=${Date.now()}`;
   try{
-    const r=await fetch(url);
-    if(r.ok)return await r.json();
+    const r=await fetch(apiUrl,{
+      headers:{
+        'Accept':'application/vnd.github.v3+json',
+        'Cache-Control':'no-cache'
+      }
+    });
+    if(r.ok){
+      const meta=await r.json();
+      // El contenido viene en base64
+      const decoded=decodeURIComponent(escape(atob(meta.content.replace(/\n/g,''))));
+      return JSON.parse(decoded);
+    }
+  }catch{}
+  // Fallback a raw si la API falla (ej: repo privado sin token)
+  try{
+    const rawUrl=`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${branch}/${path}?_=${Date.now()}`;
+    const r2=await fetch(rawUrl,{cache:'no-store'});
+    if(r2.ok)return await r2.json();
   }catch{}
   return null;
 }

@@ -634,6 +634,18 @@ tr:hover td{background:#FBFBFD;}
 const SALT = 'krezco2025_x8j';
 
 // ╔══════════════════════════════════════════════════════════════════╗
+// ║  GH_REPO_CFG — configuración del repositorio compartido         ║
+// ║  EDITA ESTOS VALORES con tu usuario y repo de GitHub            ║
+// ║  Así TODOS los usuarios leen los datos sin configurar nada      ║
+// ╚══════════════════════════════════════════════════════════════════╝
+const GH_REPO_CFG = {
+  owner:  'KrezcoCargo',
+  repo:   'Dashboard',
+  branch: 'main',
+  path:   'data.json'
+};
+
+// ╔══════════════════════════════════════════════════════════════════╗
 // ║  SEED_USERS — usuarios compartidos en GitHub                    ║
 // ║  Para añadir un usuario nuevo:                                  ║
 // ║  1. Créalo en la UI (página "Crear Usuarios")                   ║
@@ -971,31 +983,27 @@ function showPublishStatus(msg,type){
   el.style.cssText=styles[type]||styles.info;el.textContent=msg;el.style.display='block';
 }
 async function fetchFromGitHub(){
-  const cfg=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
-  if(!cfg.owner||!cfg.repo)return null;
-  const branch=cfg.branch||'main';
-  const path=cfg.path||'data.json';
-  // Usar la API de GitHub en lugar de raw.githubusercontent.com
-  // raw.githubusercontent.com tiene caché de hasta 5 min en sus servidores
-  // La API devuelve el archivo siempre fresco (sin caché CDN)
-  const apiUrl=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${path}?ref=${branch}&_=${Date.now()}`;
+  // PRIORIDAD: usar GH_REPO_CFG hardcodeado en el HTML (igual para TODOS los usuarios)
+  // Si no está definido, caer a lo que el admin guardó en localStorage
+  const stored=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
+  const owner = (typeof GH_REPO_CFG!=='undefined'&&GH_REPO_CFG.owner) ? GH_REPO_CFG.owner : stored.owner||'';
+  const repo  = (typeof GH_REPO_CFG!=='undefined'&&GH_REPO_CFG.repo)  ? GH_REPO_CFG.repo  : stored.repo||'';
+  const branch= (typeof GH_REPO_CFG!=='undefined'&&GH_REPO_CFG.branch)? GH_REPO_CFG.branch: stored.branch||'main';
+  const path  = (typeof GH_REPO_CFG!=='undefined'&&GH_REPO_CFG.path)  ? GH_REPO_CFG.path  : stored.path||'data.json';
+  if(!owner||!repo)return null;
+  // API de GitHub — sin caché CDN, siempre fresco
+  const apiUrl=`https://api.github.com/repos/${owner}/${repo}/contents/${path}?ref=${branch}&_=${Date.now()}`;
   try{
-    const r=await fetch(apiUrl,{
-      headers:{
-        'Accept':'application/vnd.github.v3+json',
-        'Cache-Control':'no-cache'
-      }
-    });
+    const r=await fetch(apiUrl,{headers:{'Accept':'application/vnd.github.v3+json','Cache-Control':'no-cache'}});
     if(r.ok){
       const meta=await r.json();
-      // El contenido viene en base64
       const decoded=decodeURIComponent(escape(atob(meta.content.replace(/\n/g,''))));
       return JSON.parse(decoded);
     }
   }catch{}
-  // Fallback a raw si la API falla (ej: repo privado sin token)
+  // Fallback raw
   try{
-    const rawUrl=`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${branch}/${path}?_=${Date.now()}`;
+    const rawUrl=`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}?_=${Date.now()}`;
     const r2=await fetch(rawUrl,{cache:'no-store'});
     if(r2.ok)return await r2.json();
   }catch{}

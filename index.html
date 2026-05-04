@@ -885,7 +885,14 @@ function restoreSidebarState(){
 ═══════════════════════════════════════════════════════════ */
 function getGHCfg(){
   const base=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
-  const token=sessionStorage.getItem('kc_gh_token')||'';
+  // Token: sessionStorage primero, luego localStorage como fallback persistente
+  let token=sessionStorage.getItem('kc_gh_token')||'';
+  if(!token){
+    try{
+      const raw=localStorage.getItem('kc_gh_tok');
+      if(raw) token=decodeURIComponent(escape(atob(raw)));
+    }catch{}
+  }
   return Object.assign({},base,{token});
 }
 function saveGitHubConfig(){
@@ -898,8 +905,12 @@ function saveGitHubConfig(){
   const token=document.getElementById('gh-token').value.trim();
   if(!cfg.owner||!cfg.repo){showGHStatus('Completa owner y repositorio.','err');return;}
   localStorage.setItem('kc_gh_cfg',JSON.stringify(cfg));
-  if(token)sessionStorage.setItem('kc_gh_token',token);
-  showGHStatus('✓ Configuración guardada. El token solo vive en esta sesión (no se guarda en el código).','ok');
+  if(token){
+    sessionStorage.setItem('kc_gh_token',token);
+    // Guardarlo en localStorage (ofuscado) para que persista aunque se cierre el navegador
+    try{ localStorage.setItem('kc_gh_tok', btoa(unescape(encodeURIComponent(token)))); }catch{}
+  }
+  showGHStatus('✓ Configuración guardada. El token quedó guardado en este navegador.','ok');
   showToast('✓ GitHub configurado');
   checkGHConnectedBadge();
 }
@@ -921,8 +932,12 @@ function showGHStatus(msg,type){
 }
 async function publishToGitHub(dataObj){
   const cfg=getGHCfg();
-  if(!cfg.owner||!cfg.repo||!cfg.token){
-    showPublishStatus('⚠️ GitHub no configurado. Ve a Configuración y agrega owner, repo y token.','warn');
+  if(!cfg.owner||!cfg.repo){
+    showPublishStatus('⚠️ GitHub no configurado. Ve a ⚙️ Configuración → Sincronización con GitHub.','warn');
+    return false;
+  }
+  if(!cfg.token){
+    showPublishStatus('⚠️ Token de GitHub no encontrado. Ve a ⚙️ Configuración → pega tu token → Guardar y conectar.','warn');
     return false;
   }
   showPublishStatus('⏳ Publicando en GitHub…','info');
@@ -971,7 +986,13 @@ function loadConfig2GH(){
   setField('gh-repo',cfg.repo||'');
   setField('gh-branch',cfg.branch||'main');
   setField('gh-path',cfg.path||'data.json');
-  // Token not restored (session only)
+  // Restaurar token si existe (sin mostrarlo completo por seguridad)
+  const ghcfg=getGHCfg();
+  if(ghcfg.token){
+    const masked='•'.repeat(Math.max(0,ghcfg.token.length-6))+ghcfg.token.slice(-6);
+    const inp=document.getElementById('gh-token');
+    if(inp&&!inp.value) inp.placeholder=`Token guardado: ${masked} (pega uno nuevo para reemplazar)`;
+  }
 }
 
 function navTo(page){

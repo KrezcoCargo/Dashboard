@@ -14,190 +14,182 @@
   --green:#1F9D55;--green-lite:#E6F6EC;
   --red:#DC2626;--red-bg:#FEE2E2;
   --orange-bg:#FFF1E3;--gray-bg:#EEF1F7;
+  --sidebar-w:220px;
   color-scheme:light;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--navy);font-size:14px;line-height:1.45;min-height:100vh;}
 
-/* ─── LOGIN ───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   LOGIN
+══════════════════════════════════════════════ */
 #page-login{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 50%,var(--navy-soft) 100%);padding:24px;}
-.login-card{background:#fff;border-radius:18px;padding:36px 40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
-.login-logo{display:flex;align-items:center;gap:12px;margin-bottom:28px;}
-.login-logo-mark{width:44px;height:44px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;box-shadow:0 3px 10px rgba(244,124,32,.4);}
-.login-logo-text{font-weight:800;font-size:20px;color:var(--navy);}
-.login-logo-text span{color:var(--orange);}
-.login-sub{font-size:11px;color:var(--gray-600);margin-bottom:24px;}
-.login-field{margin-bottom:14px;}
-.login-field label{display:block;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);margin-bottom:5px;}
-.login-field input{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;outline:none;color:var(--navy);transition:border-color .15s;}
-.login-field input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.12);}
-.login-btn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;margin-top:6px;transition:background .15s;}
-.login-btn:hover{background:var(--orange-lite);}
-.login-error{background:var(--red-bg);color:var(--red);border-radius:7px;padding:8px 12px;font-size:12px;font-weight:600;margin-top:12px;display:none;}
-.login-footer{margin-top:32px;font-size:11px;color:rgba(255,255,255,.4);text-align:center;}
+.lcard{background:#fff;border-radius:18px;padding:36px 40px;width:100%;max-width:380px;box-shadow:0 20px 60px rgba(0,0,0,.35);}
+.llogo{display:flex;align-items:center;gap:12px;margin-bottom:26px;}
+.lmark{width:44px;height:44px;background:var(--orange);border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:22px;color:#fff;}
+.ltext{font-weight:800;font-size:20px;color:var(--navy);}
+.ltext span{color:var(--orange);}
+.lsub{font-size:11px;color:var(--gray-600);margin-bottom:22px;}
+.lf{margin-bottom:13px;}
+.lf label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);margin-bottom:4px;}
+.lf input{width:100%;border:1.5px solid var(--gray-200);border-radius:8px;padding:10px 12px;font-size:13px;font-family:inherit;outline:none;color:var(--navy);transition:border-color .15s;}
+.lf input:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.12);}
+.lbtn{width:100%;background:var(--orange);color:#fff;border:none;border-radius:9px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;margin-top:4px;transition:background .15s;}
+.lbtn:hover{background:var(--orange-lite);}
+.lerr{background:var(--red-bg);color:var(--red);border-radius:7px;padding:8px 12px;font-size:12px;font-weight:600;margin-top:10px;display:none;}
+.lfooter{margin-top:28px;font-size:10px;color:rgba(255,255,255,.35);text-align:center;}
 
-/* ─── TOPBAR ──────────────────────────────────────────── */
-.topbar{background:linear-gradient(90deg,var(--navy-deep) 0%,var(--navy) 60%,var(--navy-soft) 100%);color:#fff;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 2px 12px rgba(11,22,43,.2);position:sticky;top:0;z-index:100;}
-.brand{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.logo-mark{width:38px;height:38px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;box-shadow:0 2px 8px rgba(244,124,32,.4);}
-.logo-text{font-weight:800;font-size:17px;}
-.logo-text span{color:var(--orange);}
-.title-block{flex:1;text-align:center;}
-.title-block h1{font-size:13px;font-weight:600;opacity:.95;}
-.title-block .sub{font-size:10px;opacity:.6;margin-top:1px;}
-.topbar-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.date-control{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);padding:6px 11px;border-radius:8px;}
-.date-control label{font-size:9px;text-transform:uppercase;letter-spacing:.7px;opacity:.65;font-weight:700;}
-.date-control input[type=date]{background:transparent;border:none;color:#fff;font-size:12px;font-weight:600;padding:0;font-family:inherit;outline:none;color-scheme:dark;}
-.day-tag{background:var(--orange);color:#fff;padding:2px 9px;border-radius:5px;font-size:10px;font-weight:800;}
-.btn-nav{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;width:22px;height:22px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
+/* ══════════════════════════════════════════════
+   APP SHELL (sidebar + content)
+══════════════════════════════════════════════ */
+#app{display:none;min-height:100vh;flex-direction:row;}
+#app.visible{display:flex;}
+
+/* ── SIDEBAR ── */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--navy-deep);color:#fff;display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:200;overflow-y:auto;}
+.sidebar-brand{padding:20px 18px 16px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.sb-mark{width:38px;height:38px;background:var(--orange);border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#fff;margin-bottom:10px;}
+.sb-name{font-weight:800;font-size:15px;letter-spacing:.3px;}
+.sb-name span{color:var(--orange);}
+.sb-tagline{font-size:8px;opacity:.4;letter-spacing:1px;margin-top:1px;text-transform:uppercase;}
+.sidebar-user{padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.su-avatar{width:32px;height:32px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;margin-bottom:7px;}
+.su-name{font-size:12px;font-weight:700;opacity:.95;}
+.su-role{font-size:9px;opacity:.45;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
+.sidebar-nav{flex:1;padding:12px 0;}
+.nav-section{margin-bottom:4px;}
+.nav-section-title{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;opacity:.35;padding:8px 18px 4px;}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;cursor:pointer;color:rgba(255,255,255,.6);font-size:12px;font-weight:500;transition:all .15s;border-left:3px solid transparent;user-select:none;}
+.nav-item:hover{background:rgba(255,255,255,.06);color:#fff;}
+.nav-item.active{background:rgba(244,124,32,.12);color:#fff;border-left-color:var(--orange);}
+.nav-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.sidebar-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.07);flex-shrink:0;}
+.logout-btn{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.45);font-size:11px;font-weight:600;cursor:pointer;padding:7px 0;transition:color .15s;}
+.logout-btn:hover{color:#fff;}
+.sidebar-data-info{font-size:9px;color:rgba(255,255,255,.3);margin-top:8px;line-height:1.5;}
+
+/* ── MAIN CONTENT ── */
+.main{margin-left:var(--sidebar-w);flex:1;display:flex;flex-direction:column;min-height:100vh;}
+
+/* ── TOPBAR ── */
+.topbar{background:#fff;border-bottom:1px solid var(--gray-100);padding:11px 24px;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 1px 4px rgba(11,22,43,.06);position:sticky;top:0;z-index:100;}
+.topbar-title{font-size:14px;font-weight:700;color:var(--navy);}
+.topbar-sub{font-size:10px;color:var(--gray-600);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:8px;}
+.date-control{display:flex;align-items:center;gap:6px;background:var(--gray-bg);border:1px solid var(--gray-200);padding:5px 10px;border-radius:8px;}
+.date-control label{font-size:8px;text-transform:uppercase;letter-spacing:.7px;color:var(--gray-600);font-weight:700;}
+.date-control input[type=date]{background:transparent;border:none;color:var(--navy);font-size:11px;font-weight:600;padding:0;font-family:inherit;outline:none;}
+.day-tag{background:var(--orange);color:#fff;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:800;}
+.btn-nav{background:#fff;border:1px solid var(--gray-200);color:var(--navy);width:22px;height:22px;border-radius:4px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;}
 .btn-nav:disabled{opacity:.3;cursor:not-allowed;}
-.user-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);padding:5px 12px;border-radius:999px;cursor:pointer;transition:background .15s;}
-.user-pill:hover{background:rgba(255,255,255,.18);}
-.user-pill .avatar{width:22px;height:22px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;}
-.user-pill .uname{font-size:11px;font-weight:600;}
-.user-pill .urole{font-size:9px;opacity:.6;text-transform:uppercase;letter-spacing:.5px;}
-.btn-topbar{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.12);color:#fff;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;transition:background .15s;}
-.btn-topbar:hover{background:rgba(255,255,255,.2);}
-.btn-topbar.danger:hover{background:rgba(220,38,38,.4);}
 
-/* ─── SHELL ──────────────────────────────────────────── */
-.shell{padding:18px 24px;max-width:1440px;margin:0 auto;}
+/* ── PAGE CONTENT ── */
+.page-content{display:none;flex:1;padding:20px 24px;}
+.page-content.active{display:block;}
 
-/* ─── UPLOAD PANEL ────────────────────────────────────── */
-.upload-panel{background:#fff;border-radius:14px;padding:18px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:2px dashed var(--gray-200);transition:border-color .2s;}
-.upload-panel.has-data{border:1px solid var(--gray-100);}
-.upload-header{display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;gap:12px;}
-.upload-title{font-size:12px;font-weight:700;color:var(--navy);display:flex;align-items:center;gap:8px;}
-.upload-title .icon{width:26px;height:26px;background:var(--orange-bg);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;}
-.badge{font-size:9px;padding:2px 7px;border-radius:999px;font-weight:700;letter-spacing:.4px;}
-.badge-ok{background:var(--green-lite);color:var(--green);}
-.badge-empty{background:var(--orange-bg);color:var(--orange);}
-.chev{color:var(--gray-400);font-size:14px;transition:transform .2s;}
-.chev.open{transform:rotate(180deg);}
-.upload-body{margin-top:16px;}
-.drop-zone{border:2px dashed var(--gray-200);border-radius:10px;padding:24px;text-align:center;cursor:pointer;background:var(--gray-bg);transition:all .2s;}
-.drop-zone:hover,.drop-zone.dragover{border-color:var(--orange);background:var(--orange-bg);}
-.drop-zone input{display:none;}
-.cfg-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:14px;}
-.cfg-field{display:flex;flex-direction:column;gap:3px;}
-.cfg-field label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);}
-.cfg-field input,.cfg-field select{border:1px solid var(--gray-200);border-radius:7px;padding:7px 10px;font-size:12px;font-family:inherit;outline:none;color:var(--navy);transition:border-color .15s;}
-.cfg-field input:focus,.cfg-field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.1);}
-.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;}
-.btn{border:none;border-radius:7px;padding:7px 16px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;}
-.btn-primary{background:var(--orange);color:#fff;}
-.btn-primary:hover{background:var(--orange-lite);}
-.btn-secondary{background:var(--gray-100);color:var(--navy);}
-.btn-secondary:hover{background:var(--gray-200);}
-.btn-danger{background:var(--red-bg);color:var(--red);}
-.btn-danger:hover{background:var(--red);color:#fff;}
-.format-hint{margin-top:12px;background:var(--gray-bg);border-radius:8px;padding:11px;font-size:11px;color:var(--gray-600);}
-.format-hint code{background:var(--gray-200);padding:1px 5px;border-radius:3px;font-family:monospace;font-size:10px;}
-
-/* ─── RACIONES BANNER ─────────────────────────────────── */
-.rac-banner{background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 100%);border-radius:14px;padding:18px 24px;margin-bottom:16px;color:#fff;box-shadow:0 4px 16px rgba(11,22,43,.25);}
-.rac-banner-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:0;}
+/* ══════════════════════════════════════════════
+   DASHBOARD COMPONENTS
+══════════════════════════════════════════════ */
+/* Raciones banner */
+.rac-banner{background:linear-gradient(135deg,var(--navy-deep) 0%,var(--navy) 100%);border-radius:14px;padding:18px 24px;margin-bottom:16px;color:#fff;box-shadow:0 4px 16px rgba(11,22,43,.2);}
+.rac-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:0;}
 .rac-item{padding:0 20px;border-right:1px solid rgba(255,255,255,.1);}
 .rac-item:first-child{padding-left:0;}
 .rac-item:last-child{border-right:none;}
-.rac-label{font-size:9px;text-transform:uppercase;letter-spacing:.8px;opacity:.6;font-weight:700;margin-bottom:5px;}
-.rac-value{font-size:24px;font-weight:800;letter-spacing:-.5px;}
-.rac-sub{font-size:10px;opacity:.6;margin-top:2px;}
-.rac-progress-wrap{margin-top:16px;padding-top:14px;border-top:1px solid rgba(255,255,255,.1);}
-.rac-progress-label{display:flex;justify-content:space-between;font-size:10px;opacity:.7;margin-bottom:6px;}
-.rac-track{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;}
-.rac-fill-wrap{display:flex;height:100%;}
-.rac-fill-ent{background:linear-gradient(90deg,#1F9D55,#5fb878);height:100%;border-radius:4px 0 0 4px;transition:width .8s;}
-.rac-fill-rut{background:linear-gradient(90deg,#F47C20,#FFA559);height:100%;transition:width .8s;}
+.rac-label{font-size:9px;text-transform:uppercase;letter-spacing:.8px;opacity:.55;font-weight:700;margin-bottom:5px;}
+.rac-val{font-size:22px;font-weight:800;letter-spacing:-.5px;}
+.rac-sub{font-size:10px;opacity:.55;margin-top:2px;}
+.rac-bar-wrap{margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1);}
+.rac-bar-labels{display:flex;justify-content:space-between;font-size:9px;opacity:.6;margin-bottom:5px;}
+.rac-track{height:7px;background:rgba(255,255,255,.1);border-radius:4px;overflow:hidden;display:flex;}
+.rac-fill-e{background:linear-gradient(90deg,#1F9D55,#5fb878);height:100%;transition:width .8s;}
+.rac-fill-r{background:linear-gradient(90deg,var(--orange),var(--orange-lite));height:100%;transition:width .8s;}
 
-/* ─── EMPTY STATE ─────────────────────────────────────── */
-.empty-state{text-align:center;padding:50px 24px;color:var(--gray-600);}
-.empty-state .big{font-size:40px;margin-bottom:10px;}
-.empty-state h2{font-size:16px;font-weight:700;color:var(--navy);margin-bottom:5px;}
-
-/* ─── DAY STRIP ───────────────────────────────────────── */
-.day-strip{background:#fff;border-radius:14px;padding:11px 18px;margin-bottom:16px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);display:grid;grid-template-columns:1fr 2fr 1fr;gap:16px;align-items:center;}
-.ds-lbl{font-size:9px;color:var(--gray-600);text-transform:uppercase;letter-spacing:.7px;font-weight:700;}
-.ds-val{font-size:17px;font-weight:800;color:var(--navy);margin-top:2px;}
+/* Day strip */
+.day-strip{background:#fff;border-radius:13px;padding:11px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(11,22,43,.05);border:1px solid var(--gray-100);display:grid;grid-template-columns:1fr 2fr 1fr;gap:14px;align-items:center;}
+.ds-lbl{font-size:9px;color:var(--gray-600);text-transform:uppercase;letter-spacing:.6px;font-weight:700;}
+.ds-val{font-size:16px;font-weight:800;color:var(--navy);margin-top:2px;}
 .ds-val small{font-size:10px;font-weight:500;color:var(--gray-600);}
-.dia-track{display:flex;gap:4px;height:28px;align-items:stretch;flex-wrap:wrap;}
-.dia-cell{flex:1;min-width:20px;border-radius:5px;background:var(--gray-100);position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:var(--gray-600);transition:all .15s;}
+.dia-track{display:flex;gap:3px;height:26px;flex-wrap:wrap;}
+.dia-cell{flex:1;min-width:18px;border-radius:4px;background:var(--gray-100);position:relative;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:var(--gray-600);transition:all .15s;}
 .dia-cell:hover{background:var(--gray-200);}
 .dia-cell.past{background:var(--green);color:#fff;}
-.dia-cell.current{background:var(--orange);color:#fff;box-shadow:0 0 0 3px rgba(244,124,32,.25);}
-.dia-cell .tip{position:absolute;bottom:calc(100%+5px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:4px 8px;border-radius:5px;font-size:9px;white-space:nowrap;font-weight:600;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10;}
+.dia-cell.current{background:var(--orange);color:#fff;box-shadow:0 0 0 2px rgba(244,124,32,.3);}
+.dia-cell .tip{position:absolute;bottom:calc(100%+4px);left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:3px 7px;border-radius:4px;font-size:9px;white-space:nowrap;font-weight:600;opacity:0;pointer-events:none;transition:opacity .15s;z-index:10;}
 .dia-cell:hover .tip{opacity:1;}
 
-/* ─── KPI ─────────────────────────────────────────────── */
-.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
-.kpi{background:#fff;border-radius:13px;padding:14px 16px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);position:relative;overflow:hidden;}
-.kpi .lbl{font-size:9px;color:var(--gray-600);text-transform:uppercase;letter-spacing:.8px;font-weight:600;margin-bottom:6px;}
-.kpi .val{font-size:26px;font-weight:800;color:var(--navy);letter-spacing:-.5px;}
-.kpi .d1{font-size:10px;margin-top:2px;font-weight:600;color:var(--gray-600);}
+/* KPIs */
+.kpi-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px;}
+.kpi{background:#fff;border-radius:12px;padding:14px 15px;box-shadow:0 1px 3px rgba(11,22,43,.05);border:1px solid var(--gray-100);position:relative;overflow:hidden;}
+.kpi .lbl{font-size:9px;color:var(--gray-600);text-transform:uppercase;letter-spacing:.7px;font-weight:600;margin-bottom:6px;}
+.kpi .val{font-size:24px;font-weight:800;color:var(--navy);letter-spacing:-.5px;}
+.kpi .d1{font-size:9px;margin-top:2px;font-weight:600;color:var(--gray-600);}
 .kpi .d1.up{color:var(--green);}
-.kpi .d2{font-size:10px;font-weight:500;color:var(--gray-600);}
-.kpi-ico{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:15px;}
-.kpi.green .kpi-ico{background:var(--green-lite);color:var(--green);}
-.kpi.orange .kpi-ico{background:var(--orange-bg);color:var(--orange);}
-.kpi.navy .kpi-ico{background:#E8ECF7;color:var(--navy);}
-.kpi.gray .kpi-ico{background:var(--gray-bg);color:var(--gray-600);}
-.kpi .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--orange),var(--orange-lite));opacity:.85;}
+.kpi .d2{font-size:9px;color:var(--gray-600);}
+.kpi-ico{position:absolute;top:11px;right:11px;width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;}
+.kpi.green .kpi-ico{background:var(--green-lite);}
+.kpi.orange .kpi-ico{background:var(--orange-bg);}
+.kpi.navy .kpi-ico{background:#E8ECF7;}
+.kpi.gray .kpi-ico{background:var(--gray-bg);}
+.kpi .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:linear-gradient(90deg,var(--orange),var(--orange-lite));}
 .kpi.green .bar{background:linear-gradient(90deg,var(--green),#5fb878);}
 .kpi.navy .bar{background:linear-gradient(90deg,var(--navy),var(--navy-soft));}
 .kpi.gray .bar{background:linear-gradient(90deg,var(--gray-400),var(--gray-200));}
 
-/* ─── GRID ────────────────────────────────────────────── */
-.row-main{display:grid;grid-template-columns:1.5fr 1fr;gap:14px;margin-bottom:16px;}
-.card{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);}
-.card h2{font-size:11px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.7px;margin-bottom:4px;display:flex;align-items:center;gap:7px;}
-.card h2 .acc{width:4px;height:12px;background:var(--orange);border-radius:2px;}
-.card .desc{font-size:10px;color:var(--gray-600);margin-bottom:12px;}
-.prov-scroll{max-height:300px;overflow-y:auto;}
-.prov-scroll::-webkit-scrollbar{width:4px;}
-.prov-scroll::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px;}
-.bar-row{display:grid;grid-template-columns:110px 1fr 90px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--gray-100);}
-.bar-row:last-child{border-bottom:none;}
-.bar-name{font-weight:700;font-size:11px;color:var(--navy);}
-.bar-name .s{display:block;font-size:9px;font-weight:500;color:var(--gray-600);margin-top:1px;}
-.bar-track{height:18px;background:var(--gray-bg);border-radius:4px;overflow:hidden;}
-.bar-fill{height:100%;background:linear-gradient(90deg,var(--navy),var(--navy-soft));border-radius:4px;display:flex;align-items:center;padding:0 5px;color:#fff;font-size:9px;font-weight:700;min-width:0;transition:width .8s;}
-.bar-fill.g{background:linear-gradient(90deg,var(--green),#5fb878);}
-.bar-val{font-weight:800;color:var(--navy);text-align:right;font-size:11px;}
-.bar-val .s{font-size:9px;color:var(--gray-600);font-weight:500;display:block;}
-.donut-wrap{display:flex;align-items:center;gap:18px;}
-.donut-svg{width:150px;height:150px;flex-shrink:0;}
-.donut-legend{flex:1;}
-.leg-row{display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--gray-100);font-size:11px;}
-.leg-row:last-child{border-bottom:none;}
-.leg-dot{width:8px;height:8px;border-radius:2px;}
-.leg-name{font-weight:600;color:var(--navy);min-width:62px;font-size:10px;}
-.leg-pct{margin-left:auto;font-weight:700;color:var(--navy);}
-.dc-val{font-size:18px;font-weight:800;fill:var(--navy);text-anchor:middle;}
-.dc-lbl{font-size:8px;fill:var(--gray-600);text-anchor:middle;text-transform:uppercase;letter-spacing:.7px;font-weight:700;}
+/* Grid */
+.row-2{display:grid;grid-template-columns:1.5fr 1fr;gap:12px;margin-bottom:14px;}
+.card{background:#fff;border-radius:13px;padding:15px 17px;box-shadow:0 1px 3px rgba(11,22,43,.05);border:1px solid var(--gray-100);}
+.card-h{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;display:flex;align-items:center;gap:6px;}
+.card-h .acc{width:3px;height:11px;background:var(--orange);border-radius:2px;}
+.card-sub{font-size:10px;color:var(--gray-600);margin-bottom:11px;}
 
-/* ─── TABLE ───────────────────────────────────────────── */
-.table-card{background:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);margin-bottom:16px;}
-.filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid var(--gray-100);align-items:center;}
-.chip{padding:3px 10px;border-radius:999px;font-size:9px;font-weight:700;cursor:pointer;border:1px solid var(--gray-200);background:#fff;color:var(--gray-600);transition:all .15s;user-select:none;}
+/* Province bars */
+.pscroll{max-height:280px;overflow-y:auto;}
+.pscroll::-webkit-scrollbar{width:4px;}
+.pscroll::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px;}
+.brow{display:grid;grid-template-columns:100px 1fr 85px;gap:8px;align-items:center;padding:7px 0;border-bottom:1px solid var(--gray-100);}
+.brow:last-child{border-bottom:none;}
+.bname{font-weight:700;font-size:10px;color:var(--navy);}
+.bname .s{display:block;font-size:9px;font-weight:500;color:var(--gray-600);margin-top:1px;}
+.btrack{height:16px;background:var(--gray-bg);border-radius:4px;overflow:hidden;}
+.bfill{height:100%;background:linear-gradient(90deg,var(--navy),var(--navy-soft));border-radius:4px;display:flex;align-items:center;padding:0 5px;color:#fff;font-size:8px;font-weight:700;min-width:0;transition:width .8s;}
+.bfill.g{background:linear-gradient(90deg,var(--green),#5fb878);}
+.bval{font-weight:700;color:var(--navy);text-align:right;font-size:10px;}
+.bval .s{font-size:9px;color:var(--gray-600);display:block;}
+
+/* Donut */
+.donut-wrap{display:flex;align-items:center;gap:16px;}
+.dsv{width:140px;height:140px;flex-shrink:0;}
+.dleg{flex:1;}
+.dr{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--gray-100);font-size:10px;}
+.dr:last-child{border-bottom:none;}
+.ddot{width:7px;height:7px;border-radius:2px;}
+.dname{font-weight:600;color:var(--navy);min-width:58px;}
+.dpct{margin-left:auto;font-weight:700;color:var(--navy);}
+.dcv{font-size:17px;font-weight:800;fill:var(--navy);text-anchor:middle;}
+.dcl{font-size:8px;fill:var(--gray-600);text-anchor:middle;text-transform:uppercase;letter-spacing:.7px;}
+
+/* Table */
+.tcard{background:#fff;border-radius:13px;padding:15px 17px;box-shadow:0 1px 3px rgba(11,22,43,.05);border:1px solid var(--gray-100);}
+.filters{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--gray-100);align-items:center;}
+.chip{padding:3px 9px;border-radius:999px;font-size:9px;font-weight:700;cursor:pointer;border:1px solid var(--gray-200);background:#fff;color:var(--gray-600);transition:all .15s;user-select:none;}
 .chip:hover{border-color:var(--navy);color:var(--navy);}
 .chip.active{background:var(--navy);color:#fff;border-color:var(--navy);}
-.chip.co.active{background:var(--orange);border-color:var(--orange);}
 .chip.cg.active{background:var(--green);border-color:var(--green);}
+.chip.co.active{background:var(--orange);border-color:var(--orange);}
 .chip.cr.active{background:var(--red);border-color:var(--red);}
-.scope-toggle{display:flex;gap:3px;}
-.scope-btn{padding:3px 9px;border-radius:5px;font-size:9px;font-weight:700;cursor:pointer;border:1px solid var(--gray-200);background:#fff;color:var(--gray-600);transition:all .15s;}
-.scope-btn.active{background:var(--navy-deep);color:#fff;border-color:var(--navy-deep);}
-.search-box{margin-left:auto;padding:5px 10px;border-radius:6px;border:1px solid var(--gray-200);font-size:11px;outline:none;width:170px;font-family:inherit;}
-.search-box:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.1);}
+.scpbt{padding:3px 8px;border-radius:4px;font-size:9px;font-weight:700;cursor:pointer;border:1px solid var(--gray-200);background:#fff;color:var(--gray-600);transition:all .15s;}
+.scpbt.active{background:var(--navy-deep);color:#fff;border-color:var(--navy-deep);}
+.sbox{margin-left:auto;padding:4px 9px;border-radius:6px;border:1px solid var(--gray-200);font-size:10px;outline:none;width:160px;font-family:inherit;}
+.sbox:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.1);}
 table{width:100%;border-collapse:collapse;font-size:11px;}
-th{text-align:left;font-size:9px;text-transform:uppercase;color:var(--gray-600);font-weight:700;letter-spacing:.6px;padding:7px 8px;border-bottom:2px solid var(--gray-100);}
-td{padding:8px;border-bottom:1px solid var(--gray-100);}
+th{text-align:left;font-size:9px;text-transform:uppercase;color:var(--gray-600);font-weight:700;letter-spacing:.5px;padding:6px 8px;border-bottom:2px solid var(--gray-100);}
+td{padding:7px 8px;border-bottom:1px solid var(--gray-100);}
 tr:hover td{background:#FBFBFD;}
-.amie{font-family:'Courier New',monospace;font-size:10px;color:var(--gray-600);font-weight:600;}
-.sname{font-weight:600;color:var(--navy);max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.muted{color:var(--gray-600);font-size:10px;}
-.spill{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
+.amiec{font-family:'Courier New',monospace;font-size:10px;color:var(--gray-600);font-weight:600;}
+.sname{font-weight:600;color:var(--navy);max-width:230px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.muted{color:var(--gray-600);font-size:9px;}
+.spill{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:999px;font-size:9px;font-weight:700;text-transform:uppercase;}
 .spill::before{content:"";width:4px;height:4px;border-radius:50%;background:currentColor;}
 .s-entregada{background:var(--green-lite);color:var(--green);}
 .s-en_ruta{background:var(--orange-bg);color:var(--orange);}
@@ -207,908 +199,841 @@ tr:hover td{background:#FBFBFD;}
 .aT{background:#E8ECF7;color:var(--navy);}
 .aA{background:var(--orange-bg);color:var(--orange);}
 .aF{background:#E0F2FE;color:#0369A1;}
-.tab-scroll{max-height:380px;overflow-y:auto;}
-.tab-scroll::-webkit-scrollbar{width:4px;}
-.tab-scroll::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px;}
-.rc{font-size:9px;color:var(--gray-600);margin-top:7px;}
+.tscroll{max-height:360px;overflow-y:auto;}
+.tscroll::-webkit-scrollbar{width:4px;}
+.tscroll::-webkit-scrollbar-thumb{background:var(--gray-200);border-radius:2px;}
+.rc{font-size:9px;color:var(--gray-600);margin-top:6px;}
 
-/* ─── USER MANAGEMENT ────────────────────────────────── */
-#page-users .shell{padding-top:24px;}
-.page-title{font-size:20px;font-weight:800;color:var(--navy);margin-bottom:4px;}
-.page-sub{font-size:12px;color:var(--gray-600);margin-bottom:24px;}
-.users-grid{display:grid;grid-template-columns:1fr 380px;gap:20px;}
-.users-table-card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);}
-.users-table-card h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.users-table-card h2 .acc{width:4px;height:12px;background:var(--orange);border-radius:2px;}
-.utbl{width:100%;border-collapse:collapse;font-size:12px;}
+/* ══════════════════════════════════════════════
+   UPLOAD / CONFIG PAGES
+══════════════════════════════════════════════ */
+.section-card{background:#fff;border-radius:14px;padding:20px 22px;margin-bottom:16px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);}
+.section-title{font-size:14px;font-weight:800;color:var(--navy);margin-bottom:4px;}
+.section-sub{font-size:11px;color:var(--gray-600);margin-bottom:18px;}
+.field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:14px;}
+.field{display:flex;flex-direction:column;gap:3px;}
+.field label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);}
+.field input,.field select{border:1.5px solid var(--gray-200);border-radius:7px;padding:8px 10px;font-size:12px;font-family:inherit;outline:none;color:var(--navy);transition:border-color .15s;}
+.field input:focus,.field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.1);}
+.drop-zone{border:2px dashed var(--gray-200);border-radius:10px;padding:28px;text-align:center;cursor:pointer;background:var(--gray-bg);transition:all .2s;margin:14px 0;}
+.drop-zone:hover,.drop-zone.over{border-color:var(--orange);background:var(--orange-bg);}
+.drop-zone input{display:none;}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;}
+.btn{border:none;border-radius:7px;padding:8px 16px;font-size:11px;font-weight:700;cursor:pointer;transition:all .15s;}
+.btn-p{background:var(--orange);color:#fff;} .btn-p:hover{background:var(--orange-lite);}
+.btn-s{background:var(--gray-100);color:var(--navy);} .btn-s:hover{background:var(--gray-200);}
+.btn-d{background:var(--red-bg);color:var(--red);} .btn-d:hover{background:var(--red);color:#fff;}
+.format-hint{background:var(--gray-bg);border-radius:8px;padding:12px;font-size:10px;color:var(--gray-600);margin-top:12px;line-height:1.7;}
+.format-hint code{background:var(--gray-200);padding:1px 5px;border-radius:3px;font-family:monospace;}
+.status-alert{border-radius:8px;padding:10px 14px;font-size:11px;font-weight:600;margin-bottom:14px;}
+.alert-ok{background:var(--green-lite);color:var(--green);}
+.alert-warn{background:var(--orange-bg);color:#92400E;}
+
+/* ══════════════════════════════════════════════
+   USER MANAGEMENT PAGE
+══════════════════════════════════════════════ */
+.users-layout{display:grid;grid-template-columns:1fr 360px;gap:16px;}
+.utbl{width:100%;border-collapse:collapse;font-size:11px;}
 .utbl th{text-align:left;font-size:9px;text-transform:uppercase;color:var(--gray-600);font-weight:700;letter-spacing:.6px;padding:7px 10px;border-bottom:2px solid var(--gray-100);}
-.utbl td{padding:10px;border-bottom:1px solid var(--gray-100);}
+.utbl td{padding:9px 10px;border-bottom:1px solid var(--gray-100);}
 .utbl tr:hover td{background:#FBFBFD;}
-.role-badge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px;}
-.role-superadmin{background:#FEF3C7;color:#92400E;}
-.role-editor{background:#E0E7FF;color:#3730A3;}
-.role-viewer{background:var(--gray-bg);color:var(--gray-600);}
-.create-user-card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);align-self:start;}
-.create-user-card h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.form-field{margin-bottom:12px;}
-.form-field label{display:block;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);margin-bottom:4px;}
-.form-field input,.form-field select{width:100%;border:1.5px solid var(--gray-200);border-radius:7px;padding:8px 10px;font-size:12px;font-family:inherit;outline:none;color:var(--navy);transition:border-color .15s;}
-.form-field input:focus,.form-field select:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(244,124,32,.1);}
-.perms-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px;}
-.perm-check{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--navy);}
-.perm-check input{width:13px;height:13px;accent-color:var(--orange);}
-.form-msg{font-size:11px;border-radius:6px;padding:7px 10px;margin-top:10px;display:none;}
-.form-msg.ok{background:var(--green-lite);color:var(--green);}
-.form-msg.err{background:var(--red-bg);color:var(--red);}
-.permission-section{background:var(--gray-bg);border-radius:8px;padding:10px 12px;margin-top:8px;}
-.permission-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);margin-bottom:8px;}
+.rbadge{font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.4px;}
+.r-sa{background:#FEF3C7;color:#92400E;}
+.r-ed{background:#E0E7FF;color:#3730A3;}
+.r-vi{background:var(--gray-bg);color:var(--gray-600);}
+.perm-box{background:var(--gray-bg);border-radius:8px;padding:10px 12px;margin-top:8px;}
+.perm-box-title{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--gray-600);margin-bottom:6px;}
+.form-msg{font-size:10px;border-radius:6px;padding:7px 10px;margin-top:10px;display:none;}
+.fm-ok{background:var(--green-lite);color:var(--green);}
+.fm-err{background:var(--red-bg);color:var(--red);}
 
-/* ─── TOAST ───────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   MAP PAGE
+══════════════════════════════════════════════ */
+.map-placeholder{background:#fff;border-radius:14px;padding:48px 24px;text-align:center;box-shadow:0 1px 3px rgba(11,22,43,.06);border:1px solid var(--gray-100);}
+.map-placeholder .big{font-size:52px;margin-bottom:14px;}
+
+/* ══════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════ */
 .toast{position:fixed;bottom:20px;right:20px;background:var(--navy);color:#fff;padding:9px 16px;border-radius:8px;font-size:11px;font-weight:600;opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.25);}
 .toast.show{opacity:1;}
-
-/* ─── RESPONSIVE ──────────────────────────────────────── */
-@media(max-width:900px){
-  .kpi-strip{grid-template-columns:repeat(2,1fr);}
-  .row-main,.users-grid{grid-template-columns:1fr;}
-  .day-strip{grid-template-columns:1fr;}
-  .rac-banner-grid{grid-template-columns:1fr 1fr;}
-  .rac-item{border-right:none;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.1);}
-  .date-control{display:none;}
-}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE: LOGIN
-═══════════════════════════════════════════════════════════ -->
+<!-- ═══════════════════════════════════════════
+     LOGIN
+═══════════════════════════════════════════ -->
 <div id="page-login">
-  <div class="login-card">
-    <div class="login-logo">
-      <div class="login-logo-mark">K</div>
+  <div class="lcard">
+    <div class="llogo">
+      <div class="lmark">K</div>
       <div>
-        <div class="login-logo-text">KREZCO<span>CARGO</span></div>
+        <div class="ltext">KREZCO<span>CARGO</span></div>
         <div style="font-size:9px;color:var(--gray-400);letter-spacing:1px;margin-top:1px">LAST MILE LOGISTICS</div>
       </div>
     </div>
-    <div class="login-sub">Dashboard de Entregas · Acceso seguro</div>
-    <div class="login-field">
-      <label>Usuario</label>
-      <input type="text" id="inp-user" placeholder="Tu usuario" autocomplete="username">
-    </div>
-    <div class="login-field">
-      <label>Contraseña</label>
-      <input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
-    </div>
-    <button class="login-btn" onclick="doLogin()">Ingresar</button>
-    <div class="login-error" id="login-error">Usuario o contraseña incorrectos.</div>
+    <div class="lsub">Dashboard de Entregas · Acceso seguro</div>
+    <div class="lf"><label>Usuario</label><input type="text" id="inp-user" placeholder="Tu usuario" autocomplete="username"></div>
+    <div class="lf"><label>Contraseña</label><input type="password" id="inp-pass" placeholder="••••••••" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="lbtn" onclick="doLogin()">Ingresar</button>
+    <div class="lerr" id="lerr">Usuario o contraseña incorrectos.</div>
   </div>
-  <div class="login-footer">KrezcoCargo SAS · Sistema interno · Acceso restringido</div>
+  <div class="lfooter">KrezcoCargo SAS · Sistema interno · Acceso restringido</div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE: DASHBOARD
-═══════════════════════════════════════════════════════════ -->
-<div id="page-dashboard" style="display:none">
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo-mark">K</div>
+<!-- ═══════════════════════════════════════════
+     APP
+═══════════════════════════════════════════ -->
+<div id="app">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sb-mark">K</div>
+      <div class="sb-name">KREZCO<span>CARGO</span></div>
+      <div class="sb-tagline">Last Mile Logistics</div>
+    </div>
+    <div class="sidebar-user">
+      <div class="su-avatar" id="sb-avatar">?</div>
+      <div class="su-name" id="sb-name">—</div>
+      <div class="su-role" id="sb-role">—</div>
+    </div>
+    <div class="sidebar-nav" id="sb-nav"></div>
+    <div class="sidebar-footer">
+      <div class="logout-btn" onclick="doLogout()"><span>🚪</span> Cerrar sesión</div>
+      <div class="sidebar-data-info" id="sb-data-info">Sin datos cargados</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <div class="main">
+
+    <!-- TOPBAR -->
+    <div class="topbar" id="topbar">
       <div>
-        <div class="logo-text">KREZCO<span>CARGO</span></div>
-        <div style="font-size:8px;opacity:.45;letter-spacing:1px;margin-top:1px">LAST MILE LOGISTICS</div>
+        <div class="topbar-title" id="tb-title">Dashboard</div>
+        <div class="topbar-sub" id="tb-sub">KrezcoCargo SAS</div>
       </div>
-    </div>
-    <div class="title-block">
-      <h1 id="hdr-title">Dashboard de Entregas</h1>
-      <div class="sub" id="hdr-sub">Cargando…</div>
-    </div>
-    <div class="topbar-right">
-      <div class="date-control">
-        <button class="btn-nav" id="prev-day" disabled>‹</button>
-        <div>
-          <label>Fecha operación</label>
-          <input type="date" id="date-pick">
-        </div>
-        <span class="day-tag" id="day-tag">DÍA 1</span>
-        <button class="btn-nav" id="next-day" disabled>›</button>
-      </div>
-      <button class="btn-topbar" id="btn-users" onclick="showPage('users')" style="display:none">👥 Usuarios</button>
-      <div class="user-pill" id="user-pill">
-        <div class="avatar" id="user-avatar">?</div>
-        <div>
-          <div class="uname" id="user-name">—</div>
-          <div class="urole" id="user-role">—</div>
-        </div>
-      </div>
-      <button class="btn-topbar danger" onclick="doLogout()">Salir</button>
-    </div>
-  </header>
-
-  <div class="shell">
-    <!-- UPLOAD PANEL (superadmin/editor only) -->
-    <div class="upload-panel" id="upload-panel" style="display:none">
-      <div class="upload-header" onclick="toggleUpload()">
-        <div class="upload-title">
-          <div class="icon">📂</div>
-          <span>Importar datos desde Excel</span>
-          <span class="badge badge-empty" id="upload-badge">Sin datos</span>
-        </div>
-        <span class="chev open" id="upload-chev">▼</span>
-      </div>
-      <div class="upload-body" id="upload-body">
-        <div class="cfg-grid">
-          <div class="cfg-field"><label>Cliente</label><input type="text" id="cfg-cliente" value="Grupo Gloria"></div>
-          <div class="cfg-field"><label>Programa</label><input type="text" id="cfg-programa" value="Programa Alimentación Escolar"></div>
-          <div class="cfg-field"><label>Fecha inicio (Día 1)</label><input type="date" id="cfg-fecha"></div>
-          <div class="cfg-field"><label>Días totales</label><input type="number" id="cfg-dias" value="10" min="1" max="90"></div>
-        </div>
-        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-          <input type="file" id="file-input" accept=".xlsx,.xls,.csv" onchange="handleFile(event)">
-          <div style="font-size:28px;margin-bottom:6px">📊</div>
-          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px">Arrastra aquí tu Excel o haz click para seleccionar</div>
-          <div style="font-size:10px;color:var(--gray-600)">.xlsx · .xls · .csv</div>
-        </div>
-        <div class="format-hint">
-          <strong>Columnas reconocidas</strong> (nombre flexible, sin importar mayúsculas ni tildes):<br>
-          <code>AMIE</code> · <code>NOMBRE_INSTITUCION</code> · <code>PROVINCIA</code> · <code>CANTON</code> · <code>PARROQUIA</code> · <code>FORMA_ACCESO</code> · <code>TOTAL</code> · <code>RACIONES</code> · <code>PESO_KG</code> · <strong><code>DIA_PROGRAMADO</code></strong> (también: <code>DÍA</code>, <code>DIA</code>, <code>Día</code>, <code>N° DIA</code>) · <code>ESTADO</code> · <code>FECHA_REAL</code> · <code>HORA</code> · <code>TRANSPORTISTA</code> · <code>PLACA</code> · <code>NOTAS</code><br>
-          Si <code>RACIONES</code> no existe → TOTAL×20. Si <code>PESO_KG</code> no existe → TOTAL×4.12.
-        </div>
-        <div class="btn-row">
-          <button class="btn btn-primary" onclick="applyConfig()">✓ Aplicar configuración</button>
-          <button class="btn btn-danger" onclick="clearData()">🗑 Borrar datos cargados</button>
+      <div class="topbar-right" id="topbar-right">
+        <div class="date-control" id="date-ctrl" style="display:none">
+          <button class="btn-nav" id="prev-day" disabled>‹</button>
+          <div>
+            <label>Fecha operación</label>
+            <input type="date" id="date-pick">
+          </div>
+          <span class="day-tag" id="day-tag">DÍA 1</span>
+          <button class="btn-nav" id="next-day" disabled>›</button>
         </div>
       </div>
     </div>
 
-    <!-- EMPTY STATE -->
-    <div id="empty-state" class="empty-state">
-      <div class="big">📋</div>
-      <h2>Ningún dato cargado</h2>
-      <p id="empty-msg">El administrador aún no ha cargado datos para este dashboard.</p>
-    </div>
-
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboard" style="display:none">
-
-      <!-- RACIONES BANNER -->
-      <div class="rac-banner" id="rac-banner">
-        <div class="rac-banner-grid">
-          <div class="rac-item">
-            <div class="rac-label">Total raciones · Programa</div>
-            <div class="rac-value" id="rac-total">—</div>
-            <div class="rac-sub" id="rac-total-ie">—</div>
+    <!-- ── PAGE: DASHBOARD ── -->
+    <div class="page-content" id="pg-dashboard">
+      <div id="empty-state" style="text-align:center;padding:60px 24px;color:var(--gray-600);">
+        <div style="font-size:44px;margin-bottom:12px">📋</div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:6px">Sin datos cargados</div>
+        <div id="empty-msg" style="font-size:12px">Ve a "Cargar Planificación" para subir el archivo Excel.</div>
+      </div>
+      <div id="dashboard" style="display:none">
+        <!-- Raciones Banner -->
+        <div class="rac-banner">
+          <div class="rac-grid">
+            <div class="rac-item"><div class="rac-label">Total raciones · Programa</div><div class="rac-val" id="rac-total">—</div><div class="rac-sub" id="rac-total-ie">—</div></div>
+            <div class="rac-item"><div class="rac-label">Raciones entregadas</div><div class="rac-val" id="rac-ent">—</div><div class="rac-sub" id="rac-ent-p">—</div></div>
+            <div class="rac-item"><div class="rac-label">Raciones en ruta</div><div class="rac-val" id="rac-ruta">—</div><div class="rac-sub" id="rac-ruta-p">—</div></div>
+            <div class="rac-item"><div class="rac-label">Raciones pendientes</div><div class="rac-val" id="rac-pend">—</div><div class="rac-sub" id="rac-pend-p">—</div></div>
           </div>
-          <div class="rac-item">
-            <div class="rac-label">Raciones entregadas</div>
-            <div class="rac-value" id="rac-ent">—</div>
-            <div class="rac-sub" id="rac-ent-pct">—</div>
-          </div>
-          <div class="rac-item">
-            <div class="rac-label">Raciones en ruta</div>
-            <div class="rac-value" id="rac-ruta">—</div>
-            <div class="rac-sub" id="rac-ruta-pct">—</div>
-          </div>
-          <div class="rac-item">
-            <div class="rac-label">Raciones pendientes</div>
-            <div class="rac-value" id="rac-pend">—</div>
-            <div class="rac-sub" id="rac-pend-pct">—</div>
+          <div class="rac-bar-wrap">
+            <div class="rac-bar-labels"><span id="rac-bar-l">Progreso acumulado del programa</span><span id="rac-bar-r">0%</span></div>
+            <div class="rac-track"><div class="rac-fill-e" id="rfill-e" style="width:0%"></div><div class="rac-fill-r" id="rfill-r" style="width:0%"></div></div>
           </div>
         </div>
-        <div class="rac-progress-wrap">
-          <div class="rac-progress-label">
-            <span id="rac-prog-label">Progreso acumulado del programa</span>
-            <span id="rac-prog-pct">0%</span>
+        <!-- Day strip -->
+        <div class="day-strip">
+          <div><div class="ds-lbl">Día seleccionado</div><div class="ds-val" id="day-summary">—</div></div>
+          <div id="dia-track" class="dia-track"></div>
+          <div><div class="ds-lbl">Acumulado programa</div><div class="ds-val" id="cum-summary">—</div></div>
+        </div>
+        <!-- KPIs -->
+        <div class="kpi-strip">
+          <div class="kpi navy"><div class="lbl">Plan del día</div><div class="val" id="kp1">—</div><div class="d1" id="kp1a">—</div><div class="d2" id="kp1b"></div><div class="kpi-ico">📅</div><div class="bar"></div></div>
+          <div class="kpi green"><div class="lbl">Entregadas</div><div class="val" id="kp2">—</div><div class="d1 up" id="kp2a">—</div><div class="d2" id="kp2b"></div><div class="kpi-ico">✓</div><div class="bar"></div></div>
+          <div class="kpi orange"><div class="lbl">En ruta</div><div class="val" id="kp3">—</div><div class="d1" id="kp3a">—</div><div class="d2" id="kp3b"></div><div class="kpi-ico">🚚</div><div class="bar"></div></div>
+          <div class="kpi gray"><div class="lbl">Pendientes</div><div class="val" id="kp4">—</div><div class="d1" id="kp4a">—</div><div class="d2" id="kp4b"></div><div class="kpi-ico">⏳</div><div class="bar"></div></div>
+        </div>
+        <!-- Province bars + donut -->
+        <div class="row-2">
+          <div class="card">
+            <div class="card-h"><span class="acc"></span>Progreso por provincia</div>
+            <div class="card-sub" id="prov-sub">Avance acumulado</div>
+            <div class="pscroll" id="prov-bars"></div>
           </div>
-          <div class="rac-track">
-            <div class="rac-fill-wrap">
-              <div class="rac-fill-ent" id="rac-prog-ent" style="width:0%"></div>
-              <div class="rac-fill-rut" id="rac-prog-rut" style="width:0%"></div>
+          <div class="card">
+            <div class="card-h"><span class="acc"></span>Estado — Día <span id="d-dia">1</span></div>
+            <div class="card-sub" id="donut-sub">Distribución del día seleccionado</div>
+            <div class="donut-wrap">
+              <svg class="dsv" viewBox="0 0 180 180">
+                <defs>
+                  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1F9D55"/><stop offset="100%" stop-color="#5fb878"/></linearGradient>
+                  <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F47C20"/><stop offset="100%" stop-color="#FFA559"/></linearGradient>
+                  <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#DC2626"/><stop offset="100%" stop-color="#F87171"/></linearGradient>
+                </defs>
+                <circle cx="90" cy="90" r="65" fill="none" stroke="#E2E8F2" stroke-width="22"/>
+                <circle id="d-e" cx="90" cy="90" r="65" fill="none" stroke="url(#g1)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
+                <circle id="d-r" cx="90" cy="90" r="65" fill="none" stroke="url(#g2)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
+                <circle id="d-p" cx="90" cy="90" r="65" fill="none" stroke="url(#g4)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
+                <text id="d-cv" x="90" y="86" class="dcv">0</text>
+                <text x="90" y="100" class="dcl">TOTAL</text>
+              </svg>
+              <div class="dleg" id="donut-leg"></div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- DAY STRIP -->
-      <div class="day-strip">
-        <div>
-          <div class="ds-lbl">Día seleccionado</div>
-          <div class="ds-val" id="day-summary">—</div>
-        </div>
-        <div id="dia-track" class="dia-track"></div>
-        <div>
-          <div class="ds-lbl">Acumulado</div>
-          <div class="ds-val" id="cum-summary">—</div>
-        </div>
-      </div>
-
-      <!-- KPIs -->
-      <div class="kpi-strip">
-        <div class="kpi navy"><div class="lbl">Plan del día</div><div class="val" id="kpi-plan">—</div><div class="d1" id="kpi-plan-d">—</div><div class="d2" id="kpi-plan-rac"></div><div class="kpi-ico">📅</div><div class="bar"></div></div>
-        <div class="kpi green"><div class="lbl">Entregadas hoy</div><div class="val" id="kpi-ent">—</div><div class="d1 up" id="kpi-ent-d">—</div><div class="d2" id="kpi-ent-rac"></div><div class="kpi-ico">✓</div><div class="bar"></div></div>
-        <div class="kpi orange"><div class="lbl">En ruta</div><div class="val" id="kpi-ruta">—</div><div class="d1" id="kpi-ruta-d">—</div><div class="d2" id="kpi-ruta-rac"></div><div class="kpi-ico">🚚</div><div class="bar"></div></div>
-        <div class="kpi gray"><div class="lbl">Pendientes hoy</div><div class="val" id="kpi-pend">—</div><div class="d1" id="kpi-pend-d">—</div><div class="d2" id="kpi-pend-rac"></div><div class="kpi-ico">⏳</div><div class="bar"></div></div>
-      </div>
-
-      <!-- PROVINCE BARS + DONUT -->
-      <div class="row-main">
-        <div class="card">
-          <h2><span class="acc"></span>Progreso por provincia</h2>
-          <div class="desc" id="prov-desc">Avance acumulado del programa</div>
-          <div class="prov-scroll" id="prov-bars"></div>
-        </div>
-        <div class="card">
-          <h2><span class="acc"></span>Estado — Día <span id="donut-dia">1</span></h2>
-          <div class="desc" id="donut-desc">Distribución del día seleccionado</div>
-          <div class="donut-wrap">
-            <svg class="donut-svg" viewBox="0 0 180 180">
-              <defs>
-                <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1F9D55"/><stop offset="100%" stop-color="#5fb878"/></linearGradient>
-                <linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#F47C20"/><stop offset="100%" stop-color="#FFA559"/></linearGradient>
-                <linearGradient id="g4" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#DC2626"/><stop offset="100%" stop-color="#F87171"/></linearGradient>
-              </defs>
-              <circle cx="90" cy="90" r="65" fill="none" stroke="#E2E8F2" stroke-width="22"/>
-              <circle id="d-ent" cx="90" cy="90" r="65" fill="none" stroke="url(#g1)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
-              <circle id="d-rut" cx="90" cy="90" r="65" fill="none" stroke="url(#g2)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
-              <circle id="d-prob" cx="90" cy="90" r="65" fill="none" stroke="url(#g4)" stroke-width="22" stroke-linecap="round" stroke-dasharray="0 408.41" transform="rotate(-90 90 90)"/>
-              <text id="d-cv" x="90" y="86" class="dc-val">0</text>
-              <text x="90" y="100" class="dc-lbl">TOTAL</text>
-            </svg>
-            <div class="donut-legend" id="donut-legend"></div>
+        <!-- Table -->
+        <div class="tcard">
+          <div class="card-h" style="margin-bottom:3px"><span class="acc"></span>Instituciones — <span id="tbl-day">Día 1</span></div>
+          <div class="card-sub" id="tbl-sub">Plan operativo</div>
+          <div class="filters">
+            <div style="display:flex;gap:3px"><button class="scpbt active" id="sc-d" onclick="setScope('DAY')">Hoy</button><button class="scpbt" id="sc-a" onclick="setScope('ALL')">Todo</button></div>
+            <div id="prov-chips" style="display:flex;gap:3px;flex-wrap:wrap;"></div>
+            <div style="display:flex;gap:3px;flex-wrap:wrap;">
+              <span class="chip active" data-e="ALL" onclick="setEst(this,'ALL')">Todos</span>
+              <span class="chip cg" data-e="entregada" onclick="setEst(this,'entregada')">Entregada</span>
+              <span class="chip co" data-e="en_ruta" onclick="setEst(this,'en_ruta')">En ruta</span>
+              <span class="chip" data-e="pendiente" onclick="setEst(this,'pendiente')">Pendiente</span>
+              <span class="chip cr" data-e="problema" onclick="setEst(this,'problema')">Problema</span>
+            </div>
+            <input class="sbox" type="text" placeholder="Buscar AMIE, nombre…" oninput="onSearch(this.value)">
           </div>
-        </div>
-      </div>
-
-      <!-- TABLE -->
-      <div class="table-card">
-        <h2><span class="acc"></span>Instituciones — <span id="tbl-day">Día 1</span></h2>
-        <div class="desc" id="tbl-desc">Plan operativo</div>
-        <div class="filters">
-          <div class="scope-toggle">
-            <button class="scope-btn active" id="sc-day" onclick="setScope('DAY')">Hoy</button>
-            <button class="scope-btn" id="sc-all" onclick="setScope('ALL')">Todo el programa</button>
-          </div>
-          <div id="prov-chips" style="display:flex;gap:4px;flex-wrap:wrap;"></div>
-          <div style="display:flex;gap:4px;flex-wrap:wrap;">
-            <span class="chip active" data-e="ALL" onclick="setEst(this,'ALL')">Todos</span>
-            <span class="chip cg" data-e="entregada" onclick="setEst(this,'entregada')">Entregada</span>
-            <span class="chip co" data-e="en_ruta" onclick="setEst(this,'en_ruta')">En ruta</span>
-            <span class="chip" data-e="pendiente" onclick="setEst(this,'pendiente')">Pendiente</span>
-            <span class="chip cr" data-e="problema" onclick="setEst(this,'problema')">Problema</span>
-          </div>
-          <input class="search-box" type="text" id="search-box" placeholder="Buscar AMIE, nombre…" oninput="onSearch(this.value)">
-        </div>
-        <div class="tab-scroll">
-          <table>
-            <thead><tr>
+          <div class="tscroll">
+            <table><thead><tr>
               <th>AMIE</th><th>Institución</th><th>Cantón · Parroquia</th>
-              <th>Acceso</th><th style="text-align:right">Estudiantes</th>
+              <th>Acceso</th><th style="text-align:right">Est.</th>
               <th style="text-align:right">TON</th><th style="text-align:right">Raciones</th>
-              <th>Estado</th><th>Día</th><th>Transportista</th>
-            </tr></thead>
-            <tbody id="tbody"></tbody>
+              <th>Estado</th><th>Día / Fecha</th><th>Transportista</th>
+            </tr></thead><tbody id="tbody"></tbody></table>
+          </div>
+          <div class="rc" id="row-count"></div>
+        </div>
+        <div style="text-align:center;padding:10px;font-size:9px;color:var(--gray-400)">KrezcoCargo SAS · Última carga: <span id="last-update">—</span></div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: MAP ── -->
+    <div class="page-content" id="pg-map">
+      <div class="map-placeholder">
+        <div class="big">🗺️</div>
+        <div style="font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px">Mapa de rutas</div>
+        <div style="font-size:12px;color:var(--gray-600);margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">El módulo de mapa con visualización geográfica de instituciones y rutas estará disponible próximamente.</div>
+        <div id="map-stats" style="display:inline-flex;gap:24px;background:var(--gray-bg);border-radius:10px;padding:14px 20px;font-size:11px;color:var(--navy);"></div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: CARGAR PLANIFICACIÓN ── -->
+    <div class="page-content" id="pg-upload">
+      <div class="section-card">
+        <div class="section-title">Cargar Planificación</div>
+        <div class="section-sub">Sube el archivo Excel con la distribución de instituciones. Los datos quedan guardados en el navegador y son visibles para todos los usuarios.</div>
+        <div id="load-status"></div>
+        <div class="field-grid">
+          <div class="field"><label>Nombre del cliente</label><input type="text" id="cfg-cliente" value="Grupo Gloria"></div>
+          <div class="field"><label>Nombre del programa</label><input type="text" id="cfg-programa" value="Programa Alimentación Escolar"></div>
+          <div class="field"><label>Fecha inicio (Día 1)</label><input type="date" id="cfg-fecha"></div>
+          <div class="field"><label>Días totales (auto-detectado)</label><input type="number" id="cfg-dias" value="10" min="1" max="90"></div>
+        </div>
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+          <input type="file" id="file-input" accept=".xlsx,.xls,.csv" onchange="handleFile(event)">
+          <div style="font-size:30px;margin-bottom:8px">📊</div>
+          <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:3px">Arrastra tu Excel aquí o haz click para seleccionar</div>
+          <div style="font-size:10px;color:var(--gray-600)">.xlsx · .xls · .csv</div>
+        </div>
+        <div class="format-hint">
+          <strong>El sistema detecta automáticamente la fila de encabezado y la hoja correcta.</strong><br>
+          Columnas que reconoce (nombre flexible, sin importar mayúsculas ni tildes ni caracteres especiales):<br>
+          <code>AMIE</code> · <code>NOMBRE_INSTITUCION</code> · <code>PROVINCIA</code> · <code>CANTON</code> · <code>PARROQUIA</code> · <code>FORMA_ACCESO</code> · <code>TOTAL</code> (estudiantes) · <code>RACIONES</code> · <code>PESO_KG</code><br>
+          <strong>Columna de día:</strong> <code>Día</code> · <code>DIA</code> · <code>DÍA</code> · <code>DIA_PROGRAMADO</code> · <code>N° DIA</code> · <code>NUMERO DE DIA</code> (también detectada en hoja <em>BBD PESOS</em>)<br>
+          Opcionales: <code>ESTADO</code> · <code>FECHA_REAL</code> · <code>HORA</code> · <code>TRANSPORTISTA</code> · <code>PLACA</code> · <code>NOTAS</code>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-p" onclick="applyConfig()">✓ Aplicar configuración</button>
+          <button class="btn btn-d" onclick="clearData()">🗑 Borrar datos</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: CONFIGURACIÓN ── -->
+    <div class="page-content" id="pg-config">
+      <div class="section-card">
+        <div class="section-title">Configuración</div>
+        <div class="section-sub">Ajusta los parámetros del dashboard. Los cambios se aplican en tiempo real.</div>
+        <div class="field-grid">
+          <div class="field"><label>Nombre del cliente</label><input type="text" id="cfg2-cliente"></div>
+          <div class="field"><label>Nombre del programa</label><input type="text" id="cfg2-programa"></div>
+          <div class="field"><label>Fecha inicio (Día 1)</label><input type="date" id="cfg2-fecha"></div>
+          <div class="field"><label>Días totales del programa</label><input type="number" id="cfg2-dias" min="1" max="90"></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-p" onclick="saveConfig2()">✓ Guardar cambios</button>
+        </div>
+      </div>
+      <div class="section-card">
+        <div class="section-title" style="font-size:13px">Estado del sistema</div>
+        <div id="sys-stats" style="font-size:12px;color:var(--gray-600);line-height:2;margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <!-- ── PAGE: CREAR USUARIOS ── -->
+    <div class="page-content" id="pg-users">
+      <div class="users-layout">
+        <div class="section-card">
+          <div class="section-title">Usuarios registrados</div>
+          <div class="section-sub">Solo el superadministrador puede crear o eliminar usuarios.</div>
+          <table class="utbl">
+            <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Creado</th><th>Acciones</th></tr></thead>
+            <tbody id="users-tbody"></tbody>
           </table>
         </div>
-        <div class="rc" id="row-count"></div>
-      </div>
-
-      <div style="text-align:center;padding:12px;font-size:9px;color:var(--gray-400);">
-        KrezcoCargo SAS · Última carga: <span id="last-update">—</span>
-      </div>
-    </div><!-- /dashboard -->
-  </div><!-- /shell -->
-</div><!-- /page-dashboard -->
-
-<!-- ═══════════════════════════════════════════════════════════
-     PAGE: USER MANAGEMENT
-═══════════════════════════════════════════════════════════ -->
-<div id="page-users" style="display:none">
-  <header class="topbar">
-    <div class="brand">
-      <div class="logo-mark">K</div>
-      <div><div class="logo-text">KREZCO<span>CARGO</span></div></div>
-    </div>
-    <div class="title-block"><h1>Gestión de Usuarios</h1><div class="sub">Administración de accesos y roles</div></div>
-    <div class="topbar-right">
-      <button class="btn-topbar" onclick="showPage('dashboard')">← Dashboard</button>
-      <button class="btn-topbar danger" onclick="doLogout()">Salir</button>
-    </div>
-  </header>
-  <div class="shell">
-    <div class="page-title">Usuarios del Sistema</div>
-    <div class="page-sub">Solo el superadministrador puede gestionar usuarios. Los cambios se aplican inmediatamente.</div>
-    <div class="users-grid">
-      <div class="users-table-card">
-        <h2><span class="acc"></span>Usuarios registrados</h2>
-        <table class="utbl">
-          <thead><tr><th>Usuario</th><th>Nombre</th><th>Rol</th><th>Creado</th><th>Acciones</th></tr></thead>
-          <tbody id="users-tbody"></tbody>
-        </table>
-      </div>
-      <div>
-        <div class="create-user-card">
-          <h2><span class="acc"></span>Crear nuevo usuario</h2>
-          <div class="form-field"><label>Usuario (sin espacios)</label><input type="text" id="nu-user" placeholder="ej: jperez" autocomplete="off"></div>
-          <div class="form-field"><label>Nombre completo</label><input type="text" id="nu-name" placeholder="ej: Juan Pérez" autocomplete="off"></div>
-          <div class="form-field"><label>Contraseña</label><input type="password" id="nu-pass" placeholder="mínimo 6 caracteres" autocomplete="new-password"></div>
-          <div class="form-field">
-            <label>Rol</label>
-            <select id="nu-role" onchange="updatePermPreview()">
-              <option value="viewer">Espectador (solo ver)</option>
-              <option value="editor">Editor (puede subir Excel)</option>
-            </select>
-          </div>
-          <div class="permission-section" id="perm-preview">
-            <div class="permission-title">Permisos del rol seleccionado</div>
-            <div id="perm-list" style="font-size:11px;color:var(--gray-600);line-height:1.8;"></div>
-          </div>
-          <div class="form-msg" id="form-msg"></div>
-          <div class="btn-row" style="margin-top:14px;">
-            <button class="btn btn-primary" onclick="createUser()">+ Crear usuario</button>
+        <div>
+          <div class="section-card">
+            <div class="section-title" style="font-size:13px">Nuevo usuario</div>
+            <div class="field" style="margin-bottom:10px"><label>Usuario (sin espacios)</label><input type="text" id="nu-user" placeholder="ej: jperez" autocomplete="off"></div>
+            <div class="field" style="margin-bottom:10px"><label>Nombre completo</label><input type="text" id="nu-name" placeholder="ej: Juan Pérez"></div>
+            <div class="field" style="margin-bottom:10px"><label>Contraseña (mínimo 6 chars)</label><input type="password" id="nu-pass" placeholder="••••••••" autocomplete="new-password"></div>
+            <div class="field" style="margin-bottom:10px">
+              <label>Rol</label>
+              <select id="nu-role" onchange="updatePermPreview()">
+                <option value="viewer">Espectador — solo Dashboard y Mapa</option>
+                <option value="editor">Editor — puede subir Excel</option>
+              </select>
+            </div>
+            <div class="perm-box" id="perm-prev">
+              <div class="perm-box-title">Permisos del rol</div>
+              <div id="perm-list" style="font-size:10px;color:var(--gray-600);line-height:1.8;"></div>
+            </div>
+            <div class="form-msg" id="form-msg"></div>
+            <div class="btn-row" style="margin-top:12px"><button class="btn btn-p" onclick="createUser()">+ Crear usuario</button></div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
+
+  </div><!-- /main -->
+</div><!-- /app -->
 
 <div class="toast" id="toast"></div>
 
-<!-- ═══════════════════════════════════════════════════════════
-     JAVASCRIPT
-═══════════════════════════════════════════════════════════ -->
 <script>
-// ─── CONSTANTS ───────────────────────────────────────────────────────────────
-const SALT = 'krezco_2025_secure';
-const MASTER = { username: 'bmeneses', role: 'superadmin', name: 'Bernardo Meneses', locked: true };
+/* ═══════════════════════════════════════════════════════════
+   CONSTANTS & STATE
+═══════════════════════════════════════════════════════════ */
+const SALT = 'krezco2025_x8j';
 const MONTHS = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 const MONTHS_F = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
-const WEEKDAYS = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+const WD = ['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
 const ROLE_PERMS = {
-  superadmin: ['Ver dashboard completo','Subir y cargar archivos Excel','Gestionar usuarios y roles','Borrar datos cargados'],
-  editor: ['Ver dashboard completo','Subir y cargar archivos Excel'],
-  viewer: ['Ver dashboard (solo lectura)']
+  superadmin:['Ver dashboard completo','Cargar y modificar datos Excel','Gestionar usuarios y roles','Acceso a configuración','Ver mapa'],
+  editor:['Ver dashboard completo','Cargar y modificar datos Excel','Ver mapa'],
+  viewer:['Ver dashboard (solo lectura)','Ver mapa']
+};
+const NAV_ITEMS = {
+  superadmin:[
+    {id:'dashboard',icon:'📊',label:'Dashboard'},
+    {id:'map',icon:'🗺️',label:'Mapa'},
+    {id:'upload',icon:'📂',label:'Cargar Planificación'},
+    {id:'config',icon:'⚙️',label:'Configuración'},
+    {id:'users',icon:'👥',label:'Crear Usuarios'},
+  ],
+  editor:[
+    {id:'dashboard',icon:'📊',label:'Dashboard'},
+    {id:'map',icon:'🗺️',label:'Mapa'},
+    {id:'upload',icon:'📂',label:'Cargar Planificación'},
+  ],
+  viewer:[
+    {id:'dashboard',icon:'📊',label:'Dashboard'},
+    {id:'map',icon:'🗺️',label:'Mapa'},
+  ]
 };
 
-// ─── APP STATE ────────────────────────────────────────────────────────────────
-let SCHOOLS = [];
-let CFG = { clienteNombre: 'Cliente', programa: 'Programa de Entregas', fechaInicioISO: '', diasTotal: 10 };
-let ST = { scope: 'DAY', prov: 'ALL', est: 'ALL', dia: 1, q: '' };
-let SESSION = null; // current logged-in user
+let SCHOOLS=[], CFG={clienteNombre:'Cliente',programa:'Programa',fechaInicioISO:'',diasTotal:10};
+let ST={scope:'DAY',prov:'ALL',est:'ALL',dia:1,q:''};
+let SESSION=null;
+let currentPage='dashboard';
 
-// ─── CRYPTO ──────────────────────────────────────────────────────────────────
-async function hashPwd(pwd) {
-  const enc = new TextEncoder();
-  const data = enc.encode(pwd + SALT);
-  const buf = await crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+/* ═══════════════════════════════════════════════════════════
+   CRYPTO
+═══════════════════════════════════════════════════════════ */
+async function hashPwd(p){
+  const d=new TextEncoder().encode(p+SALT);
+  const b=await crypto.subtle.digest('SHA-256',d);
+  return Array.from(new Uint8Array(b)).map(x=>x.toString(16).padStart(2,'0')).join('');
 }
 
-// ─── USER STORE ───────────────────────────────────────────────────────────────
-function getUsers() {
-  try { return JSON.parse(localStorage.getItem('kc_users') || '[]'); } catch { return []; }
-}
-function saveUsers(u) {
-  localStorage.setItem('kc_users', JSON.stringify(u));
-}
+/* ═══════════════════════════════════════════════════════════
+   USER STORE
+═══════════════════════════════════════════════════════════ */
+function getUsers(){try{return JSON.parse(localStorage.getItem('kc_users')||'[]');}catch{return[];}}
+function saveUsers(u){localStorage.setItem('kc_users',JSON.stringify(u));}
 
-async function ensureMaster() {
-  const users = getUsers();
-  if (!users.find(u => u.username === 'bmeneses')) {
-    const h = await hashPwd('NeverLet2015');
-    users.unshift({ username: 'bmeneses', name: 'Bernardo Meneses', role: 'superadmin', pwdHash: h, created: new Date().toISOString(), locked: true });
+async function ensureMaster(){
+  const users=getUsers();
+  if(!users.find(u=>u.username==='bmeneses')){
+    const h=await hashPwd('NeverLet2015');
+    users.unshift({username:'bmeneses',name:'Borys Meneses',role:'superadmin',pwdHash:h,created:new Date().toISOString(),locked:true});
     saveUsers(users);
+  } else {
+    // Fix name if wrong
+    const u=users.find(x=>x.username==='bmeneses');
+    if(u&&u.name!=='Borys Meneses'){u.name='Borys Meneses';saveUsers(users);}
   }
 }
 
-// ─── AUTH ─────────────────────────────────────────────────────────────────────
-async function doLogin() {
-  const u = document.getElementById('inp-user').value.trim();
-  const p = document.getElementById('inp-pass').value;
-  const err = document.getElementById('login-error');
-  err.style.display = 'none';
-  if (!u || !p) { err.textContent = 'Completa ambos campos.'; err.style.display = 'block'; return; }
-
+/* ═══════════════════════════════════════════════════════════
+   AUTH
+═══════════════════════════════════════════════════════════ */
+async function doLogin(){
+  const u=document.getElementById('inp-user').value.trim();
+  const p=document.getElementById('inp-pass').value;
+  const err=document.getElementById('lerr');
+  err.style.display='none';
+  if(!u||!p){err.textContent='Completa ambos campos.';err.style.display='block';return;}
   await ensureMaster();
-  const users = getUsers();
-  const user = users.find(x => x.username === u);
-  if (!user) { err.textContent = 'Usuario no encontrado.'; err.style.display = 'block'; return; }
-
-  const h = await hashPwd(p);
-  if (h !== user.pwdHash) { err.textContent = 'Contraseña incorrecta.'; err.style.display = 'block'; return; }
-
-  SESSION = user;
-  sessionStorage.setItem('kc_session', JSON.stringify({ username: user.username, role: user.role, name: user.name }));
-  showPage('dashboard');
+  const users=getUsers();
+  const user=users.find(x=>x.username===u);
+  if(!user){err.textContent='Usuario no encontrado.';err.style.display='block';return;}
+  const h=await hashPwd(p);
+  if(h!==user.pwdHash){err.textContent='Contraseña incorrecta.';err.style.display='block';return;}
+  SESSION=user;
+  sessionStorage.setItem('kc_sess',JSON.stringify({username:user.username,role:user.role,name:user.name}));
+  startApp();
 }
 
-function doLogout() {
-  SESSION = null;
-  sessionStorage.removeItem('kc_session');
-  document.getElementById('inp-user').value = '';
-  document.getElementById('inp-pass').value = '';
-  showPage('login');
+function doLogout(){
+  SESSION=null;sessionStorage.removeItem('kc_sess');
+  document.getElementById('inp-user').value='';document.getElementById('inp-pass').value='';
+  document.getElementById('app').classList.remove('visible');
+  document.getElementById('page-login').style.display='';
 }
 
-function restoreSession() {
-  try {
-    const s = sessionStorage.getItem('kc_session');
-    if (s) { SESSION = JSON.parse(s); return true; }
-  } catch {}
-  return false;
-}
+/* ═══════════════════════════════════════════════════════════
+   APP STARTUP
+═══════════════════════════════════════════════════════════ */
+window.addEventListener('DOMContentLoaded',async()=>{
+  await ensureMaster();
+  document.getElementById('cfg-fecha').value=isoToday();
+  // Drop zone
+  const dz=document.getElementById('drop-zone');
+  dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
+  dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
+  dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');const f=e.dataTransfer.files[0];if(f)loadFile(f);});
+  // Restore session
+  try{const s=sessionStorage.getItem('kc_sess');if(s){SESSION=JSON.parse(s);startApp();return;}}catch{}
+  document.getElementById('page-login').style.display='';
+});
 
-// ─── PAGES ───────────────────────────────────────────────────────────────────
-function showPage(p) {
-  document.getElementById('page-login').style.display = 'none';
-  document.getElementById('page-dashboard').style.display = 'none';
-  document.getElementById('page-users').style.display = 'none';
-
-  if (p === 'login') { document.getElementById('page-login').style.display = ''; return; }
-  if (p === 'dashboard') {
-    document.getElementById('page-dashboard').style.display = '';
-    setupDashboardUI();
-    return;
-  }
-  if (p === 'users') {
-    if (!SESSION || SESSION.role !== 'superadmin') { showToast('Sin permisos.'); return; }
-    document.getElementById('page-users').style.display = '';
-    renderUsersPage();
-    return;
-  }
-}
-
-function setupDashboardUI() {
-  if (!SESSION) return;
-  const isSA = SESSION.role === 'superadmin';
-  const isEd = SESSION.role === 'editor';
-  const canUpload = isSA || isEd;
-
-  // User pill
-  document.getElementById('user-name').textContent = SESSION.name || SESSION.username;
-  document.getElementById('user-role').textContent = { superadmin: 'Super Admin', editor: 'Editor', viewer: 'Espectador' }[SESSION.role] || SESSION.role;
-  document.getElementById('user-avatar').textContent = (SESSION.name || SESSION.username).charAt(0).toUpperCase();
-  document.getElementById('btn-users').style.display = isSA ? '' : 'none';
-  document.getElementById('upload-panel').style.display = canUpload ? '' : 'none';
-
-  if (!canUpload) {
-    document.getElementById('empty-msg').textContent = 'El administrador aún no ha cargado datos para este período.';
-  }
-
-  // Load data
+function startApp(){
+  document.getElementById('page-login').style.display='none';
+  document.getElementById('app').classList.add('visible');
+  buildSidebar();
   loadFromStorage();
+  navTo('dashboard');
 }
 
-// ─── DATA PERSISTENCE ─────────────────────────────────────────────────────────
-function loadFromStorage() {
-  try {
-    const raw = localStorage.getItem('kc_dash_data');
-    if (raw) {
-      const obj = JSON.parse(raw);
-      SCHOOLS = obj.schools || [];
-      CFG = Object.assign(CFG, obj.cfg || {});
-      if (SCHOOLS.length > 0) {
-        document.getElementById('cfg-cliente').value = CFG.clienteNombre;
-        document.getElementById('cfg-programa').value = CFG.programa;
-        document.getElementById('cfg-fecha').value = CFG.fechaInicioISO;
-        document.getElementById('cfg-dias').value = CFG.diasTotal;
-        document.getElementById('last-update').textContent = obj.updatedAt || '—';
-        initDashboard();
-        return;
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════════ */
+function buildSidebar(){
+  if(!SESSION)return;
+  document.getElementById('sb-avatar').textContent=(SESSION.name||SESSION.username).charAt(0).toUpperCase();
+  document.getElementById('sb-name').textContent=SESSION.name||SESSION.username;
+  document.getElementById('sb-role').textContent={superadmin:'Super Administrador',editor:'Editor',viewer:'Espectador'}[SESSION.role]||SESSION.role;
+  const items=NAV_ITEMS[SESSION.role]||NAV_ITEMS.viewer;
+  const nav=document.getElementById('sb-nav');
+  nav.innerHTML=items.map(it=>`
+    <div class="nav-item" id="nav-${it.id}" onclick="navTo('${it.id}')">
+      <span class="nav-icon">${it.icon}</span><span>${it.label}</span>
+    </div>`).join('');
+}
+
+function navTo(page){
+  currentPage=page;
+  document.querySelectorAll('.nav-item').forEach(el=>el.classList.remove('active'));
+  const ni=document.getElementById('nav-'+page);
+  if(ni)ni.classList.add('active');
+  document.querySelectorAll('.page-content').forEach(p=>p.classList.remove('active'));
+  const pc=document.getElementById('pg-'+page);
+  if(pc)pc.classList.add('active');
+  // Topbar
+  const titles={dashboard:'Dashboard',map:'Mapa de Rutas',upload:'Cargar Planificación',config:'Configuración',users:'Gestión de Usuarios'};
+  document.getElementById('tb-title').textContent=titles[page]||page;
+  document.getElementById('tb-sub').textContent=SESSION?`${SESSION.name} · KrezcoCargo SAS`:'KrezcoCargo SAS';
+  document.getElementById('date-ctrl').style.display=page==='dashboard'?'':'none';
+  // Page-specific init
+  if(page==='users')renderUsersPage();
+  if(page==='config')loadConfig2();
+  if(page==='map')renderMapStats();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   STORAGE
+═══════════════════════════════════════════════════════════ */
+function loadFromStorage(){
+  try{
+    const raw=localStorage.getItem('kc_data');
+    if(raw){const o=JSON.parse(raw);SCHOOLS=o.schools||[];CFG=Object.assign(CFG,o.cfg||{});
+      if(SCHOOLS.length>0){
+        setField('cfg-cliente',CFG.clienteNombre);setField('cfg-programa',CFG.programa);
+        setField('cfg-fecha',CFG.fechaInicioISO);setField('cfg-dias',CFG.diasTotal);
+        document.getElementById('last-update').textContent=o.updatedAt||'—';
+        updateSidebarInfo();
+        initDashboard();return;
       }
     }
-  } catch {}
-  document.getElementById('empty-state').style.display = '';
-  document.getElementById('dashboard').style.display = 'none';
+  }catch{}
 }
 
-function saveToStorage() {
-  localStorage.setItem('kc_dash_data', JSON.stringify({
-    schools: SCHOOLS, cfg: CFG, updatedAt: new Date().toLocaleString('es-EC')
-  }));
+function saveToStorage(){
+  localStorage.setItem('kc_data',JSON.stringify({schools:SCHOOLS,cfg:CFG,updatedAt:new Date().toLocaleString('es-EC')}));
+  updateSidebarInfo();
 }
 
-function clearData() {
-  if (!confirm('¿Seguro que quieres borrar todos los datos cargados?')) return;
-  localStorage.removeItem('kc_dash_data');
-  SCHOOLS = [];
-  document.getElementById('dashboard').style.display = 'none';
-  document.getElementById('empty-state').style.display = '';
-  document.getElementById('upload-badge').className = 'badge badge-empty';
-  document.getElementById('upload-badge').textContent = 'Sin datos';
-  document.getElementById('upload-panel').classList.remove('has-data');
+function updateSidebarInfo(){
+  const el=document.getElementById('sb-data-info');
+  if(el){el.innerHTML=SCHOOLS.length>0?`${SCHOOLS.length.toLocaleString('es-EC')} IE cargadas<br>${CFG.clienteNombre} · ${CFG.diasTotal} días`:'Sin datos cargados';}
+}
+
+function clearData(){
+  if(!confirm('¿Borrar todos los datos cargados?'))return;
+  localStorage.removeItem('kc_data');SCHOOLS=[];
+  document.getElementById('dashboard').style.display='none';
+  document.getElementById('empty-state').style.display='';
+  updateSidebarInfo();
+  const ls=document.getElementById('load-status');
+  if(ls)ls.innerHTML='';
   showToast('Datos borrados');
 }
 
-// ─── EXCEL PARSING ────────────────────────────────────────────────────────────
-// Aggressive normalization: lowercase + remove accents + remove all non-alphanumeric
-function normKey(k) {
-  return String(k).toLowerCase()
+/* ═══════════════════════════════════════════════════════════
+   KEY NORMALIZER — strips EVERYTHING non-alphanumeric
+═══════════════════════════════════════════════════════════ */
+function nk(k){
+  return String(k)
+    .toLowerCase()
     .replace(/[áàâäã]/g,'a').replace(/[éèêë]/g,'e')
     .replace(/[íìîï]/g,'i').replace(/[óòôöõ]/g,'o')
     .replace(/[úùûü]/g,'u').replace(/ñ/g,'n')
-    .replace(/[^a-z0-9]/g,'');
+    .replace(/[^a-z0-9]/g,'');  // remove ALL non-alphanumeric
 }
 
-function handleFile(ev) {
-  const file = ev.target.files[0];
-  if (file) loadFile(file);
-  ev.target.value = '';
-}
+/* ═══════════════════════════════════════════════════════════
+   EXCEL PARSER — dynamic header detection
+═══════════════════════════════════════════════════════════ */
+function handleFile(ev){const f=ev.target.files[0];if(f)loadFile(f);ev.target.value='';}
 
-function loadFile(file) {
-  readCfgFromForm();
-  const reader = new FileReader();
-  reader.onload = ev => {
-    try {
-      const data = new Uint8Array(ev.target.result);
-      const wb = XLSX.read(data, { type: 'array', cellDates: true });
+function loadFile(file){
+  readCfgFromForms();
+  const reader=new FileReader();
+  reader.onload=ev=>{
+    try{
+      const wb=XLSX.read(new Uint8Array(ev.target.result),{type:'array',cellDates:true});
 
-      // CONFIG sheet
-      if (wb.SheetNames.includes('CONFIG')) parseCfgSheet(wb.Sheets['CONFIG']);
-
-      // Find data sheet
-      const preferred = ['IE','DATOS','DISTRIBUTIVO','DATA','Sheet1','Hoja1','Hoja 1'];
-      const skip = ['CONFIG','AG','PLANIFICACION','BBD PESOS','PESOS TOTAL','TRANSPORTISTAS'];
-      const sheetName = wb.SheetNames.find(n => preferred.includes(n))
-        || wb.SheetNames.find(n => !skip.includes(n))
+      // Find best sheet: prefer BBD PESOS (has Día), then IE, then first non-config
+      const SKIP=['CONFIG','PLANIFICACION','PESOS TOTAL'];
+      let sheetName = wb.SheetNames.find(n=>n.toUpperCase()==='BBD PESOS')
+        || wb.SheetNames.find(n=>n.toUpperCase()==='IE')
+        || wb.SheetNames.find(n=>!SKIP.includes(n.toUpperCase()))
         || wb.SheetNames[0];
 
-      const rows = XLSX.utils.sheet_to_json(wb.Sheets[sheetName], { defval: null, raw: false });
+      const ws=wb.Sheets[sheetName];
+      // Get as array of arrays
+      const aoa=XLSX.utils.sheet_to_json(ws,{header:1,defval:null,raw:false});
 
-      if (!rows.length) { showToast('El archivo está vacío.', true); return; }
-
-      // DEBUG: show first row keys for troubleshooting
-      const firstKeys = Object.keys(rows[0]);
-      const normKeys = firstKeys.map(k => `"${k}"→"${normKey(k)}"`).slice(0,8).join(', ');
-      console.log('[KrezcoCargo] Columnas detectadas:', normKeys);
-
-      SCHOOLS = rows.map(mapRow).filter(s => s.amie);
-      if (!SCHOOLS.length) { showToast('No se encontraron registros (columna AMIE requerida).', true); return; }
-
-      // Auto diasTotal from max dia
-      const maxDia = Math.max(...SCHOOLS.map(s => s.dia));
-      if (!isNaN(maxDia) && maxDia > 0) {
-        CFG.diasTotal = Math.max(CFG.diasTotal, maxDia);
-        document.getElementById('cfg-dias').value = CFG.diasTotal;
+      // Find header row: first row containing a cell that normalizes to 'amie'
+      let headerRowIdx=-1;
+      for(let i=0;i<Math.min(aoa.length,15);i++){
+        const row=aoa[i];
+        if(row&&row.some(c=>c!=null&&nk(String(c))==='amie')){headerRowIdx=i;break;}
       }
 
-      saveToStorage();
-      initDashboard();
-      showToast(`✓ ${SCHOOLS.length.toLocaleString('es-EC')} IE cargadas — ${file.name}`);
-    } catch (e) {
-      showToast('Error al leer el archivo: ' + e.message, true);
-      console.error(e);
-    }
+      if(headerRowIdx<0){
+        // Fallback: try PLANIFICACION sheet
+        const ws2=wb.Sheets['PLANIFICACION']||wb.Sheets[wb.SheetNames[0]];
+        const aoa2=XLSX.utils.sheet_to_json(ws2,{header:1,defval:null,raw:false});
+        for(let i=0;i<Math.min(aoa2.length,15);i++){
+          if(aoa2[i]&&aoa2[i].some(c=>c!=null&&nk(String(c))==='amie')){
+            headerRowIdx=i;
+            const rows=buildRows(aoa2,headerRowIdx);
+            processRows(rows,file.name);return;
+          }
+        }
+        showToast('No se encontró columna AMIE en el archivo.',true);return;
+      }
+
+      const rows=buildRows(aoa,headerRowIdx);
+      processRows(rows,file.name);
+
+    }catch(e){showToast('Error: '+e.message,true);console.error(e);}
   };
   reader.readAsArrayBuffer(file);
 }
 
-function parseCfgSheet(ws) {
-  const rows = XLSX.utils.sheet_to_json(ws, { header: 1 });
-  rows.forEach(r => {
-    if (!r[0]) return;
-    const k = normKey(String(r[0]));
-    const v = r[1] != null ? String(r[1]).trim() : '';
-    if (k.includes('cliente')) { CFG.clienteNombre = v; document.getElementById('cfg-cliente').value = v; }
-    else if (k.includes('programa')) { CFG.programa = v; document.getElementById('cfg-programa').value = v; }
-    else if (k.includes('fecha')) { CFG.fechaInicioISO = v; document.getElementById('cfg-fecha').value = v; }
-    else if (k.includes('dia') || k.includes('dias')) { CFG.diasTotal = parseInt(v)||10; document.getElementById('cfg-dias').value = CFG.diasTotal; }
-  });
+function buildRows(aoa,headerRowIdx){
+  const headers=aoa[headerRowIdx].map(h=>h!=null?String(h).trim():'');
+  // Print debug info
+  const diaColIdx=headers.findIndex(h=>nk(h)==='dia'||nk(h)==='diaprogramado'||nk(h)==='diadeentrega'||nk(h)==='ndia'||nk(h)==='numerodedia');
+  console.log(`[KC] Header row: ${headerRowIdx} | Cols: ${headers.filter(Boolean).slice(0,12).join(', ')}`);
+  console.log(`[KC] DIA column: idx=${diaColIdx}, name="${headers[diaColIdx]}"`);
+
+  return aoa.slice(headerRowIdx+1)
+    .filter(r=>r&&r.some(c=>c!=null&&String(c).trim()!=''))
+    .map(r=>{
+      const obj={};
+      headers.forEach((h,i)=>{if(h)obj[h]=r[i]??null;});
+      return obj;
+    });
 }
 
-function mapRow(row) {
-  // Build normalized lookup
-  const n = {};
-  Object.keys(row).forEach(k => { n[normKey(k)] = row[k]; });
+function processRows(rows,fname){
+  if(!rows.length){showToast('El archivo no tiene datos.',true);return;}
+  SCHOOLS=rows.map(mapRow).filter(s=>s.amie);
+  if(!SCHOOLS.length){showToast('No se encontraron registros válidos.',true);return;}
 
-  const nv = keys => { for (const k of keys) if (n[k] != null && n[k] !== '') return n[k]; return null; };
-  const nvS = (keys, d='') => { const v = nv(keys); return v != null ? String(v).trim() : d; };
-  const nvI = (keys, d=0) => { const v = nv(keys); const x = parseInt(String(v).replace(/[^0-9\-]/g,'')); return isNaN(x) ? d : x; };
-  const nvF = (keys, d=0) => { const v = nv(keys); const x = parseFloat(String(v).replace(',','.')); return isNaN(x) ? d : x; };
+  const maxDia=Math.max(...SCHOOLS.map(s=>s.dia).filter(d=>d>0));
+  if(!isNaN(maxDia)&&maxDia>0&&maxDia>CFG.diasTotal){
+    CFG.diasTotal=maxDia;
+    setField('cfg-dias',maxDia);
+  }
 
-  const amie = nvS(['amie','codigo','codigoamie','codigoinst','codeamie']);
-  if (!amie) return { amie: null };
+  // Show dias distribution for debug
+  const dCounts={};SCHOOLS.forEach(s=>{dCounts[s.dia]=(dCounts[s.dia]||0)+1;});
+  console.log('[KC] Dia distribution:',JSON.stringify(dCounts));
 
-  const est = nvI(['estudiantes','total','totalestud','numestudiantes','nroestudiantes','alumnos'], 0);
-  const rac = nvI(['raciones','racion','numraciones'], est * 20);
-  const peso = nvF(['pesokg','peso','pesototal','pesoentrega'], est * 4.12);
+  saveToStorage();
+  initDashboard();
 
-  // DIA column - very broad detection
-  const diaRaw = nv([
-    'diaprogramado','dia','diaentrega','diadistribucion','diaruta',
-    'ndia','numerodedia','ndiaprogramado','ndiaentrega',
-    'programaciondia','diaoperacion','diaprog','diaprogramacion',
-    'nrodedia','numdia','ndedia'
+  const ls=document.getElementById('load-status');
+  if(ls)ls.innerHTML=`<div class="status-alert alert-ok">✓ ${SCHOOLS.length.toLocaleString('es-EC')} instituciones cargadas desde "${fname}" · Días detectados: ${Object.keys(dCounts).sort((a,b)=>+a-+b).join(', ')}</div>`;
+  showToast(`✓ ${SCHOOLS.length.toLocaleString('es-EC')} IE · días 1-${maxDia}`);
+}
+
+function mapRow(row){
+  const n={};
+  Object.keys(row).forEach(k=>{n[nk(k)]=row[k];});
+
+  const nv=keys=>{for(const k of keys)if(n[k]!=null&&n[k]!=='')return n[k];return null;};
+  const nvS=(keys,d='')=>{const v=nv(keys);return v!=null?String(v).trim():d;};
+  const nvI=(keys,d=0)=>{const v=nv(keys);if(v==null)return d;const x=parseInt(String(v).replace(/[^0-9\-]/g,''));return isNaN(x)?d:x;};
+  const nvF=(keys,d=0)=>{const v=nv(keys);if(v==null)return d;const x=parseFloat(String(v).replace(',','.'));return isNaN(x)?d:x;};
+
+  const amie=nvS(['amie','codigo','codigoamie','codigoinst']);
+  if(!amie)return{amie:null};
+
+  const est=nvI(['total','estudiantes','totalestud','numestudiantes'],0);
+  const rac=nvI(['raciones','totalraciones','racion','numraciones'],est*20);
+  const peso=nvF(['pesokg','peso','pesototal'],est*4.12);
+
+  // DIA — very broad detection
+  const diaRaw=nv([
+    // exact normalized matches:
+    'dia','diaprogramado','diaentrega','diadistribucion','ndiaentrega',
+    'ndia','numerodedia','ndiadistribucion','diaruta','programaciondia',
+    'diaoperacion','nrodedia','numdia','ndiaprogramado','diadistrib',
+    // the actual column found: 'Día' -> 'dia' already covered
   ]);
-  const dia = diaRaw != null ? (parseInt(String(diaRaw).replace(/[^0-9]/g,'')) || 1) : 1;
+  let dia=1;
+  if(diaRaw!=null){
+    const parsed=parseInt(String(diaRaw).replace(/[^0-9]/g,''));
+    if(!isNaN(parsed)&&parsed>0)dia=parsed;
+  }
 
-  const eRaw = nvS(['estado','statusentrega','statustatus','estatus'],'pendiente').toLowerCase();
-  const eMap = { entregada:'entregada',entregado:'entregada',delivered:'entregada',
-                 en_ruta:'en_ruta','en ruta':'en_ruta',enruta:'en_ruta',ruta:'en_ruta',inroute:'en_ruta',
-                 pendiente:'pendiente',pending:'pendiente',
-                 problema:'problema',problem:'problema',novedad:'problema',issue:'problema' };
-  const estado = eMap[eRaw] || 'pendiente';
+  const eRaw=nvS(['estado','statuentrega','status','statusentrega'],'pendiente').toLowerCase().replace(/\s+/g,'_');
+  const eMap={entregada:'entregada',entregado:'entregada',delivered:'entregada',
+               en_ruta:'en_ruta',enruta:'en_ruta',ruta:'en_ruta',
+               pendiente:'pendiente',pending:'pendiente',
+               problema:'problema',problem:'problema',novedad:'problema'};
+  const estado=eMap[eRaw]||'pendiente';
 
-  return {
-    amie,
-    nombre: nvS(['nombreinstitucion','nombre','nombrecolegio','nombreescuela','institucion','nameinstitution']),
-    prov: nvS(['provincia','prov','provincianombre','nombrprov']).toUpperCase(),
-    canton: nvS(['canton','cantonnombre','nombrecanton']),
-    parr: nvS(['parroquia','parr','parroquianombre','nombreparroquia']),
-    acceso: nvS(['formadeacceso','formaacceso','acceso','tipoacceso','tipodeviaacceso','tipovia'],'Terrestre'),
-    estudiantes: est, raciones: rac, peso_kg: peso, dia, estado,
-    fecha_real: nvS(['fechareal','fecharealentreg','fechaentrega']),
-    hora: nvS(['hora','horaentrega','horareal']),
-    transportista: nvS(['transportista','nombretransportista','transportador']),
-    placa: nvS(['placa','placavehiculo','vehiculo']),
-    notas: nvS(['notas','observaciones','comentarios','novedad']),
-  };
+  return{amie,nombre:nvS(['nombreinstitucion','nombre','institucion','nombrecolegio']),
+    prov:nvS(['provincia','prov']).toUpperCase(),canton:nvS(['canton']),parr:nvS(['parroquia','parr']),
+    acceso:nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre'),
+    estudiantes:est,raciones:rac,peso_kg:peso,dia,estado,
+    fecha_real:nvS(['fechareal','fechaentrega']),hora:nvS(['hora','horaentrega']),
+    transportista:nvS(['transportista','nombretransportista']),
+    placa:nvS(['placa','placavehiculo']),notas:nvS(['notas','observaciones','comentarios'])};
 }
 
-// ─── CONFIG ───────────────────────────────────────────────────────────────────
-function readCfgFromForm() {
-  CFG.clienteNombre = document.getElementById('cfg-cliente').value.trim() || 'Cliente';
-  CFG.programa = document.getElementById('cfg-programa').value.trim() || 'Programa';
-  CFG.fechaInicioISO = document.getElementById('cfg-fecha').value || isoToday();
-  CFG.diasTotal = parseInt(document.getElementById('cfg-dias').value) || 10;
+/* ═══════════════════════════════════════════════════════════
+   CONFIG
+═══════════════════════════════════════════════════════════ */
+function readCfgFromForms(){
+  CFG.clienteNombre=document.getElementById('cfg-cliente').value.trim()||'Cliente';
+  CFG.programa=document.getElementById('cfg-programa').value.trim()||'Programa';
+  CFG.fechaInicioISO=document.getElementById('cfg-fecha').value||isoToday();
+  CFG.diasTotal=parseInt(document.getElementById('cfg-dias').value)||10;
 }
 
-function applyConfig() {
-  readCfgFromForm();
-  if (SCHOOLS.length > 0) { saveToStorage(); initDashboard(); showToast('✓ Configuración aplicada'); }
+function applyConfig(){
+  readCfgFromForms();
+  if(SCHOOLS.length>0){saveToStorage();initDashboard();showToast('✓ Configuración aplicada');}
   else showToast('Carga primero un archivo Excel');
 }
 
-function isoToday() { return new Date().toISOString().slice(0,10); }
-
-// ─── UPLOAD TOGGLE ────────────────────────────────────────────────────────────
-function toggleUpload() {
-  const b = document.getElementById('upload-body');
-  const c = document.getElementById('upload-chev');
-  const open = b.style.display !== 'none';
-  b.style.display = open ? 'none' : '';
-  c.classList.toggle('open', !open);
+function loadConfig2(){
+  setField('cfg2-cliente',CFG.clienteNombre);
+  setField('cfg2-programa',CFG.programa);
+  setField('cfg2-fecha',CFG.fechaInicioISO);
+  setField('cfg2-dias',CFG.diasTotal);
+  const ss=document.getElementById('sys-stats');
+  if(ss)ss.innerHTML=`
+    Instituciones cargadas: <strong>${SCHOOLS.length.toLocaleString('es-EC')}</strong><br>
+    Cliente: <strong>${CFG.clienteNombre}</strong><br>
+    Programa: <strong>${CFG.programa}</strong><br>
+    Período: <strong>${CFG.fechaInicioISO} → ${addDays(CFG.fechaInicioISO,CFG.diasTotal-1)}</strong> (${CFG.diasTotal} días)<br>
+    Raciones totales: <strong>${SCHOOLS.reduce((a,s)=>a+s.raciones,0).toLocaleString('es-EC')}</strong><br>
+    Última actualización: <strong>${document.getElementById('last-update').textContent}</strong>`;
 }
 
-// Drop zone
-window.addEventListener('DOMContentLoaded', () => {
-  const dz = document.getElementById('drop-zone');
-  if (dz) {
-    dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('dragover'); });
-    dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
-    dz.addEventListener('drop', e => {
-      e.preventDefault(); dz.classList.remove('dragover');
-      const f = e.dataTransfer.files[0]; if (f) loadFile(f);
-    });
-  }
+function saveConfig2(){
+  CFG.clienteNombre=document.getElementById('cfg2-cliente').value.trim()||CFG.clienteNombre;
+  CFG.programa=document.getElementById('cfg2-programa').value.trim()||CFG.programa;
+  CFG.fechaInicioISO=document.getElementById('cfg2-fecha').value||CFG.fechaInicioISO;
+  CFG.diasTotal=parseInt(document.getElementById('cfg2-dias').value)||CFG.diasTotal;
+  setField('cfg-cliente',CFG.clienteNombre);setField('cfg-programa',CFG.programa);
+  setField('cfg-fecha',CFG.fechaInicioISO);setField('cfg-dias',CFG.diasTotal);
+  if(SCHOOLS.length>0){saveToStorage();initDashboard();}
+  showToast('✓ Configuración guardada');loadConfig2();
+}
 
-  // Set today's date
-  const t = isoToday();
-  document.getElementById('cfg-fecha').value = t;
-
-  // Restore session or show login
-  if (restoreSession()) { showPage('dashboard'); }
-  else { showPage('login'); }
-});
-
-// ─── INIT DASHBOARD ───────────────────────────────────────────────────────────
-function initDashboard() {
-  readCfgFromForm();
-  const totalRac = SCHOOLS.reduce((a,s)=>a+s.raciones,0);
-  const provs = [...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))];
-
-  document.getElementById('hdr-title').textContent = `${CFG.clienteNombre} · ${CFG.programa}`;
-  document.getElementById('hdr-sub').textContent = `${SCHOOLS.length.toLocaleString('es-EC')} IE · ${provs.length} provincias · ${fmtN(totalRac)} raciones`;
-
-  document.getElementById('upload-badge').className = 'badge badge-ok';
-  document.getElementById('upload-badge').textContent = `${SCHOOLS.length.toLocaleString('es-EC')} IE`;
-  document.getElementById('upload-panel').classList.add('has-data');
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD INIT
+═══════════════════════════════════════════════════════════ */
+function initDashboard(){
+  const totalRac=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
+  const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))];
+  document.getElementById('tb-title').textContent=`${CFG.clienteNombre} · ${CFG.programa}`;
+  document.getElementById('tb-sub').textContent=`${SCHOOLS.length.toLocaleString('es-EC')} IE · ${provs.length} provincias · ${fmtN(totalRac)} raciones`;
 
   // Date picker
-  const dp = document.getElementById('date-pick');
-  dp.min = CFG.fechaInicioISO;
-  dp.max = addDays(CFG.fechaInicioISO, CFG.diasTotal-1);
-  dp.value = CFG.fechaInicioISO;
-  dp.onchange = () => { ST.dia = diaForDate(dp.value); renderAll(); };
-  document.getElementById('prev-day').disabled = false;
-  document.getElementById('next-day').disabled = false;
-  document.getElementById('prev-day').onclick = () => { if(ST.dia>1){ST.dia--;syncDP();renderAll();} };
-  document.getElementById('next-day').onclick = () => { if(ST.dia<CFG.diasTotal){ST.dia++;syncDP();renderAll();} };
+  const dp=document.getElementById('date-pick');
+  dp.min=CFG.fechaInicioISO;
+  dp.max=addDays(CFG.fechaInicioISO,CFG.diasTotal-1);
+  dp.value=CFG.fechaInicioISO;
+  dp.onchange=()=>{ST.dia=diaForDate(dp.value);renderAll();};
+  document.getElementById('date-ctrl').style.display='';
+  document.getElementById('prev-day').disabled=false;
+  document.getElementById('next-day').disabled=false;
+  document.getElementById('prev-day').onclick=()=>{if(ST.dia>1){ST.dia--;syncDP();renderAll();}};
+  document.getElementById('next-day').onclick=()=>{if(ST.dia<CFG.diasTotal){ST.dia++;syncDP();renderAll();}};
 
   // Province chips
-  const pc = document.getElementById('prov-chips');
-  const sortedProvs = [...provs].sort();
-  pc.innerHTML = `<span class="chip active" data-pv="ALL" onclick="setProv(this,'ALL')">Todas</span>`
-    + sortedProvs.map(p=>`<span class="chip" data-pv="${p}" onclick="setProv(this,'${esc(p)}')">${cap(p)}</span>`).join('');
+  const sortedProvs=[...provs].sort();
+  document.getElementById('prov-chips').innerHTML=
+    `<span class="chip active" data-pv="ALL" onclick="setProv(this,'ALL')">Todas</span>`
+    +sortedProvs.map(p=>`<span class="chip" data-pv="${esc(p)}" onclick="setProv(this,'${esc(p)}')">${cap(p)}</span>`).join('');
 
-  ST.dia = 1; syncDP();
-
-  document.getElementById('upload-body').style.display = 'none';
-  document.getElementById('upload-chev').classList.remove('open');
-  document.getElementById('empty-state').style.display = 'none';
-  document.getElementById('dashboard').style.display = '';
-
+  ST.dia=1;syncDP();
+  document.getElementById('empty-state').style.display='none';
+  document.getElementById('dashboard').style.display='';
   renderAll();
 }
 
-// ─── RENDER ───────────────────────────────────────────────────────────────────
-function renderAll() {
-  renderDiaTrack();
-  renderRaciones();
-  renderKpis();
-  renderProvBars();
-  renderDonut();
-  renderTable();
+/* ═══════════════════════════════════════════════════════════
+   RENDER
+═══════════════════════════════════════════════════════════ */
+function renderAll(){renderDiaTrack();renderRaciones();renderKpis();renderProvBars();renderDonut();renderTable();}
+
+function syncDP(){
+  const iso=d2i(ST.dia);
+  document.getElementById('date-pick').value=iso;
+  document.getElementById('day-tag').textContent=`DÍA ${ST.dia}`;
 }
 
-function syncDP() {
-  const iso = dia2iso(ST.dia);
-  document.getElementById('date-pick').value = iso;
-  document.getElementById('day-tag').textContent = `DÍA ${ST.dia}`;
-}
-
-function dia2iso(d) {
-  const [y,m,dd] = CFG.fechaInicioISO.split('-').map(Number);
-  const dt = new Date(y,m-1,dd); dt.setDate(dt.getDate()+(d-1));
+function d2i(d){
+  const [y,m,dd]=CFG.fechaInicioISO.split('-').map(Number);
+  const dt=new Date(y,m-1,dd);dt.setDate(dt.getDate()+(d-1));
   return dt.toISOString().slice(0,10);
 }
+function addDays(iso,n){const[y,m,d]=iso.split('-').map(Number);const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()+n);return dt.toISOString().slice(0,10);}
+function diaForDate(iso){const[y1,m1,d1]=CFG.fechaInicioISO.split('-').map(Number);const[y2,m2,d2]=iso.split('-').map(Number);const diff=Math.round((new Date(y2,m2-1,d2)-new Date(y1,m1-1,d1))/86400000);return Math.max(1,Math.min(CFG.diasTotal,diff+1));}
+function fmtS(iso){const[,m,d]=iso.split('-').map(Number);return`${d} ${MONTHS[m-1]}`;}
+function fmtF(iso){const[y,m,d]=iso.split('-').map(Number);const dt=new Date(y,m-1,d);return`${WD[dt.getDay()]} ${d} de ${MONTHS_F[m-1]}`;}
+function fmtN(n){if(n>=1e6)return(n/1e6).toFixed(2).replace('.',',')+' M';if(n>=1e3)return(n/1e3).toFixed(1).replace('.',',')+' K';return n.toLocaleString('es-EC');}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function cap(s){return String(s).split(' ').map(w=>w?w[0]+w.slice(1).toLowerCase():'').join(' ');}
+function setText(id,t){const e=document.getElementById(id);if(e)e.textContent=t;}
+function setHTML(id,h){const e=document.getElementById(id);if(e)e.innerHTML=h;}
+function setField(id,v){const e=document.getElementById(id);if(e)e.value=v;}
+function isoToday(){return new Date().toISOString().slice(0,10);}
 
-function addDays(iso,n) {
-  const [y,m,d] = iso.split('-').map(Number);
-  const dt = new Date(y,m-1,d); dt.setDate(dt.getDate()+n);
-  return dt.toISOString().slice(0,10);
+function renderRaciones(){
+  const tot=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
+  const ent=SCHOOLS.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+  const rut=SCHOOLS.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
+  const pend=tot-ent-rut;
+  const pe=tot>0?(ent/tot*100).toFixed(1):0;
+  const pr=tot>0?(rut/tot*100).toFixed(1):0;
+  const pp=tot>0?(pend/tot*100).toFixed(1):100;
+  setText('rac-total',fmtN(tot));setText('rac-total-ie',`${SCHOOLS.length.toLocaleString('es-EC')} instituciones`);
+  setText('rac-ent',fmtN(ent));setText('rac-ent-p',`${pe}% del programa`);
+  setText('rac-ruta',fmtN(rut));setText('rac-ruta-p',`${pr}% del programa`);
+  setText('rac-pend',fmtN(pend));setText('rac-pend-p',`${pp}% restante`);
+  setText('rac-bar-r',`${pe}% entregado`);
+  document.getElementById('rfill-e').style.width=pe+'%';
+  document.getElementById('rfill-r').style.width=pr+'%';
 }
 
-function diaForDate(iso) {
-  const [y1,m1,d1] = CFG.fechaInicioISO.split('-').map(Number);
-  const [y2,m2,d2] = iso.split('-').map(Number);
-  const diff = Math.round((new Date(y2,m2-1,d2)-new Date(y1,m1-1,d1))/86400000);
-  return Math.max(1, Math.min(CFG.diasTotal, diff+1));
-}
-
-function fmtShort(iso) { const [,m,d]=iso.split('-').map(Number); return `${d} ${MONTHS[m-1]}`; }
-function fmtFull(iso)  { const [y,m,d]=iso.split('-').map(Number); const dt=new Date(y,m-1,d); return `${WEEKDAYS[dt.getDay()]} ${d} de ${MONTHS_F[m-1]}`; }
-function fmtN(n) { if(n>=1e6)return(n/1e6).toFixed(2).replace('.',',')+' M'; if(n>=1e3)return(n/1e3).toFixed(1).replace('.',',')+' K'; return n.toLocaleString('es-EC'); }
-function fmtNFull(n) { return n.toLocaleString('es-EC'); }
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function cap(s) { return String(s).split(' ').map(w=>w?w[0]+w.slice(1).toLowerCase():w).join(' '); }
-function setText(id,t) { const e=document.getElementById(id); if(e) e.textContent=t; }
-function setHTML(id,h) { const e=document.getElementById(id); if(e) e.innerHTML=h; }
-
-function renderRaciones() {
-  const totRac = SCHOOLS.reduce((a,s)=>a+s.raciones,0);
-  const totIE = SCHOOLS.length;
-  const entRac = SCHOOLS.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
-  const rutRac = SCHOOLS.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
-  const pendRac = totRac - entRac - rutRac;
-  const pctEnt = totRac>0?(entRac/totRac*100).toFixed(1):0;
-  const pctRut = totRac>0?(rutRac/totRac*100).toFixed(1):0;
-  const pctPend = totRac>0?((pendRac)/totRac*100).toFixed(1):100;
-
-  setText('rac-total', fmtN(totRac));
-  setText('rac-total-ie', `${totIE.toLocaleString('es-EC')} instituciones`);
-  setText('rac-ent', fmtN(entRac));
-  setText('rac-ent-pct', `${pctEnt}% del programa`);
-  setText('rac-ruta', fmtN(rutRac));
-  setText('rac-ruta-pct', `${pctRut}% del programa`);
-  setText('rac-pend', fmtN(pendRac));
-  setText('rac-pend-pct', `${pctPend}% restante`);
-  setText('rac-prog-pct', `${pctEnt}% entregado`);
-  document.getElementById('rac-prog-ent').style.width = pctEnt+'%';
-  document.getElementById('rac-prog-rut').style.width = pctRut+'%';
-}
-
-function renderDiaTrack() {
-  const track = document.getElementById('dia-track');
-  let h='';
+function renderDiaTrack(){
+  const t=document.getElementById('dia-track');let h='';
   for(let i=1;i<=CFG.diasTotal;i++){
-    const iso=dia2iso(i);
-    const cls = i<ST.dia?'past':i===ST.dia?'current':'';
+    const iso=d2i(i);const cls=i<ST.dia?'past':i===ST.dia?'current':'';
     const dl=SCHOOLS.filter(s=>s.dia===i);
-    const rac=dl.reduce((a,s)=>a+s.raciones,0);
-    h+=`<div class="dia-cell ${cls}" onclick="selDia(${i})">${i}<div class="tip">Día ${i} · ${fmtShort(iso)} · ${dl.length} IE · ${fmtN(rac)} rac</div></div>`;
+    h+=`<div class="dia-cell ${cls}" onclick="selDia(${i})">${i}<div class="tip">Día ${i}·${fmtS(iso)}·${dl.length} IE</div></div>`;
   }
-  track.innerHTML=h;
+  t.innerHTML=h;
+}
+function selDia(d){ST.dia=d;syncDP();renderAll();}
+
+function renderKpis(){
+  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia===c);
+  let nE=0,nR=0,nP=0,nPr=0,rE=0,rR=0,rP=0,tP=0;const m={};
+  dl.forEach(s=>{if(s.estado==='entregada'){nE++;rE+=s.raciones;}else if(s.estado==='en_ruta'){nR++;rR+=s.raciones;m[s.acceso]=(m[s.acceso]||0)+1;}else if(s.estado==='problema')nPr++;else{nP++;rP+=s.raciones;tP+=s.peso_kg/1000;}});
+  const iso=d2i(c),tot=SCHOOLS.length;
+  setText('kp1',dl.length.toLocaleString('es-EC'));setText('kp1a',`${(dl.length/Math.max(1,tot)*100).toFixed(1)}% del programa · Día ${c}/${CFG.diasTotal}`);setText('kp1b',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones`);
+  setText('kp2',nE.toLocaleString('es-EC'));setText('kp2a',`${(nE/Math.max(1,dl.length)*100).toFixed(0)}% del plan del día`);setText('kp2b',`${fmtN(rE)} raciones entregadas`);
+  setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a',Object.keys(m).join(' · ')||'—');setText('kp3b',`${fmtN(rR)} raciones en ruta`);
+  setText('kp4',(nP+nPr).toLocaleString('es-EC'));setText('kp4a',`${tP.toFixed(1)} TON por despachar`);setText('kp4b',`${fmtN(rP)} raciones pendientes`);
+  setHTML('day-summary',`Día ${c} <small>de ${CFG.diasTotal} · ${fmtF(iso)}</small>`);
+  let cI=0,cR=0;for(let i=1;i<=c;i++){const x=SCHOOLS.filter(s=>s.dia===i);cI+=x.length;cR+=x.reduce((a,s)=>a+s.raciones,0);}
+  setHTML('cum-summary',`${cI.toLocaleString('es-EC')} <small>de ${tot} IE · ${(cI/Math.max(1,tot)*100).toFixed(1)}%</small>`);
+  setText('tbl-day',`Día ${c} · ${fmtF(iso)}`);setText('d-dia',c);
 }
 
-function selDia(d) { ST.dia=d; syncDP(); renderAll(); }
-
-function renderKpis() {
-  const c=ST.dia;
-  const dl=SCHOOLS.filter(s=>s.dia===c);
-  let nE=0,nR=0,nP=0,nPr=0,rE=0,rR=0,rP=0,tP=0;
-  const modos={};
-  dl.forEach(s=>{
-    if(s.estado==='entregada'){nE++;rE+=s.raciones;}
-    else if(s.estado==='en_ruta'){nR++;rR+=s.raciones;modos[s.acceso]=(modos[s.acceso]||0)+1;}
-    else if(s.estado==='problema'){nPr++;}
-    else{nP++;rP+=s.raciones;tP+=s.peso_kg/1000;}
-  });
-  const tot=SCHOOLS.length;
-  const iso=dia2iso(c);
-
-  setText('kpi-plan',dl.length.toLocaleString('es-EC'));
-  setText('kpi-plan-d',`${(dl.length/Math.max(1,tot)*100).toFixed(1)}% del programa · Día ${c}/${CFG.diasTotal}`);
-  setText('kpi-plan-rac',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones`);
-
-  setText('kpi-ent',nE.toLocaleString('es-EC'));
-  setText('kpi-ent-d',`${(nE/Math.max(1,dl.length)*100).toFixed(0)}% del plan del día`);
-  setText('kpi-ent-rac',`${fmtN(rE)} raciones entregadas`);
-
-  setText('kpi-ruta',nR.toLocaleString('es-EC'));
-  setText('kpi-ruta-d',Object.keys(modos).join(' · ')||'—');
-  setText('kpi-ruta-rac',`${fmtN(rR)} raciones en ruta`);
-
-  setText('kpi-pend',(nP+nPr).toLocaleString('es-EC'));
-  setText('kpi-pend-d',`${tP.toFixed(1)} TON por despachar`);
-  setText('kpi-pend-rac',`${fmtN(rP)} raciones pendientes`);
-
-  setHTML('day-summary',`Día ${c} <small>de ${CFG.diasTotal} · ${fmtFull(iso)}</small>`);
-
-  let cIE=0,cRac=0;
-  for(let i=1;i<=c;i++){const x=SCHOOLS.filter(s=>s.dia===i);cIE+=x.length;cRac+=x.reduce((a,s)=>a+s.raciones,0);}
-  setHTML('cum-summary',`${cIE.toLocaleString('es-EC')} <small>de ${tot} IE · ${(cIE/Math.max(1,tot)*100).toFixed(1)}%</small>`);
-
-  setText('tbl-day',`Día ${c} · ${fmtFull(iso)}`);
-  setText('donut-dia',c);
-}
-
-function renderProvBars() {
+function renderProvBars(){
   const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))].sort();
-  let h='';
-  provs.forEach(p=>{
-    const list=SCHOOLS.filter(s=>s.prov===p);
-    const ent=list.filter(s=>s.estado==='entregada').length;
-    const tot=list.length;
-    const pct=tot>0?(ent/tot*100).toFixed(0):0;
-    const rac=list.reduce((a,s)=>a+s.raciones,0);
-    const name=cap(p);
-    h+=`<div class="bar-row">
-      <div class="bar-name">${name}<span class="s">${tot} IE</span></div>
-      <div class="bar-track"><div class="bar-fill${ent>0?' g':''}" style="width:${Math.max(pct,0)}%">${pct>10?pct+'%':''}</div></div>
-      <div class="bar-val">${ent}/${tot}<span class="s">${fmtN(rac)} rac</span></div>
-    </div>`;
-  });
-  document.getElementById('prov-bars').innerHTML=h||'<div style="padding:10px;color:var(--gray-600);font-size:11px">Sin datos de provincias</div>';
-  setText('prov-desc',`${provs.length} provincias · avance acumulado`);
+  document.getElementById('prov-bars').innerHTML=provs.map(p=>{
+    const l=SCHOOLS.filter(s=>s.prov===p),e=l.filter(s=>s.estado==='entregada').length,t=l.length;
+    const pct=t>0?(e/t*100).toFixed(0):0,rac=l.reduce((a,s)=>a+s.raciones,0);
+    return`<div class="brow"><div class="bname">${cap(p)}<span class="s">${t} IE</span></div><div class="btrack"><div class="bfill${e>0?' g':''}" style="width:${Math.max(pct,0)}%">${pct>12?pct+'%':''}</div></div><div class="bval">${e}/${t}<span class="s">${fmtN(rac)} rac</span></div></div>`;
+  }).join('')||'<div style="padding:10px;font-size:11px;color:var(--gray-600)">Sin datos</div>';
 }
 
-function renderDonut() {
-  const c=ST.dia;
-  const dl=SCHOOLS.filter(s=>s.dia===c);
-  const tot=dl.length;
-  const nE=dl.filter(s=>s.estado==='entregada').length;
-  const nR=dl.filter(s=>s.estado==='en_ruta').length;
-  const nPr=dl.filter(s=>s.estado==='problema').length;
-  const nP=tot-nE-nR-nPr;
+function renderDonut(){
+  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia===c),tot=dl.length;
+  const nE=dl.filter(s=>s.estado==='entregada').length,nR=dl.filter(s=>s.estado==='en_ruta').length;
+  const nPr=dl.filter(s=>s.estado==='problema').length,nP=tot-nE-nR-nPr;
   const C=2*Math.PI*65;
-
-  const draw=(id,pct,off)=>{
-    const d=pct/100*C;
-    const el=document.getElementById(id);
-    if(el){el.setAttribute('stroke-dasharray',`${d} ${C-d}`);el.setAttribute('stroke-dashoffset',-off);}
-    return d;
-  };
+  const draw=(id,pct,off)=>{const d=pct/100*C;const el=document.getElementById(id);if(el){el.setAttribute('stroke-dasharray',`${d} ${C-d}`);el.setAttribute('stroke-dashoffset',-off);}return d;};
   let off=0;
-  off+=draw('d-ent',tot>0?nE/tot*100:0,off);
-  off+=draw('d-rut',tot>0?nR/tot*100:0,off);
-  off+=draw('d-prob',tot>0?nPr/tot*100:0,off);
-
+  off+=draw('d-e',tot>0?nE/tot*100:0,off);
+  off+=draw('d-r',tot>0?nR/tot*100:0,off);
+  off+=draw('d-p',tot>0?nPr/tot*100:0,off);
   setText('d-cv',tot.toLocaleString('es-EC'));
-  setHTML('donut-legend',[
-    ['Entregada','#1F9D55',nE],['En ruta','#F47C20',nR],['Pendiente','#9AA4B8',nP],['Problema','#DC2626',nPr]
-  ].map(([label,color,count])=>`
-    <div class="leg-row">
-      <div class="leg-dot" style="background:${color}"></div>
-      <div class="leg-name">${label}</div>
-      <div style="font-size:10px;color:var(--gray-600)">${count} IE</div>
-      <div class="leg-pct">${tot>0?(count/tot*100).toFixed(0):0}%</div>
-    </div>`).join(''));
-  setText('donut-desc',`Día ${c} · ${tot} IE planificadas`);
+  setHTML('donut-leg',[['Entregada','#1F9D55',nE],['En ruta','#F47C20',nR],['Pendiente','#9AA4B8',nP],['Problema','#DC2626',nPr]].map(([l,c,n])=>`<div class="dr"><div class="ddot" style="background:${c}"></div><div class="dname">${l}</div><div style="font-size:9px;color:var(--gray-600)">${n} IE</div><div class="dpct">${tot>0?(n/tot*100).toFixed(0):0}%</div></div>`).join(''));
+  setText('donut-sub',`Día ${c} · ${tot} IE planificadas`);
 }
 
-function renderTable() {
+function renderTable(){
   const c=ST.dia;
   const rows=SCHOOLS.filter(s=>{
     if(ST.scope==='DAY'&&s.dia!==c)return false;
@@ -1119,110 +1044,105 @@ function renderTable() {
   });
   const ord={en_ruta:0,problema:1,pendiente:2,entregada:3};
   rows.sort((a,b)=>(ord[a.estado]||2)-(ord[b.estado]||2));
-  const CAP=300;
-  const disp=rows.slice(0,CAP);
-  const tTon=rows.reduce((a,s)=>a+s.peso_kg/1000,0);
-  const tRac=rows.reduce((a,s)=>a+s.raciones,0);
-  const sLbl={entregada:'Entregada',en_ruta:'En ruta',pendiente:'Pendiente',problema:'Problema'};
+  const CAP=300,disp=rows.slice(0,CAP);
   const aClass={'Terrestre':'aT','Aérea':'aA','Fluvial':'aF'};
-
-  document.getElementById('tbody').innerHTML=disp.map(s=>{
-    const iso=dia2iso(s.dia);
-    const aC=aClass[s.acceso]||'aT';
-    return `<tr>
-      <td><span class="amie">${esc(s.amie)}</span></td>
-      <td><div class="sname" title="${esc(s.nombre)}">${esc(s.nombre)}</div><div class="muted">${esc(s.prov)}</div></td>
-      <td>${esc(s.canton)}<div class="muted">${esc(s.parr)}</div></td>
-      <td><span class="atag ${aC}">${esc(s.acceso)}</span></td>
-      <td style="text-align:right;font-weight:600">${s.estudiantes.toLocaleString('es-EC')}</td>
-      <td style="text-align:right;font-weight:600">${(s.peso_kg/1000).toFixed(2)}<span class="muted"> T</span></td>
-      <td style="text-align:right;font-weight:600">${s.raciones.toLocaleString('es-EC')}</td>
-      <td><span class="spill s-${s.estado}">${sLbl[s.estado]||s.estado}</span>${s.notas?`<div class="muted" style="max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${esc(s.notas)}">📌 ${esc(s.notas)}</div>`:''}</td>
-      <td><div style="font-weight:600;font-size:10px">${fmtShort(iso)}<div class="muted">Día ${s.dia}${s.hora?' · '+esc(s.hora):''}</div></div></td>
-      <td style="font-size:10px;color:var(--gray-600)">${esc(s.transportista||'—')}${s.placa?'<div class="muted">'+esc(s.placa)+'</div>':''}</td>
-    </tr>`;
-  }).join('');
-
+  const sL={entregada:'Entregada',en_ruta:'En ruta',pendiente:'Pendiente',problema:'Problema'};
+  document.getElementById('tbody').innerHTML=disp.map(s=>`<tr>
+    <td><span class="amiec">${esc(s.amie)}</span></td>
+    <td><div class="sname" title="${esc(s.nombre)}">${esc(s.nombre)}</div><div class="muted">${esc(s.prov)}</div></td>
+    <td>${esc(s.canton)}<div class="muted">${esc(s.parr)}</div></td>
+    <td><span class="atag ${aClass[s.acceso]||'aT'}">${esc(s.acceso)}</span></td>
+    <td style="text-align:right;font-weight:600">${s.estudiantes.toLocaleString('es-EC')}</td>
+    <td style="text-align:right;font-weight:600">${(s.peso_kg/1000).toFixed(2)}<span class="muted"> T</span></td>
+    <td style="text-align:right;font-weight:600">${s.raciones.toLocaleString('es-EC')}</td>
+    <td><span class="spill s-${s.estado}">${sL[s.estado]||s.estado}</span>${s.notas?`<div class="muted" style="max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">📌 ${esc(s.notas)}</div>`:''}</td>
+    <td><div style="font-weight:600;font-size:10px">${fmtS(d2i(s.dia))}<div class="muted">Día ${s.dia}${s.hora?' · '+esc(s.hora):''}</div></div></td>
+    <td style="font-size:10px;color:var(--gray-600)">${esc(s.transportista||'—')}${s.placa?`<div class="muted">${esc(s.placa)}</div>`:''}</td>
+  </tr>`).join('');
+  const tT=rows.reduce((a,s)=>a+s.peso_kg/1000,0),tR=rows.reduce((a,s)=>a+s.raciones,0);
   const sl=ST.scope==='DAY'?`solo día ${c}`:'todo el programa';
-  setText('row-count',rows.length>CAP?`Mostrando ${CAP} de ${rows.length.toLocaleString('es-EC')} IE · ${tTon.toFixed(1)} TON · ${tRac.toLocaleString('es-EC')} raciones · ${sl}`:`${rows.length.toLocaleString('es-EC')} IE · ${tTon.toFixed(1)} TON · ${tRac.toLocaleString('es-EC')} raciones · ${sl}`);
-}
+  setText('row-count',`${rows.length.toLocaleString('es-EC')} IE · ${tT.toFixed(1)} TON · ${tR.toLocaleString('es-EC')} raciones · ${sl}${rows.length>CAP?' · (mostrando primeros '+CAP+')':''}`);}
 
-// ─── FILTERS ──────────────────────────────────────────────────────────────────
-function setScope(s){ST.scope=s;document.getElementById('sc-day').classList.toggle('active',s==='DAY');document.getElementById('sc-all').classList.toggle('active',s==='ALL');renderTable();}
+/* ═══════════════════════════════════════════════════════════
+   FILTERS
+═══════════════════════════════════════════════════════════ */
+function setScope(s){ST.scope=s;document.getElementById('sc-d').classList.toggle('active',s==='DAY');document.getElementById('sc-a').classList.toggle('active',s==='ALL');renderTable();}
 function setProv(el,p){ST.prov=p;document.querySelectorAll('[data-pv]').forEach(c=>c.classList.toggle('active',c.dataset.pv===p));renderTable();}
 function setEst(el,e){ST.est=e;document.querySelectorAll('[data-e]').forEach(c=>c.classList.toggle('active',c.dataset.e===e));renderTable();}
 function onSearch(v){ST.q=v.trim();renderTable();}
 
-// ─── USER MANAGEMENT ──────────────────────────────────────────────────────────
-function renderUsersPage() {
-  const users = getUsers();
+/* ═══════════════════════════════════════════════════════════
+   MAP STATS
+═══════════════════════════════════════════════════════════ */
+function renderMapStats(){
+  const el=document.getElementById('map-stats');
+  if(!el)return;
+  if(!SCHOOLS.length){el.textContent='Sin datos cargados';return;}
+  const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))];
+  el.innerHTML=`<div><div style="font-size:18px;font-weight:800">${SCHOOLS.length.toLocaleString('es-EC')}</div><div>Instituciones</div></div>
+    <div><div style="font-size:18px;font-weight:800">${provs.length}</div><div>Provincias</div></div>
+    <div><div style="font-size:18px;font-weight:800">${SCHOOLS.filter(s=>s.acceso==='Aérea').length}</div><div>Acceso Aéreo</div></div>
+    <div><div style="font-size:18px;font-weight:800">${SCHOOLS.filter(s=>s.acceso==='Fluvial').length}</div><div>Acceso Fluvial</div></div>`;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   USER MANAGEMENT
+═══════════════════════════════════════════════════════════ */
+function renderUsersPage(){
+  const users=getUsers();
   updatePermPreview();
-  const tbody = document.getElementById('users-tbody');
-  tbody.innerHTML = users.map(u => `
+  document.getElementById('users-tbody').innerHTML=users.map(u=>`
     <tr>
-      <td style="font-family:monospace;font-size:12px;font-weight:600">${esc(u.username)}</td>
+      <td style="font-family:monospace;font-size:11px;font-weight:600">${esc(u.username)}</td>
       <td>${esc(u.name||'—')}</td>
-      <td><span class="role-badge role-${u.role}">${{superadmin:'Super Admin',editor:'Editor',viewer:'Espectador'}[u.role]||u.role}</span></td>
+      <td><span class="rbadge ${u.role==='superadmin'?'r-sa':u.role==='editor'?'r-ed':'r-vi'}">${{superadmin:'Super Admin',editor:'Editor',viewer:'Espectador'}[u.role]||u.role}</span></td>
       <td style="font-size:10px;color:var(--gray-600)">${u.created?new Date(u.created).toLocaleDateString('es-EC'):'—'}</td>
-      <td>${u.locked?`<span style="font-size:10px;color:var(--gray-400)">🔒 Protegido</span>`:`<button class="btn btn-danger" style="padding:3px 8px;font-size:10px" onclick="deleteUser('${esc(u.username)}')">Eliminar</button>`}</td>
+      <td>${u.locked?`<span style="font-size:9px;color:var(--gray-400)">🔒 Protegido</span>`:`<button class="btn btn-d" style="padding:3px 8px;font-size:9px" onclick="deleteUser('${esc(u.username)}')">Eliminar</button>`}</td>
     </tr>`).join('');
 }
 
-async function createUser() {
-  const uname = document.getElementById('nu-user').value.trim().toLowerCase();
-  const name = document.getElementById('nu-name').value.trim();
-  const pass = document.getElementById('nu-pass').value;
-  const role = document.getElementById('nu-role').value;
-  const msg = document.getElementById('form-msg');
-
-  msg.style.display='none';
-  if (!uname) { showFormMsg('El nombre de usuario es requerido.','err'); return; }
-  if (!/^[a-z0-9_]+$/.test(uname)) { showFormMsg('Solo letras minúsculas, números y _','err'); return; }
-  if (pass.length < 6) { showFormMsg('La contraseña debe tener al menos 6 caracteres.','err'); return; }
-
-  const users = getUsers();
-  if (users.find(u=>u.username===uname)) { showFormMsg('Ese nombre de usuario ya existe.','err'); return; }
-
-  const h = await hashPwd(pass);
-  users.push({ username: uname, name, role, pwdHash: h, created: new Date().toISOString(), locked: false });
+async function createUser(){
+  const uname=document.getElementById('nu-user').value.trim().toLowerCase();
+  const name=document.getElementById('nu-name').value.trim();
+  const pass=document.getElementById('nu-pass').value;
+  const role=document.getElementById('nu-role').value;
+  if(!uname){showFM('El nombre de usuario es requerido.','fm-err');return;}
+  if(!/^[a-z0-9_]+$/.test(uname)){showFM('Solo letras minúsculas, números y _','fm-err');return;}
+  if(pass.length<6){showFM('Contraseña mínimo 6 caracteres.','fm-err');return;}
+  const users=getUsers();
+  if(users.find(u=>u.username===uname)){showFM('Ese usuario ya existe.','fm-err');return;}
+  const h=await hashPwd(pass);
+  users.push({username:uname,name,role,pwdHash:h,created:new Date().toISOString(),locked:false});
   saveUsers(users);
-  showFormMsg(`✓ Usuario "${uname}" creado con rol ${role}.`,'ok');
-  document.getElementById('nu-user').value='';
-  document.getElementById('nu-name').value='';
-  document.getElementById('nu-pass').value='';
-  renderUsersPage();
-  showToast(`✓ Usuario "${uname}" creado`);
+  showFM(`✓ Usuario "${uname}" creado como ${role}.`,'fm-ok');
+  setField('nu-user','');setField('nu-name','');setField('nu-pass','');
+  renderUsersPage();showToast(`✓ Usuario "${uname}" creado`);
 }
 
-async function deleteUser(uname) {
-  if (!confirm(`¿Eliminar usuario "${uname}"? Esta acción no se puede deshacer.`)) return;
-  const users = getUsers().filter(u=>u.username!==uname);
-  saveUsers(users);
-  renderUsersPage();
-  showToast(`Usuario "${uname}" eliminado`);
+async function deleteUser(uname){
+  if(!confirm(`¿Eliminar usuario "${uname}"?`))return;
+  saveUsers(getUsers().filter(u=>u.username!==uname));
+  renderUsersPage();showToast(`Usuario "${uname}" eliminado`);
 }
 
-function updatePermPreview() {
-  const role = document.getElementById('nu-role')?.value || 'viewer';
-  const perms = ROLE_PERMS[role] || [];
-  const list = document.getElementById('perm-list');
-  if (list) list.innerHTML = perms.map(p=>`<div>✓ ${p}</div>`).join('');
+function updatePermPreview(){
+  const role=document.getElementById('nu-role')?.value||'viewer';
+  const el=document.getElementById('perm-list');
+  if(el)el.innerHTML=(ROLE_PERMS[role]||[]).map(p=>`<div>✓ ${p}</div>`).join('');
 }
 
-function showFormMsg(msg, type) {
-  const el = document.getElementById('form-msg');
-  el.textContent = msg;
-  el.className = `form-msg ${type}`;
-  el.style.display = 'block';
+function showFM(msg,cls){
+  const el=document.getElementById('form-msg');
+  if(el){el.textContent=msg;el.className=`form-msg ${cls}`;el.style.display='block';}
 }
 
-// ─── UTILS ───────────────────────────────────────────────────────────────────
-function showToast(msg, isErr=false) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.style.background = isErr?'var(--red)':'var(--navy)';
-  t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3000);
+/* ═══════════════════════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════════════════════ */
+function showToast(msg,isErr=false){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.style.background=isErr?'var(--red)':'var(--navy)';
+  t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);
 }
 </script>
 </body>

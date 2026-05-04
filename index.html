@@ -291,26 +291,30 @@ tr:hover td{background:#FBFBFD;}
 <div id="app">
 
   <!-- SIDEBAR -->
-  <nav class="sidebar">
+  <nav class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <div class="sb-mark">K</div>
-      <div class="sb-name">KREZCO<span>CARGO</span></div>
-      <div class="sb-tagline">Last Mile Logistics</div>
+      <div class="sb-toggle" id="sb-toggle" onclick="toggleSidebar()" title="Colapsar/Expandir">K</div>
+      <div class="sb-brand-text">
+        <div class="sb-name">KREZCO<span>CARGO</span></div>
+        <div class="sb-tagline">Last Mile Logistics</div>
+      </div>
     </div>
     <div class="sidebar-user">
       <div class="su-avatar" id="sb-avatar">?</div>
-      <div class="su-name" id="sb-name">—</div>
-      <div class="su-role" id="sb-role">—</div>
+      <div class="su-text">
+        <div class="su-name" id="sb-name">—</div>
+        <div class="su-role" id="sb-role">—</div>
+      </div>
     </div>
     <div class="sidebar-nav" id="sb-nav"></div>
     <div class="sidebar-footer">
-      <div class="logout-btn" onclick="doLogout()"><span>🚪</span> Cerrar sesión</div>
+      <div class="logout-btn" onclick="doLogout()"><span>🚪</span><span class="logout-text">&nbsp;Cerrar sesión</span></div>
       <div class="sidebar-data-info" id="sb-data-info">Sin datos cargados</div>
     </div>
   </nav>
 
   <!-- MAIN -->
-  <div class="main">
+  <div class="main" id="main-content">
 
     <!-- TOPBAR -->
     <div class="topbar" id="topbar">
@@ -458,6 +462,7 @@ tr:hover td{background:#FBFBFD;}
           <strong>Columna de día:</strong> <code>Día</code> · <code>DIA</code> · <code>DÍA</code> · <code>DIA_PROGRAMADO</code> · <code>N° DIA</code> · <code>NUMERO DE DIA</code> (también detectada en hoja <em>BBD PESOS</em>)<br>
           Opcionales: <code>ESTADO</code> · <code>FECHA_REAL</code> · <code>HORA</code> · <code>TRANSPORTISTA</code> · <code>PLACA</code> · <code>NOTAS</code>
         </div>
+        <div id="gh-publish-status" style="display:none;margin-top:10px;padding:10px 14px;border-radius:8px;font-size:12px;font-weight:600;"></div>
         <div class="btn-row">
           <button class="btn btn-p" onclick="applyConfig()">✓ Aplicar configuración</button>
           <button class="btn btn-d" onclick="clearData()">🗑 Borrar datos</button>
@@ -468,8 +473,8 @@ tr:hover td{background:#FBFBFD;}
     <!-- ── PAGE: CONFIGURACIÓN ── -->
     <div class="page-content" id="pg-config">
       <div class="section-card">
-        <div class="section-title">Configuración</div>
-        <div class="section-sub">Ajusta los parámetros del dashboard. Los cambios se aplican en tiempo real.</div>
+        <div class="section-title">Configuración del Programa</div>
+        <div class="section-sub">Ajusta los parámetros del dashboard.</div>
         <div class="field-grid">
           <div class="field"><label>Nombre del cliente</label><input type="text" id="cfg2-cliente"></div>
           <div class="field"><label>Nombre del programa</label><input type="text" id="cfg2-programa"></div>
@@ -480,6 +485,74 @@ tr:hover td{background:#FBFBFD;}
           <button class="btn btn-p" onclick="saveConfig2()">✓ Guardar cambios</button>
         </div>
       </div>
+
+      <!-- GITHUB SYNC CONFIG -->
+      <div class="section-card" style="border:2px solid var(--orange);">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+          <span style="font-size:24px">🔗</span>
+          <div>
+            <div class="section-title" style="margin-bottom:2px">Sincronización con GitHub</div>
+            <div style="font-size:11px;color:var(--gray-600)">Configura una sola vez — después subir el Excel actualiza los datos para <strong>todos los usuarios en el mundo</strong></div>
+          </div>
+          <div id="gh-connected-badge" style="display:none;margin-left:auto;background:var(--green-lite);color:var(--green);font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;">✓ Configurado</div>
+        </div>
+
+        <!-- PASO A PASO OBTENER TOKEN -->
+        <div style="background:var(--gray-bg);border-radius:10px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;color:var(--navy);margin-bottom:12px;">📋 Cómo obtener tu token (solo la primera vez)</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">1</div>
+              <div>Ve a <a href="https://github.com/settings/tokens" target="_blank" style="color:var(--orange);font-weight:700;">github.com/settings/tokens</a> (debes estar logueado en GitHub)</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">2</div>
+              <div>Haz click en <strong>"Generate new token" → "Generate new token (classic)"</strong></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">3</div>
+              <div>En <strong>Note</strong> escribe: <code style="background:var(--gray-200);padding:1px 6px;border-radius:3px;">KrezcoCargo Dashboard</code></div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">4</div>
+              <div>En <strong>Expiration</strong> elige <strong>"No expiration"</strong> (así no tienes que renovarlo)</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">5</div>
+              <div>En <strong>Select scopes</strong> marca SOLO el checkbox <strong style="background:#1F9D55;color:#fff;padding:1px 6px;border-radius:3px;font-size:10px;">✓ repo</strong> (el primero de la lista)</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--orange);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">6</div>
+              <div>Haz click en <strong style="background:var(--green);color:#fff;padding:2px 8px;border-radius:4px;font-size:10px;">Generate token</strong> al final de la página</div>
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:11px;color:var(--navy);">
+              <div style="width:22px;height:22px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:11px;flex-shrink:0;">7</div>
+              <div><strong>Copia el token que aparece</strong> (empieza con <code style="background:var(--gray-200);padding:1px 6px;border-radius:3px;">ghp_</code>) y pégalo abajo. ⚠️ Solo aparece una vez.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CAMPOS DE CONFIGURACIÓN -->
+        <div class="field-grid">
+          <div class="field"><label>Tu usuario de GitHub</label><input type="text" id="gh-owner" placeholder="ej: krezcocargo" autocomplete="off"></div>
+          <div class="field"><label>Nombre del repositorio</label><input type="text" id="gh-repo" placeholder="ej: Dashboard" autocomplete="off"></div>
+          <div class="field"><label>Rama (branch)</label><input type="text" id="gh-branch" placeholder="main"></div>
+          <div class="field"><label>Archivo (no cambiar)</label><input type="text" id="gh-path" placeholder="data.json"></div>
+        </div>
+        <div class="field" style="margin-top:10px;">
+          <label>Token de GitHub — pégalo aquí <span style="color:var(--gray-400);font-weight:400">(solo se guarda en tu sesión, nunca en el código HTML)</span></label>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" autocomplete="off" style="font-family:monospace;flex:1;">
+            <button type="button" onclick="toggleTokenVisibility()" style="background:var(--gray-100);border:1px solid var(--gray-200);border-radius:6px;padding:7px 10px;cursor:pointer;font-size:13px;" title="Ver/ocultar token">👁</button>
+          </div>
+        </div>
+        <div class="btn-row" style="margin-top:12px;">
+          <button class="btn btn-p" onclick="saveGitHubConfig()">💾 Guardar y conectar</button>
+          <button class="btn btn-s" onclick="testGitHubConnection()">🔌 Probar conexión</button>
+        </div>
+        <div id="gh-status" style="margin-top:10px;font-size:11px;display:none;padding:8px 12px;border-radius:6px;font-weight:600;"></div>
+      </div>
+
       <div class="section-card">
         <div class="section-title" style="font-size:13px">Estado del sistema</div>
         <div id="sys-stats" style="font-size:12px;color:var(--gray-600);line-height:2;margin-top:8px;"></div>
@@ -707,7 +780,9 @@ function startApp(){
   document.getElementById('page-login').style.display='none';
   document.getElementById('app').classList.add('visible');
   buildSidebar();
-  loadFromStorage();
+  restoreSidebarState();
+  loadFromGitHubThenRender();
+  startAutoRefresh();
   navTo('dashboard');
 }
 
@@ -722,9 +797,176 @@ function buildSidebar(){
   const items=NAV_ITEMS[SESSION.role]||NAV_ITEMS.viewer;
   const nav=document.getElementById('sb-nav');
   nav.innerHTML=items.map(it=>`
-    <div class="nav-item" id="nav-${it.id}" onclick="navTo('${it.id}')">
-      <span class="nav-icon">${it.icon}</span><span>${it.label}</span>
+    <div class="nav-item" id="nav-${it.id}" onclick="navTo('${it.id}')" data-label="${it.label}">
+      <span class="nav-icon">${it.icon}</span><span class="nav-label">${it.label}</span>
     </div>`).join('');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   AUTO-REFRESH (viewers see new data automatically every 90s)
+═══════════════════════════════════════════════════════════ */
+let _refreshTimer = null;
+let _lastDataHash = '';
+
+function dataHash(schools){
+  if(!schools||!schools.length) return '0';
+  return String(schools.length) + '_' + (schools.reduce((a,s)=>a+(s.raciones||0),0));
+}
+
+function startAutoRefresh(){
+  if(_refreshTimer) clearInterval(_refreshTimer);
+  _refreshTimer = setInterval(async ()=>{
+    const remote = await fetchFromGitHub();
+    if(!remote || !remote.schools) return;
+    const newHash = dataHash(remote.schools);
+    if(newHash !== _lastDataHash && _lastDataHash !== ''){
+      // New data available — update silently
+      SCHOOLS = remote.schools;
+      CFG = Object.assign(CFG, remote.cfg||{});
+      localStorage.setItem('kc_data', JSON.stringify(Object.assign({},remote,{updatedAt:remote.updatedAt||''})));
+      _lastDataHash = newHash;
+      initDashboard();
+      showRefreshBadge();
+    } else if(_lastDataHash === ''){
+      _lastDataHash = newHash;
+    }
+  }, 90000); // every 90 seconds
+}
+
+function showRefreshBadge(){
+  // Show a subtle "datos actualizados" notification
+  const t = document.getElementById('toast');
+  if(t){
+    t.textContent = '🔄 Datos actualizados automáticamente';
+    t.style.background = 'var(--green)';
+    t.classList.add('show');
+    setTimeout(()=>t.classList.remove('show'), 3500);
+  }
+}
+
+/* ── Token visibility toggle ── */
+function toggleTokenVisibility(){
+  const inp = document.getElementById('gh-token');
+  if(!inp) return;
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}
+
+/* ── Show connected badge if already configured ── */
+function checkGHConnectedBadge(){
+  const cfg = JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
+  const badge = document.getElementById('gh-connected-badge');
+  if(badge) badge.style.display = (cfg.owner && cfg.repo) ? '' : 'none';
+}
+
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  const mn=document.getElementById('main-content');
+  const collapsed=sb.classList.toggle('collapsed');
+  if(mn)mn.classList.toggle('collapsed',collapsed);
+  localStorage.setItem('kc_sb_collapsed', collapsed?'1':'0');
+}
+
+function restoreSidebarState(){
+  if(localStorage.getItem('kc_sb_collapsed')==='1'){
+    const sb=document.getElementById('sidebar');
+    const mn=document.getElementById('main-content');
+    if(sb)sb.classList.add('collapsed');
+    if(mn)mn.classList.add('collapsed');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GITHUB SYNC
+═══════════════════════════════════════════════════════════ */
+function getGHCfg(){
+  const base=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
+  const token=sessionStorage.getItem('kc_gh_token')||'';
+  return Object.assign({},base,{token});
+}
+function saveGitHubConfig(){
+  const cfg={
+    owner:document.getElementById('gh-owner').value.trim(),
+    repo:document.getElementById('gh-repo').value.trim(),
+    branch:document.getElementById('gh-branch').value.trim()||'main',
+    path:document.getElementById('gh-path').value.trim()||'data.json'
+  };
+  const token=document.getElementById('gh-token').value.trim();
+  if(!cfg.owner||!cfg.repo){showGHStatus('Completa owner y repositorio.','err');return;}
+  localStorage.setItem('kc_gh_cfg',JSON.stringify(cfg));
+  if(token)sessionStorage.setItem('kc_gh_token',token);
+  showGHStatus('✓ Configuración guardada. El token solo vive en esta sesión (no se guarda en el código).','ok');
+  showToast('✓ GitHub configurado');
+  checkGHConnectedBadge();
+}
+async function testGitHubConnection(){
+  const cfg=getGHCfg();
+  if(!cfg.owner||!cfg.repo||!cfg.token){showGHStatus('Completa owner, repo y token primero.','err');return;}
+  showGHStatus('Probando conexión…','info');
+  try{
+    const r=await fetch(`https://api.github.com/repos/${cfg.owner}/${cfg.repo}`,{headers:{Authorization:`token ${cfg.token}`,'Accept':'application/vnd.github.v3+json'}});
+    if(r.ok){showGHStatus('✓ Conexión exitosa al repositorio.','ok');}
+    else{const j=await r.json();showGHStatus(`✗ Error ${r.status}: ${j.message}`,'err');}
+  }catch(e){showGHStatus('✗ Error de red: '+e.message,'err');}
+}
+function showGHStatus(msg,type){
+  const el=document.getElementById('gh-status');
+  if(!el)return;
+  const styles={ok:'background:var(--green-lite);color:var(--green)',err:'background:var(--red-bg);color:var(--red)',info:'background:var(--orange-bg);color:#92400E'};
+  el.style.cssText=styles[type]||styles.info;el.textContent=msg;el.style.display='block';
+}
+async function publishToGitHub(dataObj){
+  const cfg=getGHCfg();
+  if(!cfg.owner||!cfg.repo||!cfg.token){
+    showPublishStatus('⚠️ GitHub no configurado. Ve a Configuración y agrega owner, repo y token.','warn');
+    return false;
+  }
+  showPublishStatus('⏳ Publicando en GitHub…','info');
+  const url=`https://api.github.com/repos/${cfg.owner}/${cfg.repo}/contents/${cfg.path}`;
+  const headers={Authorization:`token ${cfg.token}`,'Accept':'application/vnd.github.v3+json','Content-Type':'application/json'};
+  // Get current SHA if file exists
+  let sha=null;
+  try{const r=await fetch(url,{headers});if(r.ok){const j=await r.json();sha=j.sha;}}catch{}
+  // Encode content
+  const jsonStr=JSON.stringify(dataObj);
+  const b64=btoa(unescape(encodeURIComponent(jsonStr)));
+  const body={message:`Update data.json — ${new Date().toLocaleString('es-EC')}`,content:b64,branch:cfg.branch||'main'};
+  if(sha)body.sha=sha;
+  try{
+    const r=await fetch(url,{method:'PUT',headers,body:JSON.stringify(body)});
+    if(r.ok){
+      showPublishStatus('✅ Publicado en GitHub. Todos los usuarios verán los datos nuevos en ~30 segundos.','ok');
+      showToast('✅ Datos publicados en GitHub');
+      return true;
+    }else{
+      const j=await r.json();
+      showPublishStatus(`✗ Error GitHub ${r.status}: ${j.message}`,'err');
+      return false;
+    }
+  }catch(e){showPublishStatus('✗ Error de red: '+e.message,'err');return false;}
+}
+function showPublishStatus(msg,type){
+  const el=document.getElementById('gh-publish-status');
+  if(!el)return;
+  const styles={ok:'background:var(--green-lite);color:var(--green)',err:'background:var(--red-bg);color:var(--red)',warn:'background:var(--orange-bg);color:#92400E',info:'background:#E0E7FF;color:#3730A3'};
+  el.style.cssText=styles[type]||styles.info;el.textContent=msg;el.style.display='block';
+}
+async function fetchFromGitHub(){
+  const cfg=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
+  if(!cfg.owner||!cfg.repo)return null;
+  const url=`https://raw.githubusercontent.com/${cfg.owner}/${cfg.repo}/${cfg.branch||'main'}/${cfg.path||'data.json'}?_=${Date.now()}`;
+  try{
+    const r=await fetch(url);
+    if(r.ok)return await r.json();
+  }catch{}
+  return null;
+}
+function loadConfig2GH(){
+  const cfg=JSON.parse(localStorage.getItem('kc_gh_cfg')||'{}');
+  setField('gh-owner',cfg.owner||'');
+  setField('gh-repo',cfg.repo||'');
+  setField('gh-branch',cfg.branch||'main');
+  setField('gh-path',cfg.path||'data.json');
+  // Token not restored (session only)
 }
 
 function navTo(page){
@@ -762,6 +1004,25 @@ function loadFromStorage(){
       }
     }
   }catch{}
+}
+
+async function loadFromGitHubThenRender(){
+  // Try GitHub first (shared data source for all users)
+  const remote=await fetchFromGitHub();
+  if(remote&&remote.schools&&remote.schools.length>0){
+    SCHOOLS=remote.schools;CFG=Object.assign(CFG,remote.cfg||{});
+    // Cache locally
+    localStorage.setItem('kc_data',JSON.stringify(Object.assign({},remote,{updatedAt:remote.updatedAt||new Date().toLocaleString('es-EC')})));
+    setField('cfg-cliente',CFG.clienteNombre);setField('cfg-programa',CFG.programa);
+    setField('cfg-fecha',CFG.fechaInicioISO);setField('cfg-dias',CFG.diasTotal);
+    const lu=document.getElementById('last-update');
+    if(lu)lu.textContent=(remote.updatedAt||'GitHub')+' 🔄';
+    _lastDataHash = dataHash(SCHOOLS);
+    updateSidebarInfo();initDashboard();
+  } else {
+    // Fallback to localStorage
+    loadFromStorage();
+  }
 }
 
 function saveToStorage(){
@@ -886,6 +1147,10 @@ function processRows(rows,fname){
   const ls=document.getElementById('load-status');
   if(ls)ls.innerHTML=`<div class="status-alert alert-ok">✓ ${SCHOOLS.length.toLocaleString('es-EC')} instituciones cargadas desde "${fname}" · Días detectados: ${Object.keys(dCounts).sort((a,b)=>+a-+b).join(', ')}</div>`;
   showToast(`✓ ${SCHOOLS.length.toLocaleString('es-EC')} IE · días 1-${maxDia}`);
+
+  // Auto-publish to GitHub so all users see the new data
+  const dataPayload={schools:SCHOOLS,cfg:CFG,updatedAt:new Date().toLocaleString('es-EC')};
+  publishToGitHub(dataPayload);
 }
 
 function mapRow(row){
@@ -955,6 +1220,8 @@ function loadConfig2(){
   setField('cfg2-programa',CFG.programa);
   setField('cfg2-fecha',CFG.fechaInicioISO);
   setField('cfg2-dias',CFG.diasTotal);
+  loadConfig2GH();
+  checkGHConnectedBadge();
   const ss=document.getElementById('sys-stats');
   if(ss)ss.innerHTML=`
     Instituciones cargadas: <strong>${SCHOOLS.length.toLocaleString('es-EC')}</strong><br>

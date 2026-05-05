@@ -838,7 +838,7 @@ function buildSidebar(){
   const nav=document.getElementById('sb-nav');
   nav.innerHTML=items.map(it=>`
     <div class="nav-item" id="nav-${it.id}" onclick="navTo('${it.id}')" data-label="${it.label}">
-      <span class="nav-icon">${it.icon}</span><span class="nav-label">${it.label}</span>
+      <span class="nav-icon">${it.icon}</span><span>${it.label}</span>
     </div>`).join('');
 }
 
@@ -1537,6 +1537,7 @@ function generateExportCode(users){
       b.className='export-count';
       b.style.cssText='margin-left:8px;background:var(--orange);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:999px;';
       b.textContent=`${exportable.length} usuario${exportable.length!==1?'s':''}`;
+      panel.querySelector('div').appendChild(b);
     }
   }
 }

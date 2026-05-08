@@ -1392,7 +1392,7 @@ function mapRow(row){
   const reg=regRaw.includes('COSTA')?'COSTA':regRaw.includes('SIERRA')?'SIERRA':'';
   return{amie,nombre:nvS(['nombreinstitucion','nombre','institucion','nombrecolegio']),
     prov:nvS(['provincia','prov']).toUpperCase(),canton:nvS(['canton']),parr:nvS(['parroquia','parr']),
-    acceso:(()=>{const r=nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre').toUpperCase();return r.includes('AER')?'Aérea':r.includes('FLU')?'Fluvial':'Terrestre';})(),
+    acceso:(()=>{const r=nvS(['formadeacceso','formaacceso','acceso','tipovia'],'').toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'');return r.includes('AER')?'Aérea':r.includes('FLU')?'Fluvial':r.includes('TER')||r===''?'Terrestre':r.charAt(0).toUpperCase()+r.slice(1).toLowerCase();})(),
     reg,
     estudiantes:est,raciones:rac,peso_kg:peso,dia,estado,
     xlat,xlon,

@@ -1392,7 +1392,7 @@ function mapRow(row){
   const reg=regRaw.includes('COSTA')?'COSTA':regRaw.includes('SIERRA')?'SIERRA':'';
   return{amie,nombre:nvS(['nombreinstitucion','nombre','institucion','nombrecolegio']),
     prov:nvS(['provincia','prov']).toUpperCase(),canton:nvS(['canton']),parr:nvS(['parroquia','parr']),
-    acceso:nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre'),
+    acceso:(()=>{const r=nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre').toUpperCase();return r.includes('AER')?'Aérea':r.includes('FLU')?'Fluvial':'Terrestre';})(),
     reg,
     estudiantes:est,raciones:rac,peso_kg:peso,dia,estado,
     xlat,xlon,
@@ -1491,15 +1491,19 @@ function renderTonChart(){
   const tE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tR=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tP=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
+  const rE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+  const rR=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
+  const rP=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.raciones,0);
   const tTot=tE+tR+tP;
   setText('ton-dia-lbl',c>1?'Acum. dias 1-'+c:'Dia 1');
   setText('ton-dia-sub','Acumulado dias 1-'+c+': '+(tTot>0?tTot.toFixed(2)+' TON':'sin datos'));
   const maxT=Math.max(tE,tR,tP,0.001);
   const H=100;
-  const bar=(v,color,label,icon)=>{
-    const h=Math.max((v/maxT)*H,v>0?4:0);
+  const bar=(ton,rac,color,label,icon)=>{
+    const h=Math.max((ton/maxT)*H,ton>0?4:0);
     return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:80px;max-width:130px;flex:1">
-      <div style="font-size:9px;font-weight:800;color:${color}">${v>0?v.toFixed(2)+' T':'—'}</div>
+      <div style="font-size:9px;font-weight:800;color:${color}">${ton>0?ton.toFixed(2)+' T':'—'}</div>
+      <div style="font-size:8px;font-weight:600;color:var(--gray-600)">${rac>0?fmtN(rac)+' rac':'—'}</div>
       <div style="width:100%;height:${H}px;display:flex;align-items:flex-end;background:rgba(0,0,0,.03);border-radius:8px;overflow:hidden;padding:0 6px">
         <div style="width:100%;height:${h}px;background:${color};border-radius:6px 6px 0 0;transition:height .6s"></div>
       </div>
@@ -1512,9 +1516,11 @@ function renderTonChart(){
   const maxProv=Math.max(...provs.map(p=>SCHOOLS.filter(s=>s.dia<=c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000),0.001);
   provs.forEach(p=>{
     const tProv=SCHOOLS.filter(s=>s.dia<=c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000;
+    const rProv=SCHOOLS.filter(s=>s.dia<=c&&s.prov===p).reduce((a,s)=>a+s.raciones,0);
     const h=Math.max((tProv/maxProv)*H,tProv>0?4:0);
     provBars+=`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:60px;flex:1">
       <div style="font-size:8px;font-weight:800;color:var(--navy-soft)">${tProv>0?tProv.toFixed(2)+' T':'—'}</div>
+      <div style="font-size:7px;font-weight:600;color:var(--gray-600)">${rProv>0?fmtN(rProv)+' rac':'—'}</div>
       <div style="width:100%;height:${H}px;display:flex;align-items:flex-end;background:rgba(0,0,0,.03);border-radius:8px;overflow:hidden;padding:0 4px">
         <div style="width:100%;height:${h}px;background:linear-gradient(180deg,#7B9FD4,var(--navy));border-radius:6px 6px 0 0;transition:height .6s"></div>
       </div>
@@ -1525,9 +1531,9 @@ function renderTonChart(){
   if(!wrap)return;
   wrap.innerHTML=`
     <div style="display:flex;gap:10px;align-items:flex-end;flex:0 0 auto">
-      ${bar(tE,'#1F9D55','Entregadas','✓')}
-      ${bar(tR,'#F47C20','En ruta','🚚')}
-      ${bar(tP,'#9AA4B8','Pendientes','⏳')}
+      ${bar(tE,rE,'#1F9D55','Entregadas','✓')}
+      ${bar(tR,rR,'#F47C20','En ruta','🚚')}
+      ${bar(tP,rP,'#9AA4B8','Pendientes','⏳')}
     </div>
     <div style="width:1px;background:var(--gray-100);height:130px;align-self:center"></div>
     <div style="flex:1">
@@ -1628,7 +1634,7 @@ function renderKpis(){
   const tDl=dl.reduce((a,s)=>a+s.peso_kg,0)/1000;const tE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;const tR2=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;const tP2=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   setText('kp1',dl.length.toLocaleString('es-EC'));setText('kp1a',(dl.length/Math.max(1,tot)*100).toFixed(1)+'% planificado · Días 1-'+c+'/'+CFG.diasTotal);setText('kp1b',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones · ${tDl.toFixed(2)} TON`);
   setText('kp2',nE.toLocaleString('es-EC'));setText('kp2a',(nE/Math.max(1,SCHOOLS.length)*100).toFixed(0)+'% del programa total');setText('kp2b',`${fmtN(rE)} raciones · ${tE.toFixed(2)} TON`);
-  setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a',Object.keys(m).join(' · ')||'—');setText('kp3b',`${fmtN(rR)} raciones · ${tR2.toFixed(2)} TON`);
+  setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a',['Terrestre','Aérea','Fluvial'].filter(t=>m[t]>0).map(t=>t+': '+m[t]).join(' · ')||'—');setText('kp3b',`${fmtN(rR)} raciones · ${tR2.toFixed(2)} TON`);
   setText('kp4',(nP+nPr).toLocaleString('es-EC'));setText('kp4a',`${tP2.toFixed(2)} TON pendientes`);setText('kp4b',`${fmtN(rP)} raciones · ${tP2.toFixed(2)} TON`);
   setHTML('day-summary',`Día ${c} <small>de ${CFG.diasTotal} · ${fmtF(iso)}</small>`);
   let cI=0,cR=0;for(let i=1;i<=c;i++){const x=SCHOOLS.filter(s=>s.dia===i);cI+=x.length;cR+=x.reduce((a,s)=>a+s.raciones,0);}

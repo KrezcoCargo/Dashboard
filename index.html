@@ -1279,10 +1279,11 @@ function loadFile(file){
         showToast('No se encontró columna AMIE en el archivo.',true);return;
       }
 
+      // Read DÍAS sheet FIRST so autoDetectDay() has CFG.diaFechas ready when processRows→initDashboard runs
+      const diasSN=wb.SheetNames.find(n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS';});
+      if(diasSN){const dws=wb.Sheets[diasSN];const dAoa=XLSX.utils.sheet_to_json(dws,{header:1,defval:null,raw:true});CFG.diaFechas={};dAoa.forEach(row=>{if(!row||row.length<2)return;const dayNum=parseInt(String(row[0]));const dv=row[1];if(isNaN(dayNum)||!dv)return;let iso='';if(dv instanceof Date){iso=dv.getUTCFullYear()+'-'+String(dv.getUTCMonth()+1).padStart(2,'0')+'-'+String(dv.getUTCDate()).padStart(2,'0');}else if(typeof dv==='number'){const epoch=new Date(Math.round((dv-25569)*86400000));iso=epoch.getUTCFullYear()+'-'+String(epoch.getUTCMonth()+1).padStart(2,'0')+'-'+String(epoch.getUTCDate()).padStart(2,'0');}else if(typeof dv==='string'&&dv.length>=10){iso=dv.slice(0,10);}if(iso)CFG.diaFechas[iso]=dayNum;});console.log('[KC] diaFechas:',JSON.stringify(CFG.diaFechas));}
       const rows=buildRows(aoa,headerRowIdx);
       processRows(rows,file.name);
-      const diasSN=wb.SheetNames.find(n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS';});
-      if(diasSN){const dws=wb.Sheets[diasSN];const dAoa=XLSX.utils.sheet_to_json(dws,{header:1,defval:null,raw:true});CFG.diaFechas={};dAoa.forEach(row=>{if(!row||row.length<2)return;const dayNum=parseInt(String(row[0]));const dv=row[1];if(isNaN(dayNum)||!dv)return;let iso='';if(dv instanceof Date){iso=dv.getFullYear()+'-'+String(dv.getMonth()+1).padStart(2,'0')+'-'+String(dv.getDate()).padStart(2,'0');}else if(typeof dv==='number'){const epoch=new Date(Math.round((dv-25569)*86400000));iso=epoch.getUTCFullYear()+'-'+String(epoch.getUTCMonth()+1).padStart(2,'0')+'-'+String(epoch.getUTCDate()).padStart(2,'0');}else if(typeof dv==='string'&&dv.length>=10){iso=dv.slice(0,10);}if(iso)CFG.diaFechas[iso]=dayNum;});console.log('[KC] diaFechas:',JSON.stringify(CFG.diaFechas));}
 
     }catch(e){showToast('Error: '+e.message,true);console.error(e);}
   };

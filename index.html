@@ -1247,7 +1247,8 @@ function loadFile(file){
 
       // Find best sheet: prefer PLANIFICACION (has DÍA, ESTADO, AMIE), then BBD PESOS, then first non-config
       const SKIP=['CONFIG','PESOS TOTAL'];
-      const skipSheet=n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS'||u==='CONFIG'||n.toUpperCase()==='PESOS TOTAL';};
+      const normSheet=n=>n.trim().toUpperCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[^A-Z]/g,'');
+      const skipSheet=n=>{const u=normSheet(n);return u==='DIAS'||u==='CONFIG'||n.toUpperCase()==='PESOS TOTAL';};
       let sheetName = wb.SheetNames.find(n=>n.toUpperCase()==='PLANIFICACION')
         || wb.SheetNames.find(n=>n.toUpperCase()==='BBD PESOS')
         || wb.SheetNames.find(n=>n.toUpperCase()==='IE')
@@ -1280,7 +1281,7 @@ function loadFile(file){
       }
 
       // Read DÍAS sheet FIRST so autoDetectDay() has CFG.diaFechas ready when processRows→initDashboard runs
-      const diasSN=wb.SheetNames.find(n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS';});
+      const diasSN=wb.SheetNames.find(n=>normSheet(n)==='DIAS');
       if(diasSN){const dws=wb.Sheets[diasSN];const dAoa=XLSX.utils.sheet_to_json(dws,{header:1,defval:null,raw:true});CFG.diaFechas={};dAoa.forEach(row=>{if(!row||row.length<2)return;const dayNum=parseInt(String(row[0]));const dv=row[1];if(isNaN(dayNum)||!dv)return;let iso='';if(dv instanceof Date){iso=dv.getFullYear()+'-'+String(dv.getMonth()+1).padStart(2,'0')+'-'+String(dv.getDate()).padStart(2,'0');}else if(typeof dv==='number'){const epoch=new Date(Math.round((dv-25569)*86400000));iso=epoch.getFullYear()+'-'+String(epoch.getMonth()+1).padStart(2,'0')+'-'+String(epoch.getDate()).padStart(2,'0');}else if(typeof dv==='string'&&dv.length>=10){iso=dv.slice(0,10);}if(iso)CFG.diaFechas[iso]=dayNum;});console.log('[KC] diaFechas:',JSON.stringify(CFG.diaFechas));}
       const rows=buildRows(aoa,headerRowIdx);
       processRows(rows,file.name);

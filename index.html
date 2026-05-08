@@ -396,6 +396,7 @@ tr:hover td{background:#FBFBFD;}
         <div class="topbar-sub" id="tb-sub">KrezcoCargo SAS</div>
       </div>
       <div class="topbar-right" id="topbar-right">
+        <button id="btn-email-summary" onclick="openEmailModal()" style="display:none;align-items:center;gap:6px;background:#1F9D55;color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap">📧 Enviar Resumen</button>
         <div class="date-control" id="date-ctrl" style="display:none">
           <button class="btn-nav" id="prev-day" disabled>‹</button>
           <div>
@@ -775,7 +776,8 @@ const SEED_USERS = [
   {"username":"mvaldez",  "name":"Miguel Valdez", "role":"viewer", "pwdHash":"04566eadc99698fe27741e3eb5141349856e001f415ce169493910c65e6f23a8", "created":"2026-01-01T00:00:00.000Z"},
   {"username":"op1",      "name":"Operador1",    "role":"viewer", "pwdHash":"29af981a91929120bbf7009afff591d8b85fdb0343dc64710978510441a55c7f", "created":"2026-01-01T00:00:00.000Z"},
   {"username":"op2",      "name":"Operador2",    "role":"viewer", "pwdHash":"3bd14cc3efe4aac49994c902096d6189871853a0cd861e99b7003bbc352cd152", "created":"2026-01-01T00:00:00.000Z"},
-  {"username":"op3",      "name":"Operador3",    "role":"viewer", "pwdHash":"1ecd5bfd3f8af6915c42dcd7407cf15e3757b635ceb414d189e1226473970dd4", "created":"2026-01-01T00:00:00.000Z"}
+  {"username":"op3",      "name":"Operador3",    "role":"viewer", "pwdHash":"1ecd5bfd3f8af6915c42dcd7407cf15e3757b635ceb414d189e1226473970dd4", "created":"2026-01-01T00:00:00.000Z"},
+  {"username":"boduio",   "name":"Bodega",       "role":"editor", "pwdHash":"08c26ad95e368f57be44911abb1b9535e4f1abb0d05f188721540c5b11a4d695", "created":"2026-05-08T00:00:00.000Z"}
 ];
 
 /* ── PURE-JS SHA-256 (sin crypto.subtle — funciona en file://, http://, https://) ── */
@@ -918,6 +920,8 @@ function startApp(){
   loadFromGitHubThenRender();
   startAutoRefresh();
   navTo('dashboard');
+  const btnEmail=document.getElementById('btn-email-summary');
+  if(btnEmail)btnEmail.style.display=(SESSION&&(SESSION.role==='superadmin'||SESSION.role==='editor'))?'flex':'none';
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -2119,6 +2123,93 @@ function updateMapCount(){
     try{count+=g.getLayers().length;}catch(e){}
   });
   el.textContent=count.toLocaleString('es-EC')+' instituciones';
+}
+</script>
+
+<!-- MODAL RESUMEN EMAIL -->
+<div id="email-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:14px;padding:28px 32px;max-width:540px;width:95%;box-shadow:0 8px 40px rgba(0,0,0,.25);font-family:inherit">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
+      <div style="font-size:16px;font-weight:800;color:#14213D">📧 Enviar Resumen del Día</div>
+      <button onclick="closeEmailModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#666;line-height:1">✕</button>
+    </div>
+    <div style="margin-bottom:14px">
+      <label style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px">Destinatarios (separa con coma)</label>
+      <input id="email-recipients" type="text" placeholder="correo1@ejemplo.com, correo2@ejemplo.com"
+        style="width:100%;margin-top:5px;padding:9px 12px;border:1.5px solid #dde3ee;border-radius:8px;font-size:13px;box-sizing:border-box;outline:none">
+    </div>
+    <div style="background:#F4F6FB;border-radius:10px;padding:16px;font-size:12px;color:#374151;line-height:1.7;white-space:pre-wrap;max-height:320px;overflow-y:auto;font-family:monospace" id="email-preview"></div>
+    <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end">
+      <button onclick="closeEmailModal()" style="padding:9px 18px;border-radius:8px;border:1.5px solid #dde3ee;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#374151">Cancelar</button>
+      <button onclick="sendEmailSummary()" style="padding:9px 20px;border-radius:8px;border:none;background:#1F9D55;color:#fff;font-size:13px;font-weight:700;cursor:pointer">📤 Abrir en correo</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openEmailModal(){
+  if(!SCHOOLS.length){showToast('Carga primero un archivo Excel.',true);return;}
+  document.getElementById('email-preview').textContent=buildEmailBody();
+  document.getElementById('email-modal').style.display='flex';
+}
+function closeEmailModal(){document.getElementById('email-modal').style.display='none';}
+
+function buildEmailBody(){
+  const d=ST.dia;
+  const fecha=d2i(d);
+  const [y,m,dd]=fecha.split('-');
+  const fechaFmt=dd+'/'+m+'/'+y;
+  const tot=SCHOOLS.length;
+  const nE=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').length;
+  const nR=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='en_ruta').length;
+  const nPr=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='problema').length;
+  const nP=tot-nE-nR-nPr;
+  const racTot=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
+  const racEnt=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+  const racRuta=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
+  const tonEnt=(SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000).toFixed(1);
+  const pctEnt=racTot>0?Math.round(racEnt/racTot*100):0;
+  const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))].sort();
+  const provLines=provs.map(p=>{
+    const ptot=SCHOOLS.filter(s=>s.prov===p).length;
+    const pent=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='entregada').length;
+    const ppct=ptot>0?Math.round(pent/ptot*100):0;
+    const bar='█'.repeat(Math.round(ppct/10))+'░'.repeat(10-Math.round(ppct/10));
+    return '  '+p.charAt(0)+p.slice(1).toLowerCase().padEnd(14)+' '+bar+' '+ppct+'% ('+pent+'/'+ptot+' IE)';
+  }).join('\n');
+  return `RESUMEN OPERATIVO — DÍA ${d} · ${fechaFmt}
+Programa: ${CFG.programa} | ${CFG.clienteNombre}
+${'─'.repeat(50)}
+
+RACIONES
+  Total programa   : ${racTot.toLocaleString('es-EC')}
+  Entregadas       : ${racEnt.toLocaleString('es-EC')} (${pctEnt}% del programa)
+  En ruta          : ${racRuta.toLocaleString('es-EC')}
+  Toneladas entregadas: ${tonEnt} TON
+
+INSTITUCIONES EDUCATIVAS
+  Total programa   : ${tot} IE
+  Entregadas       : ${nE} IE
+  En ruta          : ${nR} IE
+  Con problema     : ${nPr} IE
+  Pendientes       : ${nP} IE
+
+PROGRESO POR PROVINCIA (acumulado días 1-${d})
+${provLines}
+
+${'─'.repeat(50)}
+Reporte generado automáticamente · KrezcoCargo SAS`;
+}
+
+function sendEmailSummary(){
+  const recipients=document.getElementById('email-recipients').value.trim();
+  if(!recipients){document.getElementById('email-recipients').focus();return;}
+  const d=ST.dia;
+  const fecha=d2i(d);
+  const [y,m,dd]=fecha.split('-');
+  const subject=encodeURIComponent('Resumen Día '+d+' - '+CFG.programa+' - '+dd+'/'+m+'/'+y);
+  const body=encodeURIComponent(buildEmailBody());
+  window.location.href='mailto:'+encodeURIComponent(recipients)+'?subject='+subject+'&body='+body;
 }
 </script>
 </body>

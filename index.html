@@ -437,7 +437,7 @@ tr:hover td{background:#FBFBFD;}
         </div>
         <!-- KPIs -->
         <div class="kpi-strip">
-          <div class="kpi navy"><div class="lbl">Plan del día</div><div class="val" id="kp1">—</div><div class="d1" id="kp1a">—</div><div class="d2" id="kp1b"></div><div class="kpi-ico">📅</div><div class="bar"></div></div>
+          <div class="kpi navy"><div class="lbl">Plan acumulado</div><div class="val" id="kp1">—</div><div class="d1" id="kp1a">—</div><div class="d2" id="kp1b"></div><div class="kpi-ico">📅</div><div class="bar"></div></div>
           <div class="kpi green"><div class="lbl">Entregadas</div><div class="val" id="kp2">—</div><div class="d1 up" id="kp2a">—</div><div class="d2" id="kp2b"></div><div class="kpi-ico">✓</div><div class="bar"></div></div>
           <div class="kpi orange"><div class="lbl">En ruta</div><div class="val" id="kp3">—</div><div class="d1" id="kp3a">—</div><div class="d2" id="kp3b"></div><div class="kpi-ico">🚚</div><div class="bar"></div></div>
           <div class="kpi gray"><div class="lbl">Pendientes</div><div class="val" id="kp4">—</div><div class="d1" id="kp4a">—</div><div class="d2" id="kp4b"></div><div class="kpi-ico">⏳</div><div class="bar"></div></div>
@@ -1372,10 +1372,19 @@ function mapRow(row){
                problema:'problema',problem:'problema',novedad:'problema'};
   const estado=eMap[eRaw]||'pendiente';
 
+  // Extract UTM Zone 17S coordinates from Excel (X=Easting, Y=Northing)
+  const utmX=nvF(['x'],null),utmY=nvF(['y'],null);
+  let xlat=null,xlon=null;
+  if(utmX&&utmY&&utmX>100000&&utmY>1000000){
+    xlat=(utmY-10000000)/111320;
+    xlon=-81+(utmX-500000)/(111320*Math.cos((xlat||0)*Math.PI/180));
+    if(xlat<-6||xlat>2||xlon<-92||xlon>-75){xlat=null;xlon=null;}
+  }
   return{amie,nombre:nvS(['nombreinstitucion','nombre','institucion','nombrecolegio']),
     prov:nvS(['provincia','prov']).toUpperCase(),canton:nvS(['canton']),parr:nvS(['parroquia','parr']),
     acceso:nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre'),
     estudiantes:est,raciones:rac,peso_kg:peso,dia,estado,
+    xlat,xlon,
     fecha_real:nvS(['fechareal','fechaentrega']),hora:nvS(['hora','horaentrega']),
     transportista:nvS(['transportista','nombretransportista']),
     placa:nvS(['placa','placavehiculo']),notas:nvS(['notas','observaciones','comentarios'])};
@@ -1563,30 +1572,31 @@ function setField(id,v){const e=document.getElementById(id);if(e)e.value=v;}
 function isoToday(){return new Date().toISOString().slice(0,10);}
 
 function renderRaciones(){
-  const _sc=SCHOOLS.filter(s=>s.dia<=ST.dia);const tot=_sc.reduce((a,s)=>a+s.raciones,0);
+  const _dia=ST.dia;
+  const _sc=SCHOOLS.filter(s=>s.dia<=_dia);
+  const tot=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
   const ent=_sc.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
   const rut=_sc.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
   const pend=tot-ent-rut;
   const pe=tot>0?(ent/tot*100).toFixed(1):0;
   const pr=tot>0?(rut/tot*100).toFixed(1):0;
   const pp=tot>0?(pend/tot*100).toFixed(1):100;
-  const tTot=_sc.reduce((a,s)=>a+s.peso_kg,0)/1000;
+  const tTot=SCHOOLS.reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tEnt=_sc.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tRut=_sc.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tPend=tTot-tEnt-tRut;
-  setText('rac-total',fmtN(tot));setText('rac-total-ie',`${SCHOOLS.length.toLocaleString('es-EC')} instituciones`);
-  setText('rac-total-ton',tTot>0?`${tTot.toFixed(1)} TON`:'');
-  setText('rac-ent',fmtN(ent));setText('rac-ent-p',`${pe}% del programa`);
-  setText('rac-ent-ton',tEnt>0?`${tEnt.toFixed(1)} TON`:'');
-  setText('rac-ruta',fmtN(rut));setText('rac-ruta-p',`${pr}% del programa`);
-  setText('rac-ruta-ton',tRut>0?`${tRut.toFixed(1)} TON`:'');
-  setText('rac-pend',fmtN(pend));setText('rac-pend-p',`${pp}% restante`);
-  setText('rac-pend-ton',tPend>0?`${tPend.toFixed(1)} TON`:'');
-  setText('rac-bar-r',`${pe}% entregado`);
+  setText('rac-total',fmtN(tot));setText('rac-total-ie',SCHOOLS.length.toLocaleString('es-EC')+' IE · programa completo');
+  setText('rac-total-ton',tTot>0?tTot.toFixed(1)+' TON':'');
+  setText('rac-ent',fmtN(ent));setText('rac-ent-p',pe+'% del programa');
+  setText('rac-ent-ton',tEnt>0?tEnt.toFixed(1)+' TON':'');
+  setText('rac-ruta',fmtN(rut));setText('rac-ruta-p',pr+'% del programa');
+  setText('rac-ruta-ton',tRut>0?tRut.toFixed(1)+' TON':'');
+  setText('rac-pend',fmtN(pend));setText('rac-pend-p',pp+'% restante');
+  setText('rac-pend-ton',tPend>0?tPend.toFixed(1)+' TON':'');
+  setText('rac-bar-r',pe+'% entregado');
   document.getElementById('rfill-e').style.width=pe+'%';
   document.getElementById('rfill-r').style.width=pr+'%';
 }
-
 function renderDiaTrack(){
   const t=document.getElementById('dia-track');let h='';
   for(let i=1;i<=CFG.diasTotal;i++){
@@ -1604,8 +1614,8 @@ function renderKpis(){
   dl.forEach(s=>{if(s.estado==='entregada'){nE++;rE+=s.raciones;}else if(s.estado==='en_ruta'){nR++;rR+=s.raciones;m[s.acceso]=(m[s.acceso]||0)+1;}else if(s.estado==='problema')nPr++;else{nP++;rP+=s.raciones;tP+=s.peso_kg/1000;}});
   const iso=d2i(c),tot=SCHOOLS.length;
   const tDl=dl.reduce((a,s)=>a+s.peso_kg,0)/1000;const tE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;const tR2=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;const tP2=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
-  setText('kp1',dl.length.toLocaleString('es-EC'));setText('kp1a',`${(dl.length/Math.max(1,tot)*100).toFixed(1)}% del programa · Día ${c}/${CFG.diasTotal}`);setText('kp1b',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones · ${tDl.toFixed(2)} TON`);
-  setText('kp2',nE.toLocaleString('es-EC'));setText('kp2a',`${(nE/Math.max(1,dl.length)*100).toFixed(0)}% del plan del día`);setText('kp2b',`${fmtN(rE)} raciones · ${tE.toFixed(2)} TON`);
+  setText('kp1',dl.length.toLocaleString('es-EC'));setText('kp1a',(dl.length/Math.max(1,tot)*100).toFixed(1)+'% planificado · Días 1-'+c+'/'+CFG.diasTotal);setText('kp1b',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones · ${tDl.toFixed(2)} TON`);
+  setText('kp2',nE.toLocaleString('es-EC'));setText('kp2a',(nE/Math.max(1,SCHOOLS.length)*100).toFixed(0)+'% del programa total');setText('kp2b',`${fmtN(rE)} raciones · ${tE.toFixed(2)} TON`);
   setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a',Object.keys(m).join(' · ')||'—');setText('kp3b',`${fmtN(rR)} raciones · ${tR2.toFixed(2)} TON`);
   setText('kp4',(nP+nPr).toLocaleString('es-EC'));setText('kp4a',`${tP2.toFixed(2)} TON pendientes`);setText('kp4b',`${fmtN(rP)} raciones · ${tP2.toFixed(2)} TON`);
   setHTML('day-summary',`Día ${c} <small>de ${CFG.diasTotal} · ${fmtF(iso)}</small>`);
@@ -1614,19 +1624,27 @@ function renderKpis(){
   setText('tbl-day',c>1?'Días 1-'+c+' · '+fmtF(iso):'Día '+c+' · '+fmtF(iso));setText('d-dia-label',c>1?'Días 1-'+c:'Día 1');
 }
 
-function renderProvBars(){const _pDia=ST.dia;setText('prov-sub',_pDia>1?'Acumulado Días 1-'+_pDia:'Acumulado Día 1');
+function renderProvBars(){
+  const _pDia=ST.dia;
+  setText('prov-sub',_pDia>1?'Acumulado Días 1-'+_pDia:'Acumulado Día 1');
   const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))].sort();
   document.getElementById('prov-bars').innerHTML=provs.map(p=>{
-    const l=SCHOOLS.filter(s=>s.prov===p&&s.dia<=ST.dia),e=l.filter(s=>s.estado==='entregada').length,t=l.length;
-    const pct=t>0?(e/t*100).toFixed(0):0,rac=l.reduce((a,s)=>a+s.raciones,0);
-    return`<div class="brow"><div class="bname">${cap(p)}<span class="s">${t} IE</span></div><div class="btrack"><div class="bfill${e>0?' g':''}" style="width:${Math.max(pct,0)}%">${pct>12?pct+'%':''}</div></div><div class="bval">${e}/${t}<span class="s">${fmtN(rac)} rac</span></div></div>`;
+    const total=SCHOOLS.filter(s=>s.prov===p).length;
+    const delivered=SCHOOLS.filter(s=>s.prov===p&&s.dia<=_pDia&&s.estado==='entregada').length;
+    const pct=total>0?Math.round(delivered/total*100):0;
+    const rac=SCHOOLS.filter(s=>s.prov===p).reduce((a,s)=>a+s.raciones,0);
+    const ie_acc=SCHOOLS.filter(s=>s.prov===p&&s.dia<=_pDia).length;
+    return`<div class="brow"><div class="bname">${cap(p)}<span class="s">${total} IE</span></div><div class="btrack"><div class="bfill${delivered>0?' g':''}" style="width:${Math.max(pct,0)}%">${pct>12?pct+'%':''}</div></div><div class="bval">${delivered}/${total}<span class="s">${fmtN(rac)} rac</span></div></div>`;
   }).join('')||'<div style="padding:10px;font-size:11px;color:var(--gray-600)">Sin datos</div>';
 }
 
 function renderDonut(){
-  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia<=c),tot=dl.length;
-  const nE=dl.filter(s=>s.estado==='entregada').length,nR=dl.filter(s=>s.estado==='en_ruta').length;
-  const nPr=dl.filter(s=>s.estado==='problema').length,nP=tot-nE-nR-nPr;
+  const c=ST.dia;
+  const tot=SCHOOLS.length;
+  const nE=SCHOOLS.filter(s=>s.dia<=c&&s.estado==='entregada').length;
+  const nR=SCHOOLS.filter(s=>s.dia<=c&&s.estado==='en_ruta').length;
+  const nPr=SCHOOLS.filter(s=>s.dia<=c&&s.estado==='problema').length;
+  const nP=tot-nE-nR-nPr;
   const C=2*Math.PI*65;
   const draw=(id,pct,off)=>{const d=pct/100*C;const el=document.getElementById(id);if(el){el.setAttribute('stroke-dasharray',`${d} ${C-d}`);el.setAttribute('stroke-dashoffset',-off);}return d;};
   let off=0;
@@ -1634,8 +1652,8 @@ function renderDonut(){
   off+=draw('d-r',tot>0?nR/tot*100:0,off);
   off+=draw('d-p',tot>0?nPr/tot*100:0,off);
   setText('d-cv',tot.toLocaleString('es-EC'));
-  setHTML('donut-leg',[['Entregada','#1F9D55',nE],['En ruta','#F47C20',nR],['Pendiente','#9AA4B8',nP],['Problema','#DC2626',nPr]].map(([l,c,n])=>`<div class="dr"><div class="ddot" style="background:${c}"></div><div class="dname">${l}</div><div style="font-size:9px;color:var(--gray-600)">${n} IE</div><div class="dpct">${tot>0?(n/tot*100).toFixed(0):0}%</div></div>`).join(''));
-  setText('donut-sub','Dias 1-'+c+' · '+tot+' IE acumuladas');
+  setHTML('donut-leg',[['Entregada','#1F9D55',nE],['En ruta','#F47C20',nR],['Pendiente','#9AA4B8',nP],['Problema','#DC2626',nPr]].map(([lb,cl,n])=>`<div class="dr"><div class="ddot" style="background:${cl}"></div><div class="dname">${lb}</div><div style="font-size:9px;color:var(--gray-600)">${n} IE</div><div class="dpct">${tot>0?(n/tot*100).toFixed(0):0}%</div></div>`).join(''));
+  setText('donut-sub','Días 1-'+c+' · '+tot+' IE totales del programa');
 }
 
 function renderTable(){
@@ -1859,14 +1877,14 @@ function updateFilterCounts(){
   if(useSchools){
     SCHOOLS.forEach(s=>{
       const ref=coordMap[s.amie];
-      if(!ref)return;
+      // Count even if no MAP_SCHOOLS match (use Excel data)
       const est=s.estado||'pendiente';
       if(cEst[est]!==undefined)cEst[est]++;
-      const reg=ref.reg||'';
+      const reg=(ref&&ref.reg)||s.reg||'';
       if(cReg[reg]!==undefined)cReg[reg]++;
-      const acc=s.acceso||ref.acc||'Terrestre';
+      const acc=s.acceso||(ref&&ref.acc)||'Terrestre';
       if(cAcc[acc]!==undefined)cAcc[acc]++;
-      const zon=ref.zona||'';
+      const zon=(ref&&ref.zona)||s.zonaInec||'';
       if(cZin[zon]!==undefined)cZin[zon]++;
     });
   } else {
@@ -1911,18 +1929,22 @@ function renderMapMarkers(){
     const provGroups={};
     SCHOOLS.forEach(s=>{
       const ref=coordMap[s.amie];
-      if(!ref||!ref.lat||!ref.lon)return;
-      if(_activeCanton&&(s.canton||ref.canton)!==_activeCanton)return;
-      if(regs.length&&!regs.includes(ref.reg))return;
-      const accVal=s.acceso||ref.acc||'Terrestre';
+      // Use MAP_SCHOOLS coords if available, fall back to UTM coords from Excel
+      const lat=(ref&&ref.lat)?ref.lat:s.xlat;
+      const lon=(ref&&ref.lon)?ref.lon:s.xlon;
+      if(!lat||!lon)return;
+      const canton=s.canton||(ref&&ref.canton)||'';
+      if(_activeCanton&&canton!==_activeCanton)return;
+      if(regs.length&&ref&&!regs.includes(ref.reg))return;
+      const accVal=s.acceso||(ref&&ref.acc)||'Terrestre';
       if(accs.length&&!accs.includes(accVal))return;
-      if(zins.length&&!zins.includes(ref.zona))return;
+      if(zins.length&&ref&&!zins.includes(ref.zona))return;
       const estadoVal=s.estado||'pendiente';
       if(ests.length&&!ests.includes(estadoVal))return;
       if(!provGroups[s.prov])provGroups[s.prov]=[];
-      provGroups[s.prov].push({...s,lat:ref.lat,lon:ref.lon,
-        name:ref.name||s.nombre||s.amie,
-        canton:s.canton||ref.canton,acc:accVal});
+      provGroups[s.prov].push({...s,lat,lon,
+        name:(ref&&ref.name)||s.nombre||s.amie,
+        canton,acc:accVal});
     });
 
     _activeProvinces=new Set(Object.keys(provGroups));

@@ -1380,9 +1380,12 @@ function mapRow(row){
     xlon=-81+(utmX-500000)/(111320*Math.cos((xlat||0)*Math.PI/180));
     if(xlat<-6||xlat>2||xlon<-92||xlon>-75){xlat=null;xlon=null;}
   }
+  const regRaw=nvS(['regimen','region','reg','zonaeducativa','zonaedu'],'').toUpperCase().trim();
+  const reg=regRaw.includes('COSTA')?'COSTA':regRaw.includes('SIERRA')?'SIERRA':'';
   return{amie,nombre:nvS(['nombreinstitucion','nombre','institucion','nombrecolegio']),
     prov:nvS(['provincia','prov']).toUpperCase(),canton:nvS(['canton']),parr:nvS(['parroquia','parr']),
     acceso:nvS(['formadeacceso','formaacceso','acceso','tipovia'],'Terrestre'),
+    reg,
     estudiantes:est,raciones:rac,peso_kg:peso,dia,estado,
     xlat,xlon,
     fecha_real:nvS(['fechareal','fechaentrega']),hora:nvS(['hora','horaentrega']),
@@ -1935,7 +1938,8 @@ function renderMapMarkers(){
       if(!lat||!lon)return;
       const canton=s.canton||(ref&&ref.canton)||'';
       if(_activeCanton&&canton!==_activeCanton)return;
-      if(regs.length&&ref&&!regs.includes(ref.reg))return;
+      const schoolReg=(ref&&ref.reg)||s.reg||'';
+      if(regs.length&&schoolReg&&!regs.includes(schoolReg))return;
       const accVal=s.acceso||(ref&&ref.acc)||'Terrestre';
       if(accs.length&&!accs.includes(accVal))return;
       if(zins.length&&ref&&!zins.includes(ref.zona))return;

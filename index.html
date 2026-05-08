@@ -1247,10 +1247,11 @@ function loadFile(file){
 
       // Find best sheet: prefer PLANIFICACION (has DÍA, ESTADO, AMIE), then BBD PESOS, then first non-config
       const SKIP=['CONFIG','PESOS TOTAL'];
+      const skipSheet=n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS'||u==='CONFIG'||n.toUpperCase()==='PESOS TOTAL';};
       let sheetName = wb.SheetNames.find(n=>n.toUpperCase()==='PLANIFICACION')
         || wb.SheetNames.find(n=>n.toUpperCase()==='BBD PESOS')
         || wb.SheetNames.find(n=>n.toUpperCase()==='IE')
-        || wb.SheetNames.find(n=>!SKIP.includes(n.toUpperCase()))
+        || wb.SheetNames.find(n=>!skipSheet(n))
         || wb.SheetNames[0];
 
       const ws=wb.Sheets[sheetName];
@@ -1280,6 +1281,8 @@ function loadFile(file){
 
       const rows=buildRows(aoa,headerRowIdx);
       processRows(rows,file.name);
+      const diasSN=wb.SheetNames.find(n=>{const u=n.trim().toUpperCase().replace(/[^A-Z]/g,'');return u==='DIAS';});
+      if(diasSN){const dws=wb.Sheets[diasSN];const dAoa=XLSX.utils.sheet_to_json(dws,{header:1,defval:null,raw:true});CFG.diaFechas={};dAoa.forEach(row=>{if(!row||row.length<2)return;const dayNum=parseInt(String(row[0]));const dv=row[1];if(isNaN(dayNum)||!dv)return;let iso='';if(dv instanceof Date){iso=dv.getFullYear()+'-'+String(dv.getMonth()+1).padStart(2,'0')+'-'+String(dv.getDate()).padStart(2,'0');}else if(typeof dv==='number'){const epoch=new Date(Math.round((dv-25569)*86400000));iso=epoch.getUTCFullYear()+'-'+String(epoch.getUTCMonth()+1).padStart(2,'0')+'-'+String(epoch.getUTCDate()).padStart(2,'0');}else if(typeof dv==='string'&&dv.length>=10){iso=dv.slice(0,10);}if(iso)CFG.diaFechas[iso]=dayNum;});console.log('[KC] diaFechas:',JSON.stringify(CFG.diaFechas));}
 
     }catch(e){showToast('Error: '+e.message,true);console.error(e);}
   };
@@ -1449,7 +1452,7 @@ function initDashboard(){
     `<span class="chip active" data-pv="ALL" onclick="setProv(this,'ALL')">Todas</span>`
     +sortedProvs.map(p=>`<span class="chip" data-pv="${esc(p)}" onclick="setProv(this,'${esc(p)}')">${cap(p)}</span>`).join('');
 
-  ST.dia=1;syncDP();
+  ST.dia=autoDetectDay();syncDP();
   document.getElementById('empty-state').style.display='none';
   document.getElementById('dashboard').style.display='';
   renderAll();
@@ -1461,15 +1464,16 @@ function initDashboard(){
    RENDER
 ═══════════════════════════════════════════════════════════ */
 
+function autoDetectDay(){const today=isoToday();if(CFG.diaFechas&&CFG.diaFechas[today]!==undefined){return CFG.diaFechas[today];}if(CFG.fechaInicioISO){return Math.max(1,Math.min(CFG.diasTotal,diaForDate(today)));}return 1;}
 function renderTonChart(){
   const c=ST.dia;
-  const dl=SCHOOLS.filter(s=>s.dia===c);
+  const dl=SCHOOLS.filter(s=>s.dia<=c);
   const tE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tR=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tP=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tTot=tE+tR+tP;
-  setText('ton-dia-lbl','Día '+c);
-  setText('ton-dia-sub','Peso total: '+(tTot>0?tTot.toFixed(2)+' TON':' — sin datos')+' · Día '+c+' / '+CFG.diasTotal);
+  setText('ton-dia-lbl',c>1?'Acum. dias 1-'+c:'Dia 1');
+  setText('ton-dia-sub','Acumulado dias 1-'+c+': '+(tTot>0?tTot.toFixed(2)+' TON':'sin datos'));
   const maxT=Math.max(tE,tR,tP,0.001);
   const H=100;
   const bar=(v,color,label,icon)=>{
@@ -1483,11 +1487,11 @@ function renderTonChart(){
     </div>`;
   };
   // Province breakdown
-  const provs=[...new Set(SCHOOLS.filter(s=>s.dia===c).map(s=>s.prov))].sort();
+  const provs=[...new Set(SCHOOLS.filter(s=>s.dia<=c).map(s=>s.prov))].sort();
   let provBars='';
-  const maxProv=Math.max(...provs.map(p=>SCHOOLS.filter(s=>s.dia===c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000),0.001);
+  const maxProv=Math.max(...provs.map(p=>SCHOOLS.filter(s=>s.dia<=c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000),0.001);
   provs.forEach(p=>{
-    const tProv=SCHOOLS.filter(s=>s.dia===c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000;
+    const tProv=SCHOOLS.filter(s=>s.dia<=c&&s.prov===p).reduce((a,s)=>a+s.peso_kg,0)/1000;
     const h=Math.max((tProv/maxProv)*H,tProv>0?4:0);
     provBars+=`<div style="display:flex;flex-direction:column;align-items:center;gap:3px;min-width:60px;flex:1">
       <div style="font-size:8px;font-weight:800;color:var(--navy-soft)">${tProv>0?tProv.toFixed(2)+' T':'—'}</div>
@@ -1559,16 +1563,16 @@ function setField(id,v){const e=document.getElementById(id);if(e)e.value=v;}
 function isoToday(){return new Date().toISOString().slice(0,10);}
 
 function renderRaciones(){
-  const tot=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
-  const ent=SCHOOLS.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
-  const rut=SCHOOLS.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
+  const _sc=SCHOOLS.filter(s=>s.dia<=ST.dia);const tot=_sc.reduce((a,s)=>a+s.raciones,0);
+  const ent=_sc.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+  const rut=_sc.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
   const pend=tot-ent-rut;
   const pe=tot>0?(ent/tot*100).toFixed(1):0;
   const pr=tot>0?(rut/tot*100).toFixed(1):0;
   const pp=tot>0?(pend/tot*100).toFixed(1):100;
-  const tTot=SCHOOLS.reduce((a,s)=>a+s.peso_kg,0)/1000;
-  const tEnt=SCHOOLS.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;
-  const tRut=SCHOOLS.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
+  const tTot=_sc.reduce((a,s)=>a+s.peso_kg,0)/1000;
+  const tEnt=_sc.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;
+  const tRut=_sc.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   const tPend=tTot-tEnt-tRut;
   setText('rac-total',fmtN(tot));setText('rac-total-ie',`${SCHOOLS.length.toLocaleString('es-EC')} instituciones`);
   setText('rac-total-ton',tTot>0?`${tTot.toFixed(1)} TON`:'');
@@ -1595,7 +1599,7 @@ function renderDiaTrack(){
 function selDia(d){ST.dia=d;syncDP();renderAll();}
 
 function renderKpis(){
-  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia===c);
+  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia<=c);
   let nE=0,nR=0,nP=0,nPr=0,rE=0,rR=0,rP=0,tP=0;const m={};
   dl.forEach(s=>{if(s.estado==='entregada'){nE++;rE+=s.raciones;}else if(s.estado==='en_ruta'){nR++;rR+=s.raciones;m[s.acceso]=(m[s.acceso]||0)+1;}else if(s.estado==='problema')nPr++;else{nP++;rP+=s.raciones;tP+=s.peso_kg/1000;}});
   const iso=d2i(c),tot=SCHOOLS.length;
@@ -1613,14 +1617,14 @@ function renderKpis(){
 function renderProvBars(){
   const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))].sort();
   document.getElementById('prov-bars').innerHTML=provs.map(p=>{
-    const l=SCHOOLS.filter(s=>s.prov===p),e=l.filter(s=>s.estado==='entregada').length,t=l.length;
+    const l=SCHOOLS.filter(s=>s.prov===p&&s.dia<=ST.dia),e=l.filter(s=>s.estado==='entregada').length,t=l.length;
     const pct=t>0?(e/t*100).toFixed(0):0,rac=l.reduce((a,s)=>a+s.raciones,0);
     return`<div class="brow"><div class="bname">${cap(p)}<span class="s">${t} IE</span></div><div class="btrack"><div class="bfill${e>0?' g':''}" style="width:${Math.max(pct,0)}%">${pct>12?pct+'%':''}</div></div><div class="bval">${e}/${t}<span class="s">${fmtN(rac)} rac</span></div></div>`;
   }).join('')||'<div style="padding:10px;font-size:11px;color:var(--gray-600)">Sin datos</div>';
 }
 
 function renderDonut(){
-  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia===c),tot=dl.length;
+  const c=ST.dia,dl=SCHOOLS.filter(s=>s.dia<=c),tot=dl.length;
   const nE=dl.filter(s=>s.estado==='entregada').length,nR=dl.filter(s=>s.estado==='en_ruta').length;
   const nPr=dl.filter(s=>s.estado==='problema').length,nP=tot-nE-nR-nPr;
   const C=2*Math.PI*65;
@@ -1631,7 +1635,7 @@ function renderDonut(){
   off+=draw('d-p',tot>0?nPr/tot*100:0,off);
   setText('d-cv',tot.toLocaleString('es-EC'));
   setHTML('donut-leg',[['Entregada','#1F9D55',nE],['En ruta','#F47C20',nR],['Pendiente','#9AA4B8',nP],['Problema','#DC2626',nPr]].map(([l,c,n])=>`<div class="dr"><div class="ddot" style="background:${c}"></div><div class="dname">${l}</div><div style="font-size:9px;color:var(--gray-600)">${n} IE</div><div class="dpct">${tot>0?(n/tot*100).toFixed(0):0}%</div></div>`).join(''));
-  setText('donut-sub',`Día ${c} · ${tot} IE planificadas`);
+  setText('donut-sub','Dias 1-'+c+' · '+tot+' IE acumuladas');
 }
 
 function renderTable(){
@@ -1922,14 +1926,14 @@ function renderMapMarkers(){
     buildMapLegend();
 
     Object.keys(provGroups).forEach(prov=>{
-      const provColor=provColor(prov);
+      const pColor=provColor(prov);
       const group=L.markerClusterGroup({
         iconCreateFunction:function(cluster){
           const children=cluster.getAllChildMarkers();
           let nE=0,nR=0,nP=0,nPr=0;
           children.forEach(m=>{const e=m._estadoKC||'pendiente';if(e==='entregada')nE++;else if(e==='en_ruta')nR++;else if(e==='problema')nPr++;else nP++;});
           const dom=nE>=nR&&nE>=nP&&nE>=nPr?'entregada':nR>=nP&&nR>=nPr?'en_ruta':nPr>=nP?'problema':'pendiente';
-          const bg=ESTADO_COLORS[dom]||provColor;
+          const bg=ESTADO_COLORS[dom]||pColor;
           return L.divIcon({html:`<div style="background:${bg};color:#fff;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;box-shadow:0 2px 6px rgba(0,0,0,.35)">${cluster.getChildCount()}</div>`,className:'',iconSize:[36,36]});
         },showCoverageOnHover:false,maxClusterRadius:50
       });

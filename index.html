@@ -1634,7 +1634,7 @@ function renderKpis(){
   const tDl=dl.reduce((a,s)=>a+s.peso_kg,0)/1000;const tE=dl.filter(s=>s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000;const tR2=dl.filter(s=>s.estado==='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;const tP2=dl.filter(s=>s.estado!=='entregada'&&s.estado!=='en_ruta').reduce((a,s)=>a+s.peso_kg,0)/1000;
   setText('kp1',dl.length.toLocaleString('es-EC'));setText('kp1a',(dl.length/Math.max(1,tot)*100).toFixed(1)+'% planificado · Días 1-'+c+'/'+CFG.diasTotal);setText('kp1b',`${fmtN(dl.reduce((a,s)=>a+s.raciones,0))} raciones · ${tDl.toFixed(2)} TON`);
   setText('kp2',nE.toLocaleString('es-EC'));setText('kp2a',(nE/Math.max(1,SCHOOLS.length)*100).toFixed(0)+'% del programa total');setText('kp2b',`${fmtN(rE)} raciones · ${tE.toFixed(2)} TON`);
-  setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a',['Terrestre','Aérea','Fluvial'].filter(t=>m[t]>0).map(t=>t+': '+m[t]).join(' · ')||'—');setText('kp3b',`${fmtN(rR)} raciones · ${tR2.toFixed(2)} TON`);
+  setText('kp3',nR.toLocaleString('es-EC'));setText('kp3a','🚗 '+(m['Terrestre']||0)+' · ✈️ '+(m['Aérea']||0)+' · 🛶 '+(m['Fluvial']||0));setText('kp3b',`${fmtN(rR)} raciones · ${tR2.toFixed(2)} TON`);
   setText('kp4',(nP+nPr).toLocaleString('es-EC'));setText('kp4a',`${tP2.toFixed(2)} TON pendientes`);setText('kp4b',`${fmtN(rP)} raciones · ${tP2.toFixed(2)} TON`);
   setHTML('day-summary',`Día ${c} <small>de ${CFG.diasTotal} · ${fmtF(iso)}</small>`);
   let cI=0,cR=0;for(let i=1;i<=c;i++){const x=SCHOOLS.filter(s=>s.dia===i);cI+=x.length;cR+=x.reduce((a,s)=>a+s.raciones,0);}
@@ -2458,17 +2458,22 @@ function exportPDF(){
   const provData=provs.map(p=>{
     const ptot=SCHOOLS.filter(s=>s.prov===p).length;
     const pent=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='entregada').length;
+    const pruta=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='en_ruta').length;
     const ppct=ptot>0?Math.round(pent/ptot*100):0;
+    const racTotP=SCHOOLS.filter(s=>s.prov===p).reduce((a,s)=>a+s.raciones,0);
+    const racEntP=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+    const racRutaP=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
     const pname=p.charAt(0)+p.slice(1).toLowerCase();
     return[pname, pent+' / '+ptot+' IE', ppct+'%',
-      SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='en_ruta').length+' IE',
-      (ptot-pent-SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='en_ruta').length)+' IE'];
+      racEntP.toLocaleString('es-EC')+' / '+racTotP.toLocaleString('es-EC'),
+      pruta+' IE · '+racRutaP.toLocaleString('es-EC')+' rac',
+      (ptot-pent-pruta)+' IE'];
   });
-  doc.autoTable({startY:y2,head:[['Provincia','Entregadas','% Avance','En Ruta','Pendientes']],body:provData,
-    styles:{fontSize:9,cellPadding:3,textColor:navy},
-    headStyles:{fillColor:navy,textColor:[255,255,255],fontStyle:'bold',fontSize:8},
+  doc.autoTable({startY:y2,head:[['Provincia','IE Entregadas','% Avance','Raciones Ent.','En Ruta','Pendientes']],body:provData,
+    styles:{fontSize:8,cellPadding:3,textColor:navy},
+    headStyles:{fillColor:navy,textColor:[255,255,255],fontStyle:'bold',fontSize:7.5},
     alternateRowStyles:{fillColor:[248,249,252]},
-    columnStyles:{2:{textColor:green,fontStyle:'bold'},0:{fontStyle:'bold'}},
+    columnStyles:{2:{textColor:green,fontStyle:'bold'},0:{fontStyle:'bold'},3:{textColor:[2,119,189]}},
     margin:{left:14,right:14}});
   y2=doc.lastAutoTable.finalY+6;
 

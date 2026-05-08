@@ -1324,9 +1324,10 @@ function processRows(rows,fname){
     setField('cfg-dias',maxDia);
   }
 
-  // Show dias distribution for debug
   const dCounts={};SCHOOLS.forEach(s=>{dCounts[s.dia]=(dCounts[s.dia]||0)+1;});
+  const eCounts={};SCHOOLS.forEach(s=>{eCounts[s.estado]=(eCounts[s.estado]||0)+1;});
   console.log('[KC] Dia distribution:',JSON.stringify(dCounts));
+  console.log('[KC] Estado distribution:',JSON.stringify(eCounts));
 
   saveToStorage();
   initDashboard();
@@ -1372,12 +1373,16 @@ function mapRow(row){
     if(!isNaN(parsed)&&parsed>0)dia=parsed;
   }
 
-  const eRaw=nvS(['estado','statuentrega','status','statusentrega'],'pendiente').toLowerCase().trim().replace(/\s+/g,'_');
-  const eMap={entregada:'entregada',entregado:'entregada',delivered:'entregada',
-               en_ruta:'en_ruta',enruta:'en_ruta',ruta:'en_ruta',
-               en_Ruta:'en_ruta',
-               pendiente:'pendiente',pending:'pendiente',noprogramado:'pendiente',
-               problema:'problema',problem:'problema',novedad:'problema'};
+  const eNorm=s=>s.toLowerCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/[\s_\-]+/g,'_');
+  const eRaw=eNorm(nvS(['estado','statuentrega','status','statusentrega','estadoentrega','estadodistribucion'],'pendiente'));
+  const eMap={
+    entregada:'entregada',entregado:'entregada',delivered:'entregada',entrega:'entregada',
+    en_ruta:'en_ruta',enruta:'en_ruta',ruta:'en_ruta',en_distribucion:'en_ruta',
+    distribucion:'en_ruta',distribuyendo:'en_ruta',en_camino:'en_ruta',encamino:'en_ruta',
+    transito:'en_ruta',en_transito:'en_ruta',despachado:'en_ruta',despacho:'en_ruta',
+    salida:'en_ruta',en_salida:'en_ruta',
+    pendiente:'pendiente',pending:'pendiente',noprogramado:'pendiente',sin_entregar:'pendiente',no_entregado:'pendiente',programado:'pendiente',
+    problema:'problema',problem:'problema',novedad:'problema',con_problema:'problema',no_entregado_problema:'problema'};
   const estado=eMap[eRaw]||'pendiente';
 
   // Extract UTM Zone 17S coordinates from Excel (X=Easting, Y=Northing)

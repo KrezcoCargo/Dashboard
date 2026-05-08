@@ -2127,21 +2127,60 @@ function updateMapCount(){
 </script>
 
 <!-- MODAL RESUMEN EMAIL -->
-<div id="email-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center">
-  <div style="background:#fff;border-radius:14px;padding:28px 32px;max-width:540px;width:95%;box-shadow:0 8px 40px rgba(0,0,0,.25);font-family:inherit">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px">
-      <div style="font-size:16px;font-weight:800;color:#14213D">📧 Enviar Resumen del Día</div>
-      <button onclick="closeEmailModal()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#666;line-height:1">✕</button>
+<div id="email-modal" style="display:none;position:fixed;inset:0;background:rgba(11,22,43,.7);z-index:9999;align-items:center;justify-content:center;padding:16px">
+  <div style="background:#F4F6FB;border-radius:16px;max-width:600px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.35);font-family:'Segoe UI',system-ui,sans-serif;overflow:hidden;max-height:92vh;display:flex;flex-direction:column">
+
+    <!-- Header -->
+    <div style="background:#14213D;padding:20px 24px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0">
+      <div>
+        <div style="color:#fff;font-size:15px;font-weight:800;letter-spacing:-.2px">📧 Enviar Resumen Operativo</div>
+        <div style="color:rgba(255,255,255,.5);font-size:11px;margin-top:2px" id="em-subtitle">—</div>
+      </div>
+      <button onclick="closeEmailModal()" style="background:rgba(255,255,255,.1);border:none;color:#fff;width:30px;height:30px;border-radius:8px;font-size:16px;cursor:pointer;line-height:1">✕</button>
     </div>
-    <div style="margin-bottom:14px">
-      <label style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px">Destinatarios (separa con coma)</label>
-      <input id="email-recipients" type="text" placeholder="correo1@ejemplo.com, correo2@ejemplo.com"
-        style="width:100%;margin-top:5px;padding:9px 12px;border:1.5px solid #dde3ee;border-radius:8px;font-size:13px;box-sizing:border-box;outline:none">
+
+    <!-- Scroll area -->
+    <div style="overflow-y:auto;flex:1;padding:20px 24px">
+
+      <!-- KPI Cards -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px" id="em-kpis"></div>
+
+      <!-- Barra de progreso global -->
+      <div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px;border:1px solid #DDE3EE">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <span style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px">Progreso acumulado del programa</span>
+          <span style="font-size:13px;font-weight:800;color:#14213D" id="em-pct-label">0%</span>
+        </div>
+        <div style="background:#EEF1F7;border-radius:999px;height:10px;overflow:hidden">
+          <div id="em-prog-bar" style="height:100%;background:#1F9D55;border-radius:999px;transition:width .4s;width:0%"></div>
+        </div>
+      </div>
+
+      <!-- Provincias -->
+      <div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px;border:1px solid #DDE3EE">
+        <div style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px">Progreso por Provincia</div>
+        <div id="em-provs"></div>
+      </div>
+
+      <!-- Detalle IE -->
+      <div style="background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:16px;border:1px solid #DDE3EE">
+        <div style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Instituciones Educativas</div>
+        <div id="em-ie" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"></div>
+      </div>
+
+      <!-- Campo destinatarios -->
+      <div style="background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #DDE3EE">
+        <label style="font-size:11px;font-weight:700;color:#5C6478;text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:6px">Destinatarios (separa con coma)</label>
+        <input id="email-recipients" type="text" placeholder="correo1@empresa.com, correo2@empresa.com"
+          style="width:100%;padding:10px 12px;border:1.5px solid #DDE3EE;border-radius:8px;font-size:13px;font-family:inherit;outline:none;color:#14213D;transition:border-color .15s"
+          onfocus="this.style.borderColor='#F47C20'" onblur="this.style.borderColor='#DDE3EE'">
+      </div>
     </div>
-    <div style="background:#F4F6FB;border-radius:10px;padding:16px;font-size:12px;color:#374151;line-height:1.7;white-space:pre-wrap;max-height:320px;overflow-y:auto;font-family:monospace" id="email-preview"></div>
-    <div style="display:flex;gap:10px;margin-top:18px;justify-content:flex-end">
-      <button onclick="closeEmailModal()" style="padding:9px 18px;border-radius:8px;border:1.5px solid #dde3ee;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#374151">Cancelar</button>
-      <button onclick="sendEmailSummary()" style="padding:9px 20px;border-radius:8px;border:none;background:#1F9D55;color:#fff;font-size:13px;font-weight:700;cursor:pointer">📤 Abrir en correo</button>
+
+    <!-- Footer botones -->
+    <div style="padding:16px 24px;background:#fff;border-top:1px solid #DDE3EE;display:flex;gap:10px;justify-content:flex-end;flex-shrink:0">
+      <button onclick="closeEmailModal()" style="padding:10px 20px;border-radius:8px;border:1.5px solid #DDE3EE;background:#fff;font-size:13px;font-weight:600;cursor:pointer;color:#5C6478;font-family:inherit">Cancelar</button>
+      <button onclick="sendEmailSummary()" style="padding:10px 22px;border-radius:8px;border:none;background:#F47C20;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">📤 Abrir en correo</button>
     </div>
   </div>
 </div>
@@ -2149,10 +2188,91 @@ function updateMapCount(){
 <script>
 function openEmailModal(){
   if(!SCHOOLS.length){showToast('Carga primero un archivo Excel.',true);return;}
-  document.getElementById('email-preview').textContent=buildEmailBody();
+  renderEmailModal();
   document.getElementById('email-modal').style.display='flex';
 }
 function closeEmailModal(){document.getElementById('email-modal').style.display='none';}
+
+function renderEmailModal(){
+  const d=ST.dia;
+  const fecha=d2i(d);
+  const [y,m,dd]=fecha.split('-');
+  const fechaFmt=dd+'/'+m+'/'+y;
+  const MESES=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  const fechaLarga=parseInt(dd)+' de '+MESES[parseInt(m)-1]+' '+y;
+
+  document.getElementById('em-subtitle').textContent='Día '+d+' · '+fechaLarga+' · '+CFG.clienteNombre;
+
+  const tot=SCHOOLS.length;
+  const racTot=SCHOOLS.reduce((a,s)=>a+s.raciones,0);
+  const racEnt=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').reduce((a,s)=>a+s.raciones,0);
+  const racRuta=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='en_ruta').reduce((a,s)=>a+s.raciones,0);
+  const racPend=racTot-racEnt-racRuta;
+  const tonEnt=(SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').reduce((a,s)=>a+s.peso_kg,0)/1000).toFixed(1);
+  const pctEnt=racTot>0?Math.round(racEnt/racTot*100):0;
+  const nE=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='entregada').length;
+  const nR=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='en_ruta').length;
+  const nPr=SCHOOLS.filter(s=>s.dia<=d&&s.estado==='problema').length;
+  const nP=tot-nE-nR-nPr;
+
+  const fmtR=n=>n>=1e6?(n/1e6).toFixed(2).replace('.',',')+' M':n>=1e3?(n/1e3).toFixed(1).replace('.',',')+' K':n.toLocaleString('es-EC');
+
+  // KPI Cards
+  const kpis=[
+    {label:'Total Raciones',val:fmtR(racTot),sub:tot+' IE · programa',color:'#14213D',bg:'#14213D',tc:'#fff',sc:'rgba(255,255,255,.55)'},
+    {label:'Entregadas',val:fmtR(racEnt),sub:pctEnt+'% · '+tonEnt+' TON',color:'#1F9D55',bg:'#E6F6EC',tc:'#1F9D55',sc:'#2D7A47'},
+    {label:'En Ruta',val:fmtR(racRuta),sub:Math.round(racRuta/racTot*100)+'% del programa',color:'#F47C20',bg:'#FFF1E3',tc:'#F47C20',sc:'#A8510D'},
+    {label:'Pendientes',val:fmtR(racPend),sub:Math.round(racPend/racTot*100)+'% restante',color:'#9AA4B8',bg:'#EEF1F7',tc:'#5C6478',sc:'#5C6478'},
+  ];
+  document.getElementById('em-kpis').innerHTML=kpis.map(k=>`
+    <div style="background:${k.bg};border-radius:10px;padding:12px 14px">
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:${k.sc};margin-bottom:4px">${k.label}</div>
+      <div style="font-size:20px;font-weight:800;color:${k.tc};line-height:1">${k.val}</div>
+      <div style="font-size:10px;color:${k.sc};margin-top:3px">${k.sub}</div>
+    </div>`).join('');
+
+  // Barra global
+  document.getElementById('em-pct-label').textContent=pctEnt+'% entregado';
+  document.getElementById('em-prog-bar').style.width=pctEnt+'%';
+
+  // Provincias
+  const provs=[...new Set(SCHOOLS.map(s=>s.prov).filter(Boolean))].sort();
+  const PROV_COLORS=['#0277BD','#1F9D55','#7B1FA2','#F47C20','#C62828','#00838F'];
+  document.getElementById('em-provs').innerHTML=provs.map((p,i)=>{
+    const ptot=SCHOOLS.filter(s=>s.prov===p).length;
+    const pent=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='entregada').length;
+    const ppct=ptot>0?Math.round(pent/ptot*100):0;
+    const col=PROV_COLORS[i%PROV_COLORS.length];
+    const pname=p.charAt(0)+p.slice(1).toLowerCase();
+    return `<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <span style="font-size:12px;font-weight:700;color:#14213D">${pname}</span>
+        <span style="font-size:11px;color:#5C6478">${pent}/${ptot} IE · <strong style="color:${col}">${ppct}%</strong></span>
+      </div>
+      <div style="background:#EEF1F7;border-radius:999px;height:8px;overflow:hidden">
+        <div style="height:100%;background:${col};border-radius:999px;width:${ppct}%"></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // IE detalle
+  const ieItems=[
+    {label:'Plan acumulado',val:SCHOOLS.filter(s=>s.dia<=d).length+' IE',color:'#14213D'},
+    {label:'Entregadas',val:nE+' IE',color:'#1F9D55'},
+    {label:'En ruta',val:nR+' IE',color:'#F47C20'},
+    {label:'Pendientes',val:nP+' IE',color:'#9AA4B8'},
+    {label:'Con problema',val:nPr+' IE',color:'#DC2626'},
+    {label:'Toneladas entregadas',val:tonEnt+' TON',color:'#0277BD'},
+  ];
+  document.getElementById('em-ie').innerHTML=ieItems.map(x=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:7px 10px;background:#F4F6FB;border-radius:8px">
+      <div style="width:8px;height:8px;border-radius:50%;background:${x.color};flex-shrink:0"></div>
+      <div>
+        <div style="font-size:10px;color:#5C6478">${x.label}</div>
+        <div style="font-size:13px;font-weight:800;color:${x.color}">${x.val}</div>
+      </div>
+    </div>`).join('');
+}
 
 function buildEmailBody(){
   const d=ST.dia;
@@ -2175,35 +2295,14 @@ function buildEmailBody(){
     const pent=SCHOOLS.filter(s=>s.prov===p&&s.dia<=d&&s.estado==='entregada').length;
     const ppct=ptot>0?Math.round(pent/ptot*100):0;
     const bar='█'.repeat(Math.round(ppct/10))+'░'.repeat(10-Math.round(ppct/10));
-    return '  '+p.charAt(0)+p.slice(1).toLowerCase().padEnd(14)+' '+bar+' '+ppct+'% ('+pent+'/'+ptot+' IE)';
+    return '  '+(p.charAt(0)+p.slice(1).toLowerCase()).padEnd(16)+bar+' '+ppct+'% ('+pent+'/'+ptot+' IE)';
   }).join('\n');
-  return `RESUMEN OPERATIVO — DÍA ${d} · ${fechaFmt}
-Programa: ${CFG.programa} | ${CFG.clienteNombre}
-${'─'.repeat(50)}
-
-RACIONES
-  Total programa   : ${racTot.toLocaleString('es-EC')}
-  Entregadas       : ${racEnt.toLocaleString('es-EC')} (${pctEnt}% del programa)
-  En ruta          : ${racRuta.toLocaleString('es-EC')}
-  Toneladas entregadas: ${tonEnt} TON
-
-INSTITUCIONES EDUCATIVAS
-  Total programa   : ${tot} IE
-  Entregadas       : ${nE} IE
-  En ruta          : ${nR} IE
-  Con problema     : ${nPr} IE
-  Pendientes       : ${nP} IE
-
-PROGRESO POR PROVINCIA (acumulado días 1-${d})
-${provLines}
-
-${'─'.repeat(50)}
-Reporte generado automáticamente · KrezcoCargo SAS`;
+  return `RESUMEN OPERATIVO — DÍA ${d} · ${fechaFmt}\nPrograma: ${CFG.programa} | ${CFG.clienteNombre}\n${'─'.repeat(48)}\n\nRACIONES\n  Total programa     : ${racTot.toLocaleString('es-EC')}\n  Entregadas         : ${racEnt.toLocaleString('es-EC')} (${pctEnt}%)\n  En ruta            : ${racRuta.toLocaleString('es-EC')}\n  Toneladas entregadas: ${tonEnt} TON\n\nINSTITUCIONES\n  Total programa     : ${tot} IE\n  Entregadas         : ${nE} IE\n  En ruta            : ${nR} IE\n  Con problema       : ${nPr} IE\n  Pendientes         : ${nP} IE\n\nPROGRESO POR PROVINCIA\n${provLines}\n\n${'─'.repeat(48)}\nReporte generado automáticamente · KrezcoCargo SAS`;
 }
 
 function sendEmailSummary(){
   const recipients=document.getElementById('email-recipients').value.trim();
-  if(!recipients){document.getElementById('email-recipients').focus();return;}
+  if(!recipients){document.getElementById('email-recipients').style.borderColor='#DC2626';document.getElementById('email-recipients').focus();return;}
   const d=ST.dia;
   const fecha=d2i(d);
   const [y,m,dd]=fecha.split('-');
